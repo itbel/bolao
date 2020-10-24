@@ -19,8 +19,11 @@ const styles = StyleSheet.create({
 export default SplashScreen = ({navigation}) =>{
     useEffect(()=>{
         setTimeout(()=>{
-            navigation.navigate("LoginScreen")
-        },3000)
+            navigation.reset({
+                index:0,
+                routes: [{name: "LoginScreen"}]
+              })
+        },1000)
 
     },[])
     return(
