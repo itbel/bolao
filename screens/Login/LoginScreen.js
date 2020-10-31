@@ -9,7 +9,7 @@ import {
   Dimensions,
   KeyboardAvoidingView,
 } from "react-native";
-import registerBackground from "../assets/media/register_hi.png";
+import registerBackground from "../../assets/media/login.png";
 
 const styles = StyleSheet.create({
   backgroundPic: {
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
   inputText: {
     marginHorizontal: 48,
-    marginVertical: 24,
+    marginBottom: 48,
     color: "white",
     borderBottomColor: "white",
     fontFamily: "RobotoSlab-Regular",
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 0,
     marginRight: 48,
-    bottom: "40%",
+    bottom: "65%",
   },
   forgotText: {
     color: "white",
@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
   loginBtn: {
     marginHorizontal: 48,
     marginBottom: 48,
+    marginTop: -70,
   },
   loginText: {
     backgroundColor: "#fff",
@@ -71,11 +72,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegisterScreen = ({ navigation }) => {
+export default LoginScreen = ({ navigation }) => {
   const [loginData, setloginData] = useState({
     username: "",
     password: "",
-    email: "",
   });
   useEffect(() => {
     console.log(loginData);
@@ -84,20 +84,10 @@ export default RegisterScreen = ({ navigation }) => {
     <ImageBackground style={styles.backgroundPic} source={registerBackground}>
       <KeyboardAvoidingView behavior="padding" style={styles.content}>
         <View>
-          <Text style={styles.logoHeader}>Register</Text>
-          <Text style={styles.logoSubheader}>Create an account to login</Text>
+          <Text style={styles.logoHeader}>Login</Text>
+          <Text style={styles.logoSubheader}>Please login to your account</Text>
         </View>
         <View>
-          <View style={styles.inputView}>
-            <TextInput
-              onFocus={() => {}}
-              value={loginData.username}
-              style={styles.inputText}
-              placeholder="Email..."
-              placeholderTextColor="white"
-              onChangeText={(email) => setloginData({ email: email })}
-            />
-          </View>
           <View style={styles.inputView}>
             <TextInput
               onFocus={() => {}}
@@ -116,19 +106,22 @@ export default RegisterScreen = ({ navigation }) => {
               placeholderTextColor="white"
               onChangeText={(pass) => setloginData({ password: pass })}
             />
+            <TouchableOpacity style={styles.forgotBtn}>
+              <Text style={styles.forgotText}>Forgot Password?</Text>
+            </TouchableOpacity>
           </View>
         </View>
 
         <TouchableOpacity style={styles.loginBtn}>
-          <Text style={styles.loginText}>Register</Text>
+          <Text style={styles.loginText}>Login</Text>
         </TouchableOpacity>
         <Text style={{ color: "white", textAlign: "center" }}>
-          Already have an account?{" "}
+          Don't have an account?{" "}
           <Text
-            onPress={() => navigation.navigate("LoginScreen")}
+            onPress={() => navigation.navigate("RegisterScreen")}
             style={{ fontWeight: "bold" }}
           >
-            Login
+            Signup
           </Text>
         </Text>
       </KeyboardAvoidingView>
