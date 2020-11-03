@@ -8,8 +8,9 @@ import {
   ImageBackground,
   Dimensions,
   KeyboardAvoidingView,
+  Alert,
 } from "react-native";
-import registerBackground from "../../assets/media/login.png";
+import registerBackground from "../assets/media/forgot.png";
 import Axios from "axios";
 
 const styles = StyleSheet.create({
@@ -73,80 +74,44 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen = ({ navigation }) => {
-  const [loginData, setloginData] = useState({
-    username: "",
-    password: "",
-  });
-  const signIn = async () => {
-    console.log("attempting to login");
-    Axios.post("http://18.224.228.195:3005/api/users/login", {
-      username: loginData.username,
-      password: loginData.password,
-    })
-      .then((response) => {
-        if (response.data.msg !== "Invalid Credentials!")
-          navigation.reset({
-            index: 0,
-            routes: [{ name: "HomeScreen" }],
-          });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  useEffect(() => {}, [loginData.username]);
+export default ForgotPasswordScreen = ({ navigation }) => {
+  const [email, setEmail] = useState("");
   return (
     <ImageBackground style={styles.backgroundPic} source={registerBackground}>
       <KeyboardAvoidingView behavior="padding" style={styles.content}>
         <View>
-          <Text style={styles.logoHeader}>Login</Text>
-          <Text style={styles.logoSubheader}>Please login to your account</Text>
+          <Text style={styles.logoHeader}>Forgotten Password</Text>
+          <Text style={styles.logoSubheader}>
+            Please enter your email to recover password
+          </Text>
         </View>
         <View>
           <View style={styles.inputView}>
             <TextInput
-              onFocus={() => {}}
-              value={loginData.username}
+              value={email}
               style={styles.inputText}
-              placeholder="Username..."
+              placeholder="Email..."
               placeholderTextColor="white"
-              onChangeText={(user) =>
-                setloginData({ ...loginData, username: user })
-              }
+              onChangeText={(email) => setEmail({ email: email })}
             />
-          </View>
-          <View style={styles.inputView}>
-            <TextInput
-              value={loginData.password}
-              placeholder="Password..."
-              placeholderTextColor="white"
-              secureTextEntry={true}
-              style={styles.inputText}
-              onChangeText={(pass) =>
-                setloginData({ ...loginData, password: pass })
-              }
-            />
-            <TouchableOpacity
-              onPress={() => navigation.navigate("ForgotPasswordScreen")}
-              style={styles.forgotBtn}
-            >
-              <Text style={styles.forgotText}>Forgot Password?</Text>
-            </TouchableOpacity>
           </View>
         </View>
 
-        <TouchableOpacity onPress={signIn} style={styles.loginBtn}>
-          <Text style={styles.loginText}>Login</Text>
+        <TouchableOpacity
+          onPress={() =>
+            Alert.alert("Sorry", "This feature is not yet implemented!")
+          }
+          style={styles.loginBtn}
+        >
+          <Text style={styles.loginText}>Request Reset</Text>
         </TouchableOpacity>
         <Text style={{ color: "white", textAlign: "center" }}>
-          Don't have an account?{" "}
+          Already have an account?{" "}
           <Text
-            onPress={() => navigation.navigate("RegisterScreen")}
+            onPress={() => navigation.navigate("LoginScreen")}
             style={{ fontWeight: "bold" }}
           >
-            Signup
+            Login
           </Text>
         </Text>
       </KeyboardAvoidingView>
