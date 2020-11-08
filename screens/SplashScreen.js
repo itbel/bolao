@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, StatusBar } from "react-native";
 import * as Animatable from "react-native-animatable";
 const styles = StyleSheet.create({
   container: {
@@ -26,10 +26,13 @@ export default SplashScreen = ({ navigation }) => {
     }, 3000);
   }, []);
   return (
-    <View style={styles.container}>
-      <Animatable.Text animation="zoomInUp" style={styles.text}>
-        Bolao
+    <>
+      <StatusBar hidden ></StatusBar>
+      <View style={styles.container}>
+        <Animatable.Text animation="zoomInUp" style={styles.text}>
+          Bolao
       </Animatable.Text>
-    </View>
+      </View>
+    </>
   );
 };
