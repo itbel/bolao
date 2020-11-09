@@ -1,7 +1,7 @@
 import "react-native-gesture-handler";
 import React from "react";
 import { StyleSheet } from "react-native";
-import RootStackNavigator from "./screens/RootStackNavigator";
+import MainNavigator from "./screens/MainNavigator";
 import { NavigationContainer } from "@react-navigation/native";
 import { UserProvider } from "./contexts/UserContext"
 
@@ -9,7 +9,7 @@ export default function App() {
   return (
     <UserProvider>
       <NavigationContainer>
-        <RootStackNavigator />
+        <MainNavigator />
       </NavigationContainer>
     </UserProvider>
   );

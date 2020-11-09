@@ -29,6 +29,7 @@ export default LoginScreen = ({ navigation }) => {
       .then((response) => {
         if (response.data.msg !== "Invalid Credentials!") {
           loginUser(response.data)
+          navigation.navigate('HomeScreen')
         }
       })
       .catch((error) => {

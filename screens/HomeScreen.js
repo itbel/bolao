@@ -1,10 +1,9 @@
 import React from "react";
-import { View, Text, StyleSheet, StatusBar } from "react-native";
-
+import { View, Text, StyleSheet, StatusBar, Image, Button } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#a3a3a3',
+    backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -12,10 +11,25 @@ const styles = StyleSheet.create({
 
 
 export default HomeScreen = ({ navigation }) => {
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Image
+          style={{ right: 20, }}
+          source={require("../assets/media/burger.png")}
+        />
+      )
+    })
+  }, [navigation])
   return (
     <>
       <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
-      <View style={styles.container}><Text>Home Screen</Text></View>
+      <View style={styles.container}>
+        <Text>Home Screen</Text>
+        <Button title="Select Tournament" onPress={() => navigation.push('DrawerNavigator', { screen: 'Home' })}></Button>
+
+      </View>
+
     </>
   )
 }
