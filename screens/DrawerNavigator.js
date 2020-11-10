@@ -9,10 +9,11 @@ const Drawer = createDrawerNavigator();
 
 export default function DrawerNavigator() {
     return (
-        <Drawer.Navigator creenOptions={{ headerStyle: { backgroundColor: "#528C6E" }, headerShown: true }} headerMode="screen" initialRouteName="Home">
+        <Drawer.Navigator initialRouteName="HomeScreen">
             <Drawer.Screen name="Home" component={TabNavigator} />
             <Drawer.Screen name="Tournaments" component={Tournaments} />
             <Drawer.Screen name="Teams" component={Teams} />
+            <Drawer.Screen name="HomeScreen" component={HomeScreen} />
         </Drawer.Navigator>
     );
 }

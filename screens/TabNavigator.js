@@ -11,7 +11,7 @@ const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
     return (
-        <Tab.Navigator>
+        <Tab.Navigator screenOptions={{ headerShown: false }} initialRouteName="RoundsScreen">
             <Tab.Screen name="GuessScreen" component={GuessScreen} />
             <Tab.Screen name="RulesScreen" component={RulesScreen} />
             <Tab.Screen name="RoundsScreen" component={RoundsScreen} />

@@ -29,7 +29,9 @@ export default LoginScreen = ({ navigation }) => {
       .then((response) => {
         if (response.data.msg !== "Invalid Credentials!") {
           loginUser(response.data)
-          navigation.navigate('HomeScreen')
+          navigation.push('DrawerNavigator', { screen: 'HomeScreen' }) // user should get sent to tournament selection screen
+          // if user has not joined a tournament yet, he should be directed to the tournaments screen
+          // in drawer navigator
         }
       })
       .catch((error) => {

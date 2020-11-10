@@ -11,8 +11,10 @@ const styles = StyleSheet.create({
 
 
 export default HomeScreen = ({ navigation }) => {
-  React.useLayoutEffect(() => {
+  /* React.useLayoutEffect(() => {
     navigation.setOptions({
+      headerShown: true,
+      headerStyle: { backgroundColor: "#528C6E", height: 100 },
       headerRight: () => (
         <Image
           style={{ right: 20, }}
@@ -20,7 +22,7 @@ export default HomeScreen = ({ navigation }) => {
         />
       )
     })
-  }, [navigation])
+  }, [navigation]) */
   return (
     <>
       <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
