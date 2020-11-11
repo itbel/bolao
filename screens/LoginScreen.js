@@ -10,18 +10,20 @@ import {
   KeyboardAvoidingView,
   StatusBar
 } from "react-native";
-import registerBackground from "../../assets/media/login.png";
+import registerBackground from "../assets/media/login.png";
 import Axios from "axios";
-import { useUserContext } from "../../contexts/UserContext"
+import { useUserContext } from "../contexts/UserContext"
 
 export default LoginScreen = ({ navigation }) => {
-  const { loginUser } = useUserContext();
+  const { loginUser, userState } = useUserContext();
   const [loginData, setloginData] = useState({
     username: "",
     password: "",
   });
-  const signIn = async () => {
-    console.log("attempting to login");
+  const signIn = () => {
+    loginUser("")
+    console.log()
+    /* console.log("attempting to login");
     Axios.post("http://18.224.228.195:3005/api/users/login", {
       username: loginData.username,
       password: loginData.password,
@@ -29,14 +31,13 @@ export default LoginScreen = ({ navigation }) => {
       .then((response) => {
         if (response.data.msg !== "Invalid Credentials!") {
           loginUser(response.data)
-          navigation.push('DrawerNavigator', { screen: 'HomeScreen' }) // user should get sent to tournament selection screen
           // if user has not joined a tournament yet, he should be directed to the tournaments screen
           // in drawer navigator
         }
       })
       .catch((error) => {
         console.log(error);
-      });
+      }); */
   };
   return (
     <>

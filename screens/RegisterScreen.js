@@ -90,7 +90,7 @@ export default RegisterScreen = ({ navigation }) => {
         <View>
           <View style={styles.inputView}>
             <TextInput
-              onFocus={() => {}}
+              onFocus={() => { }}
               value={loginData.username}
               style={styles.inputText}
               placeholder="Email..."
@@ -100,7 +100,7 @@ export default RegisterScreen = ({ navigation }) => {
           </View>
           <View style={styles.inputView}>
             <TextInput
-              onFocus={() => {}}
+              onFocus={() => { }}
               value={loginData.username}
               style={styles.inputText}
               placeholder="Username..."

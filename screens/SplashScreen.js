@@ -23,7 +23,7 @@ export default SplashScreen = ({ navigation }) => {
         index: 0,
         routes: [{ name: "LoginScreen" }],
       });
-    }, 3000);
+    }, 1000);
   }, []);
   return (
     <>

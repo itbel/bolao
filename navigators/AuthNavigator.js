@@ -2,13 +2,16 @@ import React, { useEffect } from "react";
 
 import { createStackNavigator } from "@react-navigation/stack";
 
-import SplashScreen from "./SplashScreen";
-import LoginScreen from "./Login/LoginScreen";
-import RegisterScreen from "./RegisterScreen";
-import ForgotPasswordScreen from "./ForgotPasswordScreen";
+import SplashScreen from "../screens/SplashScreen";
+import LoginScreen from "../screens/LoginScreen";
+import RegisterScreen from "../screens/RegisterScreen";
+import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
+
 
 const Auth = createStackNavigator();
-export default function AuthNavigator({ navigation }) {
+
+export default function AuthNavigator() {
+
   return (
     <Auth.Navigator screenOptions={{ headerShown: false }} initialRouteName="SplashScreen">
       <Auth.Screen name="SplashScreen" component={SplashScreen} />

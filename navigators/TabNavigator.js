@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import RulesScreen from "./RulesScreen";
-import GuessScreen from "./GuessScreen";
-import RoundsScreen from "./RoundsScreen";
-import WinsScreen from "./WinsScreen";
-import RankingsScreen from "./RankingsScreen";
+import RulesScreen from "../screens/RulesScreen";
+import GuessScreen from "../screens/GuessScreen";
+import RoundsScreen from "../screens/RoundsScreen";
+import WinsScreen from "../screens/WinsScreen";
+import RankingsScreen from "../screens/RankingsScreen";
 
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
     return (
-        <Tab.Navigator screenOptions={{ headerShown: false }} initialRouteName="RoundsScreen">
+        <Tab.Navigator initialRouteName="RoundsScreen">
             <Tab.Screen name="GuessScreen" component={GuessScreen} />
             <Tab.Screen name="RulesScreen" component={RulesScreen} />
             <Tab.Screen name="RoundsScreen" component={RoundsScreen} />

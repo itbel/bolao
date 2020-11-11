@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
 export default RankingsScreen = ({ navigation }) => {
     return (
         <>
-            <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
             <View style={styles.container}><Text>Rankings Screen</Text></View>
         </>
     )
