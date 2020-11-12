@@ -7,42 +7,12 @@ import { Image, TouchableOpacity } from "react-native"
 import { DrawerActions } from '@react-navigation/native';
 
 const Root = createStackNavigator();
-export default RootStack = () => {
+export default RootStack = (props) => {
     const { userState } = useUserContext();
     return (
-        <Root.Navigator>
-            {userState.isLoggedIn ? (
-                <Root.Screen
-                    name="Drawer"
-                    options={
-                        ({ navigation }) => {
-                            return (
-                                {
-                                    headerShown: true,
-                                    headerStyle: { backgroundColor: "#528C6E", height: 100 },
-                                    headerShown: true,
-                                    headerRight: () => (
-                                        <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())} style={{ padding: 16, marginRight: 20 }}>
-                                            <Image
-                                                source={require("../assets/media/burger.png")}
-                                            />
-                                        </TouchableOpacity>
-
-                                    )
-                                })
-
-                        }
-                    }
-                    component={DrawerNavigator}
-                />
-            ) : (
-                    <Root.Screen
-                        name="Auth"
-                        options={{ headerShown: false }}
-                        component={AuthNavigator}
-                    />
-                )}
-        </Root.Navigator>
+        !userState.isLoggedIn ?
+            <AuthNavigator></AuthNavigator> :
+            <DrawerNavigator></DrawerNavigator>
     )
 }
 

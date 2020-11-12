@@ -1,24 +1,94 @@
-import React, { useLayoutEffect } from "react";
-import { View, Text, StyleSheet, StatusBar, Image, Button } from "react-native";
+import React from "react";
+import { View, Text, StyleSheet, StatusBar } from "react-native";
+import { TouchableHighlight } from "react-native-gesture-handler";
+import Header from "./Header";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+    backgroundColor: '#fff',
   },
-});
 
-export default SelectTournament = ({ navigation }) => {
+  buttonStyle: {
+    marginTop: 30,
+    marginHorizontal: 30,
+    backgroundColor: "#528C6E",
+    paddingVertical: 25,
+  },
+  buttonLabelStyle: {
+    textAlign: "center",
+    fontSize: 16,
+    fontFamily: "RobotoSlab-Bold",
+    color: "white"
+  },
+  heading: {
+    marginTop: 110,
+    marginBottom: 50,
+    marginHorizontal: 30,
+    color: "#000",
+    fontFamily: "RobotoSlab-Regular",
+    fontSize: 30,
+  }
+});
+const Ranking = () => {
+  let players = [{
+    name: "Igor Belem",
+    wins: 4
+  }, {
+    name: "Gabriel Belem",
+    wins: 3
+  }, {
+    name: "Diego Belem",
+    wins: 3
+  }, {
+    name: "Lucas Belem",
+    wins: 1
+  }]
+  return (
+    players.map((player, key) => {
+      if (key < 5)
+        return (<View key={key} style={key === players.length - 1 ? { padding: 16 } : { padding: 16, borderBottomWidth: 1, borderBottomColor: "#d3d3d3" }}>
+          <View style={{ flexDirection: "row" }} >
+            <View style={{ width: 50, height: 50, backgroundColor: "#528C6E", borderRadius: 100, justifyContent: "center", alignItems: "center" }}><Text style={{ fontFamily: "RobotoSlab-Bold", fontSize: 14, color: "white" }}>{key + 1}</Text></View>
+            <View style={{ flexDirection: "column" }}>
+              <Text style={{ fontFamily: "RobotoSlab-Regular", fontSize: 18, marginLeft: 50, textAlign: "left", color: "black" }}>{player.name}</Text>
+              <Text style={{ marginTop: 4, fontFamily: "RobotoSlab-Regular", fontSize: 12, marginLeft: 50, textAlign: "left", color: "black" }}>Wins: {player.wins}</Text>
+            </View>
+          </View>
+        </View >
+
+        )
+      else return null
+    })
+  )
+}
+
+export default SelectTournament = ({ navigation, route }) => {
   return (
     <>
       <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
+      <Header title={"Welcome"} navigation={navigation}></Header>
       <View style={styles.container}>
-        <Text>Home Screen</Text>
-        <Button title="Select Tournament" onPress={() => navigation.navigate('Tournament')}></Button>
+        <Text style={styles.heading}>Overall Ranking</Text>
+        <View
+          style={{
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.8,
+            shadowRadius: 2,
+            elevation: 5,
+            marginHorizontal: 30,
+          }}>
+          <Ranking />
+        </View>
 
+
+        <TouchableHighlight underlayColor="#528D1A" onPress={() => navigation.navigate("Tournament")} style={styles.buttonStyle}><Text style={styles.buttonLabelStyle}>Select Tournament</Text></TouchableHighlight>
       </View>
-
     </>
+
   )
 }
