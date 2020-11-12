@@ -3,9 +3,9 @@ import { Appbar } from "react-native-paper";
 
 const Header = ({ navigation, title }) => {
     return (
-        <Appbar.Header style={{ backgroundColor: "#528C6E", height: 120 }}>
+        <Appbar.Header style={{ backgroundColor: "#528C6E", height: 140, elevation: 0, shadowColor: "#528C6E", shadowRadius: 0, shadowOpacity: 1, shadowOffset: { width: 0, height: 0 } }}>
             {title !== "Welcome" ? <Appbar.BackAction onPress={() => { navigation.goBack() }} /> : null}
-            <Appbar.Content titleStyle={{ fontSize: 23, fontFamily: "RobotoSlab", }} subtitleStyle={{ fontSize: 13, fontFamily: "RobotoSlab", }} title={title} subtitle="Igor Belem" />
+            <Appbar.Content noShadow={true} titleStyle={{ fontSize: 23, fontFamily: "RobotoSlab-Regular", }} subtitleStyle={{ fontSize: 13, fontFamily: "RobotoSlab-Regular", }} title={"Brasileirao"} subtitle="Igor Belem" />
             <Appbar.Action icon="menu" onPress={() => navigation.toggleDrawer()} />
         </Appbar.Header>
     );

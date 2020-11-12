@@ -3,12 +3,26 @@ import { View, Text, StyleSheet, StatusBar } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import Header from "./Header";
 const styles = StyleSheet.create({
+  backgroundd: {
+    backgroundColor: "#528C6E",
+    flex: 1,
+  },
   container: {
+    marginHorizontal: 4,
     flex: 1,
     flexDirection: "column",
     justifyContent: "flex-start",
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.75,
+    shadowRadius: 3.84,
+
+    elevation: 5,
     backgroundColor: '#fff',
   },
 
@@ -25,7 +39,7 @@ const styles = StyleSheet.create({
     color: "white"
   },
   heading: {
-    marginTop: 110,
+    marginTop: 90,
     marginBottom: 50,
     marginHorizontal: 30,
     color: "#000",
@@ -68,7 +82,7 @@ const Ranking = () => {
 
 export default SelectTournament = ({ navigation, route }) => {
   return (
-    <>
+    <View style={styles.backgroundd}>
       <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
       <Header title={"Welcome"} navigation={navigation}></Header>
       <View style={styles.container}>
@@ -88,7 +102,7 @@ export default SelectTournament = ({ navigation, route }) => {
 
         <TouchableHighlight underlayColor="#528D1A" onPress={() => navigation.navigate("Tournament")} style={styles.buttonStyle}><Text style={styles.buttonLabelStyle}>Select Tournament</Text></TouchableHighlight>
       </View>
-    </>
+    </View>
 
   )
 }

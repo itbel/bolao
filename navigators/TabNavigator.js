@@ -29,17 +29,15 @@ export default function TabNavigator() {
                 else if (route.name === "RankingsScreen")
                     return <Image style={focused ? {} : { opacity: 0.3 }} source={RankingIcon}></Image>
             }
-
-        }
-
-        )}
+        })}
             tabBarOptions={{
                 labelStyle: { fontFamily: "RobotoSlab-Medium", fontSize: 12 },
-                style: { height: 80, borderTopRightRadius: 30, borderTopLeftRadius: 30 },
+                style: { backgroundColor: "white", height: 80, borderTopRightRadius: 30, borderTopLeftRadius: 30 },
                 tabStyle: { marginBottom: 10 },
                 activeTintColor: 'green',
                 inactiveTintColor: 'gray',
-            }} initialRouteName="RoundsScreen">
+            }}
+            initialRouteName="RoundsScreen">
             <Tab.Screen options={{ title: "Guess" }} name="GuessScreen" component={GuessScreen} />
             <Tab.Screen options={{ title: "Rules" }} name="RulesScreen" component={RulesScreen} />
             <Tab.Screen options={{ title: "Rounds" }} name="RoundsScreen" component={RoundsScreen} />
