@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text, StyleSheet, StatusBar, ScrollView } from "react-native";
+import { View, Text, StyleSheet, StatusBar, ScrollView, Dimensions } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
+import RoundAccordion from "./RoundAccordion";
 import Header from "./Header";
 const styles = StyleSheet.create({
     backgroundd: {
@@ -8,24 +9,14 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     container: {
-        marginHorizontal: 0,
-        flex: 1,
         flexDirection: "column",
         justifyContent: "flex-start",
+        flex: 1,
+        marginHorizontal: 0,
         borderTopLeftRadius: 50,
         borderTopRightRadius: 50,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.75,
-        shadowRadius: 3.84,
-
-        elevation: 5,
         backgroundColor: '#fff',
     },
-
     buttonStyle: {
         marginTop: 30,
         marginHorizontal: 30,
@@ -47,78 +38,237 @@ const styles = StyleSheet.create({
         fontSize: 30,
     }
 });
-const Ranking = () => {
-    let players = [{
-        name: "Igor Belem",
-        wins: 4
-    }, {
-        name: "Gabriel Belem",
-        wins: 3
-    }, {
-        name: "Diego Belem",
-        wins: 3
-    }, {
-        name: "Lucas Belem",
-        wins: 1
-    }, {
-        name: "Diego Belem",
-        wins: 3
-    }, {
-        name: "Diego Belem",
-        wins: 3
-    }, {
-        name: "Diego Belem",
-        wins: 3
-    }, {
-        name: "Diego Belem",
-        wins: 3
-    }, {
-        name: "Diego Belem",
-        wins: 3
-    }, {
-        name: "Diego Belem",
-        wins: 3
-    },]
-    return (
-        players.map((player, key) => {
-            if (key < 15)
-                return (<View key={key} style={key === players.length - 1 ? { padding: 16 } : { padding: 16, borderBottomWidth: 1, borderBottomColor: "#d3d3d3" }}>
-                    <View style={{ flexDirection: "row" }} >
-                        <View style={{ width: 50, height: 50, backgroundColor: "#528C6E", borderRadius: 100, justifyContent: "center", alignItems: "center" }}><Text style={{ fontFamily: "RobotoSlab-Bold", fontSize: 14, color: "white" }}>{key + 1}</Text></View>
-                        <View style={{ flexDirection: "column" }}>
-                            <Text style={{ fontFamily: "RobotoSlab-Regular", fontSize: 18, marginLeft: 50, textAlign: "left", color: "black" }}>{player.name}</Text>
-                            <Text style={{ marginTop: 4, fontFamily: "RobotoSlab-Regular", fontSize: 12, marginLeft: 50, textAlign: "left", color: "black" }}>Wins: {player.wins}</Text>
-                        </View>
-                    </View>
-                </View >
 
-                )
-            else return null
-        })
-    )
-}
 
 export default RoundsScreen = ({ navigation, route }) => {
+    let roundOne = {
+        round: 1,
+        matches: [
+            {
+                teamAName: "Fluminense", teamBName: "Botafogo", teamAResult: 1, teamBResult: 2,
+                guesses: [
+                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
+                ]
+            },
+            {
+                teamAName: "Internacional", teamBName: "Palmeiras", teamAResult: 2, teamBResult: 1,
+                guesses: [
+                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
+                ]
+            },
+            {
+                teamAName: "Flamengo", teamBName: "Vasco", teamAResult: 3, teamBResult: 1,
+                guesses: [
+                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
+                ]
+            },
+            {
+                teamAName: "Corinthians", teamBName: "Sport", teamAResult: 2, teamBResult: 0,
+                guesses: [
+                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
+                ]
+            }
+        ]
+    }
+    let roundTwo = {
+        round: 2,
+        matches: [
+            {
+                teamAName: "Fluminense", teamBName: "Botafogo", teamAResult: 1, teamBResult: 2,
+                guesses: [
+                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
+                ]
+            },
+            {
+                teamAName: "Internacional", teamBName: "Palmeiras", teamAResult: 2, teamBResult: 1,
+                guesses: [
+                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
+                ]
+            },
+            {
+                teamAName: "Flamengo", teamBName: "Vasco", teamAResult: 3, teamBResult: 1,
+                guesses: [
+                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
+                ]
+            },
+            {
+                teamAName: "Corinthians", teamBName: "Sport", teamAResult: 2, teamBResult: 0,
+                guesses: [
+                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
+                ]
+            }
+        ]
+    }
+    let roundThree = {
+        round: 3,
+        matches: [
+            {
+                teamAName: "Fluminense", teamBName: "Botafogo", teamAResult: 1, teamBResult: 2,
+                guesses: [
+                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
+                ]
+            },
+            {
+                teamAName: "Internacional", teamBName: "Palmeiras", teamAResult: 2, teamBResult: 1,
+                guesses: [
+                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
+                ]
+            },
+            {
+                teamAName: "Flamengo", teamBName: "Vasco", teamAResult: 3, teamBResult: 1,
+                guesses: [
+                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
+                ]
+            },
+            {
+                teamAName: "Corinthians", teamBName: "Sport", teamAResult: 2, teamBResult: 0,
+                guesses: [
+                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
+                ]
+            }
+        ]
+    }
+    let roundFour = {
+        round: 4,
+        matches: [
+            {
+                teamAName: "Fluminense", teamBName: "Botafogo", teamAResult: 1, teamBResult: 2,
+                guesses: [
+                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
+                ]
+            },
+            {
+                teamAName: "Internacional", teamBName: "Palmeiras", teamAResult: 2, teamBResult: 1,
+                guesses: [
+                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
+                ]
+            },
+            {
+                teamAName: "Flamengo", teamBName: "Vasco", teamAResult: 3, teamBResult: 1,
+                guesses: [
+                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
+                ]
+            },
+            {
+                teamAName: "Corinthians", teamBName: "Sport", teamAResult: 2, teamBResult: 0,
+                guesses: [
+                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
+                ]
+            }
+        ]
+    }
+    let roundFive = {
+        round: 5,
+        matches: [
+            {
+                teamAName: "Fluminense", teamBName: "Botafogo", teamAResult: 1, teamBResult: 2,
+                guesses: [
+                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
+                ]
+            },
+            {
+                teamAName: "Internacional", teamBName: "Palmeiras", teamAResult: 2, teamBResult: 1,
+                guesses: [
+                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
+                ]
+            },
+            {
+                teamAName: "Flamengo", teamBName: "Vasco", teamAResult: 3, teamBResult: 1,
+                guesses: [
+                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
+                ]
+            },
+            {
+                teamAName: "Corinthians", teamBName: "Sport", teamAResult: 2, teamBResult: 0,
+                guesses: [
+                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
+                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
+                ]
+            }
+        ]
+    }
     return (
         <View style={styles.backgroundd}>
             <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
-            <Header title={"Rounds"} navigation={navigation}></Header>
-            <ScrollView>
-                <View style={styles.container}>
-                    <Text style={styles.heading}>Round</Text>
-                    <View
-                        style={{
-                            shadowColor: '#000',
-                            shadowOffset: { width: 0, height: 1 },
-                            shadowOpacity: 0.8,
-                            shadowRadius: 2,
-                            elevation: 5,
-                            marginHorizontal: 30,
-                        }}>
-                        <Ranking />
-                    </View>
+            <Header title={"Brasileirao"} navigation={navigation}></Header>
+
+            <View style={styles.container}>
+                <View style={{ marginHorizontal: 30 }}>
+                    <ScrollView showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
+                        <RoundAccordion data={roundFive} openState={true}></RoundAccordion >
+                        <RoundAccordion data={roundFour} openState={false}></RoundAccordion >
+                        <RoundAccordion data={roundThree} openState={false}></RoundAccordion >
+                        <RoundAccordion data={roundTwo} openState={false}></RoundAccordion >
+                        <RoundAccordion data={roundOne} openState={false}></RoundAccordion >
+                        <RoundAccordion data={roundTwo} openState={false}></RoundAccordion >
+                        <RoundAccordion data={roundOne} openState={false}></RoundAccordion >
+                        <RoundAccordion data={roundTwo} openState={false}></RoundAccordion >
+                        <RoundAccordion data={roundOne} openState={false}></RoundAccordion >
+                        <RoundAccordion data={roundTwo} openState={false}></RoundAccordion >
+                        <RoundAccordion data={roundOne} openState={false}></RoundAccordion >
+                    </ScrollView>
+
                 </View>
-            </ScrollView>
+            </View>
         </View>
 
     )

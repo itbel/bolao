@@ -34,7 +34,7 @@ export default function TabNavigator() {
                 labelStyle: { fontFamily: "RobotoSlab-Medium", fontSize: 12 },
                 style: { backgroundColor: "white", height: 80, borderTopRightRadius: 30, borderTopLeftRadius: 30 },
                 tabStyle: { marginBottom: 10 },
-                activeTintColor: 'green',
+                activeTintColor: 'black',
                 inactiveTintColor: 'gray',
             }}
             initialRouteName="RoundsScreen">

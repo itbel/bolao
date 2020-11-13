@@ -1,14 +1,15 @@
 import React from "react";
-import { View, Text, StyleSheet, StatusBar } from "react-native";
+import { View, Text, StyleSheet, StatusBar, Image } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import Header from "./Header";
+import Crown from "../assets/media/crown.png"
 const styles = StyleSheet.create({
   backgroundd: {
     backgroundColor: "#528C6E",
     flex: 1,
   },
   container: {
-    marginHorizontal: 4,
+    marginHorizontal: 0,
     flex: 1,
     flexDirection: "column",
     justifyContent: "flex-start",
@@ -69,7 +70,7 @@ const Ranking = () => {
             <View style={{ width: 50, height: 50, backgroundColor: "#528C6E", borderRadius: 100, justifyContent: "center", alignItems: "center" }}><Text style={{ fontFamily: "RobotoSlab-Bold", fontSize: 14, color: "white" }}>{key + 1}</Text></View>
             <View style={{ flexDirection: "column" }}>
               <Text style={{ fontFamily: "RobotoSlab-Regular", fontSize: 18, marginLeft: 50, textAlign: "left", color: "black" }}>{player.name}</Text>
-              <Text style={{ marginTop: 4, fontFamily: "RobotoSlab-Regular", fontSize: 12, marginLeft: 50, textAlign: "left", color: "black" }}>Wins: {player.wins}</Text>
+              <Text style={{ marginTop: 4, fontFamily: "RobotoSlab-Regular", fontSize: 12, marginLeft: 50, textAlign: "left", color: "black" }}>Wins: {player.wins} {key === 0 ? <Image source={Crown}></Image> : null}</Text>
             </View>
           </View>
         </View >
@@ -89,18 +90,13 @@ export default SelectTournament = ({ navigation, route }) => {
         <Text style={styles.heading}>Overall Ranking</Text>
         <View
           style={{
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 1 },
-            shadowOpacity: 0.8,
-            shadowRadius: 2,
-            elevation: 5,
             marginHorizontal: 30,
           }}>
           <Ranking />
         </View>
 
 
-        <TouchableHighlight underlayColor="#528D1A" onPress={() => navigation.navigate("Tournament")} style={styles.buttonStyle}><Text style={styles.buttonLabelStyle}>Select Tournament</Text></TouchableHighlight>
+        <TouchableHighlight underlayColor="#85BFA1" onPress={() => navigation.navigate("Tournament")} style={styles.buttonStyle}><Text style={styles.buttonLabelStyle}>Select Tournament</Text></TouchableHighlight>
       </View>
     </View>
 
