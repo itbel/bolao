@@ -1,8 +1,20 @@
 import React, { useState } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+const styles = StyleSheet.create({
+    openCard: {
+        flexDirection: "column", marginVertical: 11
+    },
+    closedCard: {
+        flexDirection: "column",
+        height: 72,
+        marginVertical: 11,
+    },
+    roundTitleText: {
+        flex: 1, fontFamily: "RobotoSlab-Regular", fontSize: 22
+    }
+});
 export default RoundAccordion = ({ openState, data }) => {
 
     const [open, setOpen] = useState(openState);
@@ -10,9 +22,9 @@ export default RoundAccordion = ({ openState, data }) => {
     return (
         open ?
             (
-                <TouchableOpacity style={{ flexDirection: "column", marginVertical: 11 }} onPress={() => setOpen(false)}>
+                <TouchableOpacity style={styles.openCard} onPress={() => setOpen(false)}>
                     <View style={{ borderBottomWidth: 1, margin: 20, flexDirection: "row" }}>
-                        <Text style={{ flex: 1, fontFamily: "RobotoSlab-Regular", fontSize: 22 }}>Round: {data.round}</Text>
+                        <Text style={styles.roundTitleText}>Round: {data.round}</Text>
                         <Icon name="angle-up" size={40} color="#000" />
                     </View>
                     {data.matches.map((match, matchkey) => {
@@ -32,9 +44,9 @@ export default RoundAccordion = ({ openState, data }) => {
                 </TouchableOpacity>
             )
             : (
-                <TouchableOpacity style={{ flexDirection: "column", height: 72, marginVertical: 11, }} onPress={() => setOpen(true)}>
+                <TouchableOpacity style={styles.closedCard} onPress={() => setOpen(true)}>
                     <View style={{ margin: 20, flexDirection: "row" }}>
-                        <Text style={{ justifyContent: "center", flex: 1, fontFamily: "RobotoSlab-Regular", fontSize: 22 }}>Round: {data.round}</Text>
+                        <Text style={styles.roundTitleText}>Round: {data.round}</Text>
                         <Icon name="angle-down" size={40} color="#000"></Icon>
                     </View>
                 </TouchableOpacity>
