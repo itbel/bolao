@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 
 export default RankingsScreen = ({ navigation, route }) => {
     let data = {
-        title: "Brasileirao",
+        title: "Brasileirao 2020",
         players: [
             { name: "Igor", points: "170" },
             { name: "Gabriel", points: "159" },
@@ -58,11 +58,6 @@ export default RankingsScreen = ({ navigation, route }) => {
             <View style={styles.container}>
                 <View style={{ marginHorizontal: 30 }}>
                     <ScrollView showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
-                        <TournamentCard data={data} ></TournamentCard>
-                        <TournamentCard data={data} ></TournamentCard>
-                        <TournamentCard data={data} ></TournamentCard>
-                        <TournamentCard data={data} ></TournamentCard>
-                        <TournamentCard data={data} ></TournamentCard>
                         <TournamentCard data={data} ></TournamentCard>
                     </ScrollView>
                 </View>

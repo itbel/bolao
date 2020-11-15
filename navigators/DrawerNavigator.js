@@ -1,9 +1,10 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import TabNavigator from "./TabNavigator"
-import SelectTournament from "../screens/SelectTournament"
+import LandingScreen from "../screens/LandingScreen"
 import Teams from "../screens/Teams";
 import Tournaments from "../screens/Tournaments";
+import SelectTournament from '../screens/SelectTournament'
 
 const Drawer = createDrawerNavigator();
 export default function DrawerNavigator() {
@@ -23,7 +24,8 @@ export default function DrawerNavigator() {
             }
         }
         )}
-            drawerStyle={{ width: "70%", backgroundColor: "#528C6E", borderTopRightRadius: 30, borderBottomRightRadius: 30 }} headerMode="none" initialRouteName="SelectTournament">
+            drawerStyle={{ width: "70%", backgroundColor: "#528C6E", borderTopRightRadius: 30, borderBottomRightRadius: 30 }} headerMode="none" initialRouteName="LandingScreen">
+            <Drawer.Screen name="LandingScreen" component={LandingScreen} />
             <Drawer.Screen options={{ title: "Select Tournament" }} name="SelectTournament" component={SelectTournament} />
             <Drawer.Screen name="Tournament" component={TabNavigator} />
             <Drawer.Screen name="Teams" component={Teams} />

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image, View } from "react-native";
-import RulesScreen from "../screens/RulesScreen";
+//import RulesScreen from "../screens/RulesScreen";
 import GuessScreen from "../screens/GuessScreen";
 import RoundsScreen from "../screens/RoundsScreen";
-import WinsScreen from "../screens/WinsScreen";
+//import WinsScreen from "../screens/WinsScreen";
 import RankingsScreen from "../screens/RankingsScreen";
 import GuessIcon from "../assets/media/guess.png"
 import RulesIcon from "../assets/media/rules.png"
@@ -40,11 +40,10 @@ export default function TabNavigator() {
                 }}
                 initialRouteName="RoundsScreen">
                 <Tab.Screen options={{ title: "Guess" }} name="GuessScreen" component={GuessScreen} />
-                <Tab.Screen options={{ title: "Rules" }} name="RulesScreen" component={RulesScreen} />
+                {/*<Tab.Screen options={{ title: "Rules" }} name="RulesScreen" component={RulesScreen} />*/}
                 <Tab.Screen options={{ title: "Rounds" }} name="RoundsScreen" component={RoundsScreen} />
                 <Tab.Screen options={{ title: "Ranking" }} name="RankingsScreen" component={RankingsScreen} />
-                <Tab.Screen options={{ title: "Wins" }} name="WinsScreen" component={WinsScreen} />
-
+                {/*<Tab.Screen options={{ title: "Wins" }} name="WinsScreen" component={WinsScreen} />*/}
             </Tab.Navigator>
         </View>
     );
