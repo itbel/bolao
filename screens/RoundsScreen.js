@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, StatusBar, ScrollView, Dimensions } from "react-native";
-import { TouchableHighlight } from "react-native-gesture-handler";
 import RoundAccordion from "./RoundAccordion";
 import Header from "./Header";
+import { useUserContext } from "../contexts/UserContext"
+import Axios from "axios";
+import { useTournamentContext } from "../contexts/TournamentContext";
+
 const styles = StyleSheet.create({
     backgroundd: {
         backgroundColor: "#528C6E",
@@ -41,170 +44,9 @@ const styles = StyleSheet.create({
 
 
 export default RoundsScreen = ({ navigation, route }) => {
-    let roundOne = {
-        round: 1,
-        matches: [
-            {
-                teamAName: "Fluminense", teamBName: "Botafogo", teamAResult: 1, teamBResult: 2,
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
-                ]
-            },
-            {
-                teamAName: "Internacional", teamBName: "Palmeiras", teamAResult: 2, teamBResult: 1,
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
-                ]
-            },
-            {
-                teamAName: "Flamengo", teamBName: "Vasco", teamAResult: 3, teamBResult: 1,
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
-                ]
-            },
-            {
-                teamAName: "Corinthians", teamBName: "Sport", teamAResult: 2, teamBResult: 0,
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
-                ]
-            }
-        ]
-    }
-    let roundTwo = {
-        round: 2,
-        matches: [
-            {
-                teamAName: "Fluminense", teamBName: "Botafogo", teamAResult: 1, teamBResult: 2,
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
-                ]
-            },
-            {
-                teamAName: "Internacional", teamBName: "Palmeiras", teamAResult: 2, teamBResult: 1,
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
-                ]
-            },
-            {
-                teamAName: "Flamengo", teamBName: "Vasco", teamAResult: 3, teamBResult: 1,
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
-                ]
-            },
-            {
-                teamAName: "Corinthians", teamBName: "Sport", teamAResult: 2, teamBResult: 0,
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
-                ]
-            }
-        ]
-    }
-    let roundThree = {
-        round: 3,
-        matches: [
-            {
-                teamAName: "Fluminense", teamBName: "Botafogo", teamAResult: 1, teamBResult: 2,
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
-                ]
-            },
-            {
-                teamAName: "Internacional", teamBName: "Palmeiras", teamAResult: 2, teamBResult: 1,
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
-                ]
-            },
-            {
-                teamAName: "Flamengo", teamBName: "Vasco", teamAResult: 3, teamBResult: 1,
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
-                ]
-            },
-            {
-                teamAName: "Corinthians", teamBName: "Sport", teamAResult: 2, teamBResult: 0,
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
-                ]
-            }
-        ]
-    }
-    let roundFour = {
-        round: 4,
-        matches: [
-            {
-                teamAName: "Fluminense", teamBName: "Botafogo", teamAResult: 1, teamBResult: 2,
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
-                ]
-            },
-            {
-                teamAName: "Internacional", teamBName: "Palmeiras", teamAResult: 2, teamBResult: 1,
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
-                ]
-            },
-            {
-                teamAName: "Flamengo", teamBName: "Vasco", teamAResult: 3, teamBResult: 1,
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
-                ]
-            },
-            {
-                teamAName: "Corinthians", teamBName: "Sport", teamAResult: 2, teamBResult: 0,
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
-                ]
-            }
-        ]
-    }
+    const { userState } = useUserContext();
+    const { selectedTournament } = useTournamentContext();
+    const [rounds, setRounds] = useState([]);
     let roundFive = {
         round: 5,
         matches: [
@@ -246,6 +88,45 @@ export default RoundsScreen = ({ navigation, route }) => {
             }
         ]
     }
+    const fetchJoinedTournaments = async () => {
+        try {
+            console.log(userState.user)
+            const response = await fetch(`http://192.168.2.95:3005/api/tournaments/joined`,
+                { headers: { "auth-token": `${userState.user}` } }
+            )
+            const data = await response.json();
+            setJoinedTournaments(data);
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
+    fetchJoinedTournaments()
+    useEffect(() => {
+        /* const getMaxRound = async () => {
+            try {
+                const response = await fetch(`http://192.168.2.95:3005/api/matches/maxround/${selectedTournament}`,
+                    { headers: { "auth-token": `${userState.user}` } })
+                const data = await response.json();
+                //setState here return data;
+            } catch (error) {
+                console.log(error)
+            }
+            getMaxRound();
+        } */
+        const loadRound = async () => {
+            try {
+                const response = await fetch(`http://192.168.2.95:3005/api/matches/round/${selectedTournament}&${1}`,
+                    { headers: { "auth-token": `${userState.user}` } }
+                )
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        loadRound()
+    }, [])
     return (
         <View style={styles.backgroundd}>
             <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
@@ -255,16 +136,6 @@ export default RoundsScreen = ({ navigation, route }) => {
                 <View style={{ marginHorizontal: 30 }}>
                     <ScrollView showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
                         <RoundAccordion data={roundFive} openState={true}></RoundAccordion >
-                        <RoundAccordion data={roundFour} openState={false}></RoundAccordion >
-                        <RoundAccordion data={roundThree} openState={false}></RoundAccordion >
-                        <RoundAccordion data={roundTwo} openState={false}></RoundAccordion >
-                        <RoundAccordion data={roundOne} openState={false}></RoundAccordion >
-                        <RoundAccordion data={roundTwo} openState={false}></RoundAccordion >
-                        <RoundAccordion data={roundOne} openState={false}></RoundAccordion >
-                        <RoundAccordion data={roundTwo} openState={false}></RoundAccordion >
-                        <RoundAccordion data={roundOne} openState={false}></RoundAccordion >
-                        <RoundAccordion data={roundTwo} openState={false}></RoundAccordion >
-                        <RoundAccordion data={roundOne} openState={false}></RoundAccordion >
                     </ScrollView>
 
                 </View>

@@ -14,7 +14,7 @@ export const UserProvider = (props) => {
         setUserState({ user: user, isLoggedIn: true })
     }
 
-    const logoutUser = (user) => {
+    const logoutUser = () => {
         setUserState({ user: "", isLoggedIn: false })
     }
 

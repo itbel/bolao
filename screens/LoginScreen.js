@@ -21,10 +21,7 @@ export default LoginScreen = ({ navigation }) => {
     password: "",
   });
   const signIn = () => {
-    loginUser("")
-    console.log()
-    /* console.log("attempting to login");
-    Axios.post("http://18.224.228.195:3005/api/users/login", {
+    Axios.post("http://192.168.2.95:3005/api/users/login", {
       username: loginData.username,
       password: loginData.password,
     })
@@ -37,7 +34,7 @@ export default LoginScreen = ({ navigation }) => {
       })
       .catch((error) => {
         console.log(error);
-      }); */
+      });
   };
   return (
     <>

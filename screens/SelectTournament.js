@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, StatusBar, ScrollView, TouchableHighlight, Text } from "react-native";
 import JoinTournamentCard from "./JoinTournamentCard"
 import Header from "./Header";
+import Axios from "axios";
+import { useUserContext } from "../contexts/UserContext"
 const styles = StyleSheet.create({
     backgroundd: {
         backgroundColor: "#528C6E",
@@ -40,9 +42,25 @@ const styles = StyleSheet.create({
 
 
 export default SelectTournament = ({ navigation, route }) => {
-    let data = {
-        title: "Brasileirao 2020",
-    }
+    const { userState } = useUserContext();
+    const [joinedTournaments, setJoinedTournaments] = useState();
+    useEffect(() => {
+        const fetchJoinedTournaments = async () => {
+            try {
+                console.log(userState.user)
+                const response = await fetch(`http://192.168.2.95:3005/api/tournaments/joined`,
+                    { headers: { "auth-token": `${userState.user}` } }
+                )
+                const data = await response.json();
+                setJoinedTournaments(data);
+            }
+            catch (error) {
+                console.log(error)
+            }
+        }
+        fetchJoinedTournaments()
+
+    }, [])
     return (
         <View style={styles.backgroundd}>
             <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
@@ -51,7 +69,9 @@ export default SelectTournament = ({ navigation, route }) => {
             <View style={styles.container}>
                 <View style={{ marginHorizontal: 30 }}>
                     <ScrollView showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
-                        <JoinTournamentCard navigation={navigation} data={data} ></JoinTournamentCard>
+                        {joinedTournaments ? joinedTournaments.map((tournament, index) => {
+                            return <JoinTournamentCard key={index} data={tournament} navigation={navigation}></JoinTournamentCard>
+                        }) : null}
                         <TouchableHighlight underlayColor="#85BFA1" onPress={() => navigation.navigate("Tournament")} style={styles.buttonStyle}><Text style={styles.buttonLabelStyle}>Create A Tournament</Text></TouchableHighlight>
                     </ScrollView>
                 </View>

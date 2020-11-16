@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useUserContext } from "../contexts/UserContext"
+import { useTournamentContext } from "../contexts/TournamentContext";
 const styles = StyleSheet.create({
     tournamentCard: {
         flexDirection: "column",
@@ -40,13 +42,17 @@ const styles = StyleSheet.create({
     },
 });
 export default JoinTournamentCard = (props) => {
-
+    const { userState } = useUserContext();
+    const { setTournament } = useTournamentContext();
     return (
         <View style={styles.tournamentCard}>
             <View style={{ margin: 20 }}>
-                <Text style={styles.header}>{props.data.title}</Text>
+                <Text style={styles.header}>{props.data.name}</Text>
                 <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
-                    <TouchableHighlight underlayColor="#85BFA1" onPress={() => props.navigation.navigate("Tournament")} style={styles.buttonStyle}><Text style={styles.buttonLabelStyle}>Select Tournament</Text></TouchableHighlight>
+                    <TouchableHighlight underlayColor="#85BFA1" onPress={() => {
+                        setTournament(props.data.tournamentid)
+                        props.navigation.navigate("Tournament")
+                    }} style={styles.buttonStyle}><Text style={styles.buttonLabelStyle}>Select Tournament</Text></TouchableHighlight>
                 </View>
 
             </View>
