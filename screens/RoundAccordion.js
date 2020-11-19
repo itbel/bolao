@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity, TouchableWithoutFeedback } from "react-native-gesture-handler";
 import Icon from 'react-native-vector-icons/FontAwesome';
 const styles = StyleSheet.create({
     openCard: {
-        flexDirection: "column", marginVertical: 11
+        flexDirection: "column",
+        marginVertical: 11,
+        borderColor: "#a3a3a3",
+        borderRadius: 6,
+        borderWidth: 1
     },
     closedCard: {
         flexDirection: "column",
         height: 72,
+        borderRadius: 6,
+        borderWidth: 1,
+        borderColor: "#a3a3a3",
         marginVertical: 11,
     },
     roundTitleText: {
@@ -22,8 +29,8 @@ export default RoundAccordion = ({ openState, data }) => {
     return (
         open ?
             (
-                <TouchableOpacity style={styles.openCard} onPress={() => setOpen(false)}>
-                    <View style={{ borderBottomWidth: 1, margin: 20, flexDirection: "row" }}>
+                <TouchableWithoutFeedback style={styles.openCard} onPress={() => setOpen(false)}>
+                    <View style={{ borderBottomWidth: 1, borderBottomColor: "#A4A4A4", margin: 20, flexDirection: "row" }}>
                         <Text style={styles.roundTitleText}>Round: {data.round}</Text>
                         <Icon name="angle-up" size={40} color="#000" />
                     </View>
@@ -37,15 +44,16 @@ export default RoundAccordion = ({ openState, data }) => {
                             </View>
                         )
                     })}
-                </TouchableOpacity>
+                </TouchableWithoutFeedback>
             )
             : (
-                <TouchableOpacity style={styles.closedCard} onPress={() => setOpen(true)}>
+
+                <TouchableWithoutFeedback style={styles.closedCard} onPress={() => setOpen(true)}>
                     <View style={{ margin: 20, flexDirection: "row" }}>
                         <Text style={styles.roundTitleText}>Round: {data.round}</Text>
                         <Icon name="angle-down" size={40} color="#000"></Icon>
                     </View>
-                </TouchableOpacity>
+                </TouchableWithoutFeedback>
             )
 
     )

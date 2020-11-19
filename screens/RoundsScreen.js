@@ -47,7 +47,7 @@ export default RoundsScreen = ({ navigation, route }) => {
     const [isLoading, setIsLoading] = useState(true)
     const { userState } = useUserContext();
     const { selectedTournament } = useTournamentContext();
-    const [rounds, setRounds] = useState();
+    const [rounds, setRounds] = useState([]);
     useEffect(() => {
         const loadRound = async () => {
             try {
@@ -71,14 +71,12 @@ export default RoundsScreen = ({ navigation, route }) => {
             <View style={styles.container}>
                 <View >
                     <ScrollView showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
-
                         <Text style={styles.heading}>Rounds</Text>
                         <View style={{ marginHorizontal: 30 }}>
                             {isLoading ? <ActivityIndicator animating={isLoading} color={"#000"} size={'large'}></ActivityIndicator> : null}
                             {rounds ? rounds.map((round, index) => {
                                 return <RoundAccordion key={index} data={round} openState={index === 0 ? true : false}></RoundAccordion >
                             })
-
                                 : null}
                         </View>
                     </ScrollView>

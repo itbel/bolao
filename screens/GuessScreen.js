@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, StatusBar, ScrollView, Dimensions } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import GuessAccordion from "./GuessAccordion";
+import { useTournamentContext } from "../contexts/TournamentContext";
+import { useUserContext } from "../contexts/UserContext"
 import Header from "./Header";
 const styles = StyleSheet.create({
     backgroundd: {
@@ -36,69 +38,38 @@ const styles = StyleSheet.create({
         color: "#000",
         fontFamily: "RobotoSlab-Regular",
         fontSize: 30,
+    },
+    subHeading: {
+        marginTop: 90,
+        color: "#000",
+        fontFamily: "RobotoSlab-Regular",
+        fontSize: 26,
     }
 });
 
 
 export default GuessScreen = ({ navigation, route }) => {
-    let roundOne = {
-        round: 1,
-        matches: [
-            {
-                teamAName: "Fluminense", teamBName: "Botafogo",
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor" },
-                ]
-            },
-            {
-                teamAName: "Internacional", teamBName: "Palmeiras",
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor" },
-                ]
-            },
-            {
-                teamAName: "Flamengo", teamBName: "Vasco",
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor" },
-                ]
-            },
-            {
-                teamAName: "Corinthians", teamBName: "Sport",
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor" },
-                ]
+    const [isLoading, setIsLoading] = useState(true)
+    const { userState } = useUserContext();
+    const { selectedTournament } = useTournamentContext();
+    const [rounds, setRounds] = useState([])
+    useEffect(() => {
+        const loadRound = async () => {
+            try {
+                const response = await fetch(`http://192.168.2.96:3005/api/matches/unguessed/${selectedTournament.tournament_id}`,
+                    { headers: { "auth-token": `${userState.user}` } }
+                )
+                const data = await response.json();
+                setRounds(data)
+                console.log(data)
+                setIsLoading(false)
+            } catch (error) {
+                console.log(error)
             }
-        ]
-    }
-    let roundTwo = {
-        round: 2,
-        matches: [
-            {
-                teamAName: "Fluminense", teamBName: "Botafogo",
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor" },
-                ]
-            },
-            {
-                teamAName: "Internacional", teamBName: "Palmeiras",
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor" },
-                ]
-            },
-            {
-                teamAName: "Flamengo", teamBName: "Vasco",
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor" },
-                ]
-            },
-            {
-                teamAName: "Corinthians", teamBName: "Sport",
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor" },
-                ]
-            }
-        ]
-    }
+        }
+        loadRound()
+
+    }, [selectedTournament])
     return (
         <View style={styles.backgroundd}>
             <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
@@ -107,8 +78,9 @@ export default GuessScreen = ({ navigation, route }) => {
             <View style={styles.container}>
                 <View style={{ marginHorizontal: 30 }}>
                     <ScrollView showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
-                        <GuessAccordion data={roundTwo} openState={false}></GuessAccordion >
-                        <GuessAccordion data={roundOne} openState={false}></GuessAccordion >
+                        {rounds && rounds.length > 0 ? rounds.map((round, index) => {
+                            return <GuessAccordion key={index} data={round} openState={index === 0 ? true : false}></GuessAccordion >
+                        }) : <Text style={styles.subHeading}>No matches to guess</Text>}
                     </ScrollView>
                 </View>
             </View>

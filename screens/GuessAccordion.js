@@ -94,10 +94,10 @@ export default GuessAccordion = ({ openState, data }) => {
                             </View>
                         </View>
                     </Modal>
-                    <TouchableWithoutFeedback style={styles.openCard} >
-                        <View style={{ borderBottomWidth: 1, margin: 20, flexDirection: "row" }}>
+                    <TouchableWithoutFeedback onPress={() => setOpen(false)} style={styles.openCard} >
+                        <View style={{ borderBottomWidth: 1, borderBottomColor: "#A4A4A4", margin: 20, flexDirection: "row" }}>
                             <Text style={styles.roundTitleText}>Round: {data.round}</Text>
-                            <Icon name="angle-up" size={40} color="#000" onPress={() => setOpen(false)} />
+                            <Icon name="angle-up" size={40} color="#000" />
                         </View>
                         <View style={{ marginHorizontal: 20, flexDirection: "row" }}>
                             <Text style={{ fontFamily: "RobotoSlab-Medium", fontSize: 16, flex: 1 }}>Match</Text>
@@ -115,12 +115,12 @@ export default GuessAccordion = ({ openState, data }) => {
                 </>
             )
             : (
-                <TouchableOpacity style={styles.closedCard} onPress={() => setOpen(true)}>
+                <TouchableWithoutFeedback style={styles.closedCard} onPress={() => setOpen(true)}>
                     <View style={{ margin: 20, flexDirection: "row" }}>
                         <Text style={styles.roundTitleText}>Round: {data.round}</Text>
                         <Icon name="angle-down" size={40} color="#000"></Icon>
                     </View>
-                </TouchableOpacity>
+                </TouchableWithoutFeedback>
             )
 
     )
