@@ -32,15 +32,11 @@ export default RoundAccordion = ({ openState, data }) => {
                             <View style={{ marginHorizontal: 20 }} key={matchkey}>
                                 <Text style={{ marginVertical: 8, fontFamily: "RobotoSlab-Medium", fontSize: 16 }}>{match.teamAName} {match.teamAResult} X {match.teamBResult} {match.teamBName}</Text>
                                 {match.guesses.map((guess, index) => {
-                                    return <View key={index} style={{ marginVertical: 2, flexDirection: "row" }}><Text style={{ flex: 1, color: "#9E9E9E", fontFamily: "RobotoSlab-Regular", fontSize: 14 }}>{guess.name}</Text><Text style={{ fontFamily: "RobotoSlab-Regular", fontSize: 14, color: "#9E9E9E" }}>{guess.teamAGuess} X {guess.teamBGuess} ({guess.points})</Text></View>
+                                    return <View key={index} style={{ marginVertical: 2, flexDirection: "row" }}><Text style={{ flex: 1, color: "#9E9E9E", fontFamily: "RobotoSlab-Regular", fontSize: 14 }}>{guess.name}</Text><Text style={{ fontFamily: "RobotoSlab-Regular", fontSize: 14, color: "#9E9E9E" }}>{guess.teamAguess} X {guess.teamBguess} {guess.points !== undefined ? `(${guess.points})` : null}</Text></View>
                                 })}
                             </View>
                         )
                     })}
-                    <View style={{ marginHorizontal: 20, marginTop: 20, borderTopWidth: 1, marginVertical: 2, flexDirection: "row" }}><Text style={{ marginTop: 10, flex: 1, color: "#000", fontFamily: "RobotoSlab-Regular", fontSize: 14 }}>Igor</Text><Text style={{ marginTop: 10, fontFamily: "RobotoSlab-Regular", fontSize: 14, color: "#9E9E9E" }}>Total:17</Text></View>
-                    <View style={{ marginHorizontal: 20, marginVertical: 2, flexDirection: "row" }}><Text style={{ flex: 1, color: "#000", fontFamily: "RobotoSlab-Regular", fontSize: 14 }}>Lucas</Text><Text style={{ fontFamily: "RobotoSlab-Regular", fontSize: 14, color: "#9E9E9E" }}>Total:16</Text></View>
-                    <View style={{ marginHorizontal: 20, marginVertical: 2, flexDirection: "row" }}><Text style={{ flex: 1, color: "#000", fontFamily: "RobotoSlab-Regular", fontSize: 14 }}>Gabriel</Text><Text style={{ fontFamily: "RobotoSlab-Regular", fontSize: 14, color: "#9E9E9E" }}>Total:14</Text></View>
-                    <View style={{ marginHorizontal: 20, marginBottom: 20, marginVertical: 2, flexDirection: "row" }}><Text style={{ flex: 1, color: "#000", fontFamily: "RobotoSlab-Regular", fontSize: 14 }}>Diego</Text><Text style={{ fontFamily: "RobotoSlab-Regular", fontSize: 14, color: "#9E9E9E" }}>Total:14</Text></View>
                 </TouchableOpacity>
             )
             : (

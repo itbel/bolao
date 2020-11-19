@@ -21,7 +21,7 @@ export default LoginScreen = ({ navigation }) => {
     password: "",
   });
   const signIn = () => {
-    Axios.post("http://192.168.2.95:3005/api/users/login", {
+    Axios.post("http://192.168.2.96:3005/api/users/login", {
       username: loginData.username,
       password: loginData.password,
     })

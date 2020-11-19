@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, StatusBar, ScrollView, Dimensions } from "react-native";
+import { View, Text, StyleSheet, StatusBar, ScrollView, Dimensions, ActivityIndicator } from "react-native";
 import RoundAccordion from "./RoundAccordion";
 import Header from "./Header";
 import { useUserContext } from "../contexts/UserContext"
@@ -44,83 +44,19 @@ const styles = StyleSheet.create({
 
 
 export default RoundsScreen = ({ navigation, route }) => {
+    const [isLoading, setIsLoading] = useState(true)
     const { userState } = useUserContext();
     const { selectedTournament } = useTournamentContext();
-    const [rounds, setRounds] = useState([]);
-    let roundFive = {
-        round: 5,
-        matches: [
-            {
-                teamAName: "Fluminense", teamBName: "Botafogo", teamAResult: 1, teamBResult: 2,
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
-                ]
-            },
-            {
-                teamAName: "Internacional", teamBName: "Palmeiras", teamAResult: 2, teamBResult: 1,
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
-                ]
-            },
-            {
-                teamAName: "Flamengo", teamBName: "Vasco", teamAResult: 3, teamBResult: 1,
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
-                ]
-            },
-            {
-                teamAName: "Corinthians", teamBName: "Sport", teamAResult: 2, teamBResult: 0,
-                guesses: [
-                    { teamAGuess: 1, teamBGuess: 2, name: "Igor", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Lucas", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Gabriel", points: 0 },
-                    { teamAGuess: 1, teamBGuess: 2, name: "Diego", points: 0 },
-                ]
-            }
-        ]
-    }
-    const fetchJoinedTournaments = async () => {
-        try {
-            console.log(userState.user)
-            const response = await fetch(`http://192.168.2.95:3005/api/tournaments/joined`,
-                { headers: { "auth-token": `${userState.user}` } }
-            )
-            const data = await response.json();
-            setJoinedTournaments(data);
-        }
-        catch (error) {
-            console.log(error)
-        }
-    }
-    fetchJoinedTournaments()
+    const [rounds, setRounds] = useState();
     useEffect(() => {
-        /* const getMaxRound = async () => {
-            try {
-                const response = await fetch(`http://192.168.2.95:3005/api/matches/maxround/${selectedTournament}`,
-                    { headers: { "auth-token": `${userState.user}` } })
-                const data = await response.json();
-                //setState here return data;
-            } catch (error) {
-                console.log(error)
-            }
-            getMaxRound();
-        } */
         const loadRound = async () => {
             try {
-                const response = await fetch(`http://192.168.2.95:3005/api/matches/round/${selectedTournament}&${1}`,
+                const response = await fetch(`http://192.168.2.96:3005/api/matches/allmatches/${selectedTournament.tournament_id}`,
                     { headers: { "auth-token": `${userState.user}` } }
                 )
                 const data = await response.json();
-                return data;
+                setRounds(data)
+                setIsLoading(false)
             } catch (error) {
                 console.log(error)
             }
@@ -133,9 +69,18 @@ export default RoundsScreen = ({ navigation, route }) => {
             <Header title={"Brasileirao"} navigation={navigation}></Header>
 
             <View style={styles.container}>
-                <View style={{ marginHorizontal: 30 }}>
+                <View >
                     <ScrollView showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
-                        <RoundAccordion data={roundFive} openState={true}></RoundAccordion >
+
+                        <Text style={styles.heading}>Rounds</Text>
+                        <View style={{ marginHorizontal: 30 }}>
+                            {isLoading ? <ActivityIndicator animating={isLoading} color={"#000"} size={'large'}></ActivityIndicator> : null}
+                            {rounds ? rounds.map((round, index) => {
+                                return <RoundAccordion key={index} data={round} openState={index === 0 ? true : false}></RoundAccordion >
+                            })
+
+                                : null}
+                        </View>
                     </ScrollView>
 
                 </View>
