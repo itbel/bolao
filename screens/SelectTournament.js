@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, StatusBar, ScrollView, TouchableHighlight, Text } from "react-native";
-import JoinTournamentCard from "./JoinTournamentCard"
+import SelectTournamentCard from "./SelectTournamentCard"
 import Header from "./Header";
 import Axios from "axios";
 import { useUserContext } from "../contexts/UserContext"
@@ -37,6 +37,12 @@ const styles = StyleSheet.create({
         color: "#000",
         fontFamily: "RobotoSlab-Regular",
         fontSize: 30,
+    },
+    subHeading: {
+        marginTop: 90,
+        color: "#000",
+        fontFamily: "RobotoSlab-Regular",
+        fontSize: 26,
     }
 });
 
@@ -64,15 +70,18 @@ export default SelectTournament = ({ navigation, route }) => {
     return (
         <View style={styles.backgroundd}>
             <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
-            <Header title={"Brasileirao"} navigation={navigation}></Header>
+            <Header title={"Select Tournament"} navigation={navigation}></Header>
 
             <View style={styles.container}>
                 <View style={{ marginHorizontal: 30 }}>
                     <ScrollView showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
                         {joinedTournaments ? joinedTournaments.map((tournament, index) => {
-                            return <JoinTournamentCard key={index} data={tournament} navigation={navigation}></JoinTournamentCard>
-                        }) : null}
-                        <TouchableHighlight underlayColor="#85BFA1" onPress={() => navigation.navigate("Tournament")} style={styles.buttonStyle}><Text style={styles.buttonLabelStyle}>Create A Tournament</Text></TouchableHighlight>
+                            return <SelectTournamentCard key={index} data={tournament} navigation={navigation}></SelectTournamentCard>
+                        }) :
+                            <>
+                                <Text style={styles.subHeading}>No tournaments joined</Text>
+                                <TouchableHighlight underlayColor="#85BFA1" onPress={() => navigation.navigate("ManageTournaments")} style={styles.buttonStyle}><Text style={styles.buttonLabelStyle}>Join A Tournament</Text></TouchableHighlight>
+                            </>}
                     </ScrollView>
                 </View>
             </View>

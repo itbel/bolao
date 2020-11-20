@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         color: "white"
     },
 });
-export default JoinTournamentCard = (props) => {
+export default SelectTournamentCard = (props) => {
     const { userState } = useUserContext();
     const { setTournament } = useTournamentContext();
     return (

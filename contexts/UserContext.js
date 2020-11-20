@@ -9,6 +9,7 @@ export const UserProvider = (props) => {
     const [userState, setUserState] = useState({
         isLoggedIn: false,
         user: "",
+        name: ""
     })
     const loginUser = (user) => {
         setUserState({ user: user, isLoggedIn: true })
