@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, StatusBar, Image } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import Header from "./Header";
@@ -48,28 +48,17 @@ const styles = StyleSheet.create({
     fontSize: 30,
   }
 });
-const Ranking = () => {
-  let players = [{
-    name: "Igor Belem",
-    wins: 4
-  }, {
-    name: "Gabriel Belem",
-    wins: 3
-  }, {
-    name: "Diego Belem",
-    wins: 3
-  }, {
-    name: "Lucas Belem",
-    wins: 1
-  }]
+const Ranking = (props) => {
+  console.log(props.players)
   return (
-    players.map((player, key) => {
-      if (key < 5)
-        return (<View key={key} style={key === players.length - 1 ? { padding: 16 } : { padding: 16, borderBottomWidth: 1, borderBottomColor: "#d3d3d3" }}>
+    props.players.map((player, key) => {
+      console.log(player.player)
+      if (key < 4)
+        return (<View key={key} style={key === props.players.length - 1 ? { padding: 16 } : { padding: 16, borderBottomWidth: 1, borderBottomColor: "#d3d3d3" }}>
           <View style={{ flexDirection: "row" }} >
             <View style={{ width: 50, height: 50, backgroundColor: "#528C6E", borderRadius: 100, justifyContent: "center", alignItems: "center" }}><Text style={{ fontFamily: "RobotoSlab-Bold", fontSize: 14, color: "white" }}>{key + 1}</Text></View>
             <View style={{ flexDirection: "column" }}>
-              <Text style={{ fontFamily: "RobotoSlab-Regular", fontSize: 18, marginLeft: 50, textAlign: "left", color: "black" }}>{player.name}</Text>
+              <Text style={{ fontFamily: "RobotoSlab-Regular", fontSize: 18, marginLeft: 50, textAlign: "left", color: "black" }}>{player.player}</Text>
               <Text style={{ marginTop: 4, fontFamily: "RobotoSlab-Regular", fontSize: 12, marginLeft: 50, textAlign: "left", color: "black" }}>Wins: {player.wins} {key === 0 ? <Image source={Crown}></Image> : null}</Text>
             </View>
           </View>
@@ -82,6 +71,20 @@ const Ranking = () => {
 }
 
 export default LandingScreen = ({ navigation, route }) => {
+  const [players, setPlayers] = useState([]);
+  useEffect(() => {
+    const loadRanking = async () => {
+      try {
+        const response = await fetch(`http://192.168.2.96:3005/api/tournaments/wins`)
+        const data = await response.json();
+        setPlayers(data)
+        setIsLoading(false)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    loadRanking()
+  }, [])
   return (
     <View style={styles.backgroundd}>
       <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
@@ -92,7 +95,7 @@ export default LandingScreen = ({ navigation, route }) => {
           style={{
             marginHorizontal: 30,
           }}>
-          <Ranking />
+          {players && players.length > 0 ? <Ranking players={players} /> : null}
         </View>
         <TouchableHighlight underlayColor="#85BFA1" onPress={() => navigation.navigate("SelectTournament")} style={styles.buttonStyle}><Text style={styles.buttonLabelStyle}>Select Tournament</Text></TouchableHighlight>
       </View>

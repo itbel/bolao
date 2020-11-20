@@ -44,13 +44,14 @@ const styles = StyleSheet.create({
 
 
 export default RoundsScreen = ({ navigation, route }) => {
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
     const { userState } = useUserContext();
     const { selectedTournament } = useTournamentContext();
     const [rounds, setRounds] = useState([]);
     useEffect(() => {
         const loadRound = async () => {
             try {
+                setIsLoading(true)
                 const response = await fetch(`http://192.168.2.96:3005/api/matches/allmatches/${selectedTournament.tournament_id}`,
                     { headers: { "auth-token": `${userState.user}` } }
                 )
@@ -62,7 +63,7 @@ export default RoundsScreen = ({ navigation, route }) => {
             }
         }
         loadRound()
-    }, [])
+    }, [selectedTournament])
     return (
         <View style={styles.backgroundd}>
             <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>

@@ -8,7 +8,9 @@ const styles = StyleSheet.create({
     tournamentCard: {
         flexDirection: "column",
         marginVertical: 11,
-        borderWidth: 1
+        borderWidth: 1,
+        borderColor: "#a3a3a3",
+        borderRadius: 6
     },
     header: {
         flex: 1,
