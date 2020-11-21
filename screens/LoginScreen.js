@@ -48,6 +48,7 @@ export default LoginScreen = ({ navigation }) => {
           <View>
             <View style={styles.inputView}>
               <TextInput
+                autoCompleteType="username"
                 onFocus={() => { }}
                 value={loginData.username}
                 style={styles.inputText}
@@ -60,6 +61,7 @@ export default LoginScreen = ({ navigation }) => {
             </View>
             <View style={styles.inputView}>
               <TextInput
+                autoCompleteType="password"
                 value={loginData.password}
                 placeholder="Password..."
                 placeholderTextColor="white"

@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, Image, StyleSheet, TouchableHighlight, Modal, TouchableWithoutFeedback, Pressable } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableHighlight, Modal, TouchableWithoutFeedback, Pressable, TextInput } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useTournamentContext } from "../contexts/TournamentContext";
+import { useUserContext } from "../contexts/UserContext"
+import axios from "axios";
 const styles = StyleSheet.create({
     openCard: {
         flexDirection: "column",
@@ -9,7 +12,12 @@ const styles = StyleSheet.create({
         borderColor: "#a3a3a3",
         borderRadius: 6,
     },
-
+    heading: {
+        color: "#000",
+        fontFamily: "RobotoSlab-Regular",
+        fontSize: 26,
+        marginBottom: 30,
+    },
     closedCard: {
         flexDirection: "column",
         height: 72,
@@ -22,17 +30,19 @@ const styles = StyleSheet.create({
         flex: 1, fontFamily: "RobotoSlab-Regular", fontSize: 22
     },
     buttonStyle: {
-        marginVertical: 30,
-        marginHorizontal: 50,
+        marginTop: 30,
         backgroundColor: "#528C6E",
-        paddingVertical: 25,
-        borderRadius: 5
+        borderRadius: 5,
+        flexDirection: "row",
+        marginHorizontal: 50,
     },
     buttonLabelStyle: {
+        padding: 12,
         textAlign: "center",
         fontSize: 16,
         fontFamily: "RobotoSlab-Bold",
-        color: "white"
+        color: "white",
+        flex: 1
     },
     centeredView: {
         backgroundColor: 'rgba(0,0,0,0.8)',
@@ -59,25 +69,42 @@ const styles = StyleSheet.create({
         elevation: 5
     },
     openButton: {
+        marginTop: 20,
         backgroundColor: "#528C6E",
         borderRadius: 5,
         padding: 10,
-        elevation: 2
+        elevation: 2,
     },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: "center"
-    }
 });
 export default GuessAccordion = ({ openState, data }) => {
     const [modalVisible, setModalVisible] = useState(false);
+    const { userState } = useUserContext();
+    const { selectedTournament } = useTournamentContext();
     const [open, setOpen] = useState(openState);
+    const [selectedMatch, setSelectedMatch] = useState();
+    const [matchInfo, setMatchInfo] = useState({ teamAguess: "", teamBguess: "" })
+    const [teamA, setTeamA] = useState("");
+    const handleSubmitGuess = async () => {
+        try {
+            const response = await axios.post('http://192.168.2.96:3005/api/guesses/manage',
+                {
+                    matchid: selectedMatch.matchid,
+                    tourid: selectedTournament.tournament_id,
+                    teamAguess: matchInfo.teamAguess,
+                    teamBguess: matchInfo.teamBguess,
+                },
+                { headers: { "auth-token": userState.user } }
+            )
+            if (response?.data?.msg === "Guess Created") {
+                setModalVisible(false)
+                console.log("Guess Added!")
+            }
+        }
+        catch (error) {
+            console.error(error)
+        }
 
+    }
     return (
         open ?
             (
@@ -86,23 +113,44 @@ export default GuessAccordion = ({ openState, data }) => {
                         transparent={true}
                         visible={modalVisible}
                         onRequestClose={() => {
-                            console.log("Closed")
+                            setModalVisible(false)
                         }}>
-                        <View style={styles.centeredView}>
+                        <Pressable style={styles.centeredView}>
                             <View style={styles.modalView}>
-                                <Text style={styles.modalText}>Hello World!</Text>
-
+                                <Text style={styles.heading}>{selectedMatch?.teamAName}{"   "}x{"   "}{selectedMatch?.teamBName}</Text>
+                                <View style={{ flexDirection: "row" }}>
+                                    <TextInput
+                                        maxLength={2}
+                                        textAlign={"center"}
+                                        keyboardType={'number-pad'}
+                                        onChangeText={text => {
+                                            /^[0-9]*$/.test(text) ? setMatchInfo({ ...matchInfo, teamAguess: text }) : null
+                                        }}
+                                        style={{ borderRadius: 6, marginHorizontal: 50, flex: 1, height: 40, borderColor: 'gray', borderWidth: 1 }}
+                                        value={matchInfo.teamAguess}
+                                    />
+                                    <TextInput
+                                        maxLength={2}
+                                        textAlign={"center"}
+                                        keyboardType={'number-pad'}
+                                        onChangeText={text => {
+                                            /^[0-9]*$/.test(text) ? setMatchInfo({ ...matchInfo, teamBguess: text }) : null
+                                        }}
+                                        style={{ borderRadius: 6, marginHorizontal: 50, flex: 1, height: 40, borderColor: 'gray', borderWidth: 1 }}
+                                        value={matchInfo.teamBguess}
+                                    />
+                                </View>
                                 <TouchableHighlight
                                     underlayColor="#85BFA1"
-                                    style={{ ...styles.openButton }}
+                                    style={styles.buttonStyle}
                                     onPress={() => {
-                                        setModalVisible(!modalVisible);
+                                        handleSubmitGuess()
                                     }}
                                 >
-                                    <Text style={styles.textStyle}>Hide Modal</Text>
+                                    <Text style={styles.buttonLabelStyle}>Submit</Text>
                                 </TouchableHighlight>
                             </View>
-                        </View>
+                        </Pressable>
                     </Modal>
                     <View style={styles.openCard}>
                         <Pressable onPress={() => setOpen(false)}  >
@@ -113,12 +161,15 @@ export default GuessAccordion = ({ openState, data }) => {
                                 </View>
                                 <View style={{ marginHorizontal: 20, flexDirection: "row" }}>
                                     <Text style={{ fontFamily: "RobotoSlab-SemiBold", fontSize: 16, flex: 1 }}>Match</Text>
-                                    <Text style={{ fontFamily: "RobotoSlab-SemiBold", fontSize: 16 }}>Guess</Text>
                                 </View>
                                 {data.matches.map((match) => {
                                     return (
-                                        <Pressable onPress={() => setModalVisible(true)} style={{ marginHorizontal: 20 }} key={match.matchid}>
-                                            <Text style={{ marginVertical: 16, fontFamily: "RobotoSlab-SemiBold", fontSize: 16, color: "#9E9E9E" }}>{match.teamAName} X {match.teamBName}</Text>
+                                        <Pressable onPress={() => {
+                                            setSelectedMatch(match)
+                                            setModalVisible(true)
+                                        }}
+                                            style={{ marginHorizontal: 20 }} key={match.matchid}>
+                                            <Text style={{ marginVertical: 16, fontFamily: "RobotoSlab-SemiBold", fontSize: 16, color: "#9E9E9E" }}>{match.teamAName}  X  {match.teamBName}</Text>
                                         </Pressable>
                                     )
                                 })}

@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
 
 
 export default GuessScreen = ({ navigation, route }) => {
-    const [isLoading, setIsLoading] = useState(true)
     const { userState } = useUserContext();
     const { selectedTournament } = useTournamentContext();
     const [rounds, setRounds] = useState([])
@@ -61,7 +60,6 @@ export default GuessScreen = ({ navigation, route }) => {
                 const data = await response.json();
                 setRounds(data)
                 console.log(data)
-                setIsLoading(false)
             } catch (error) {
                 console.log(error)
             }
@@ -76,7 +74,7 @@ export default GuessScreen = ({ navigation, route }) => {
 
             <View style={styles.container}>
                 <View style={{ marginHorizontal: 30 }}>
-                    <ScrollView showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
+                    <ScrollView keyboardShouldPersistTaps='handled' showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
                         {rounds && rounds.length > 0 ? <Text style={styles.heading}>Guess</Text> : null}
                         {rounds && rounds.length > 0 ? rounds.map((round, index) => {
                             return <GuessAccordion key={index} data={round} openState={index === 0 ? true : false}></GuessAccordion >
