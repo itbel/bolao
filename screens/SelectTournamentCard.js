@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -45,7 +45,12 @@ const styles = StyleSheet.create({
 });
 export default SelectTournamentCard = (props) => {
     const { userState } = useUserContext();
-    const { setTournament } = useTournamentContext();
+    const { setTournament, selectedTournament } = useTournamentContext();
+    useEffect(() => {
+        return () => {
+            props.navigation.navigate("Tournament")
+        }
+    }, [selectedTournament.tournament_id])
     return (
         <View style={styles.tournamentCard}>
             <View style={{ margin: 20 }}>
@@ -53,7 +58,6 @@ export default SelectTournamentCard = (props) => {
                 <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
                     <TouchableHighlight underlayColor="#85BFA1" onPress={() => {
                         setTournament(props.data.tournamentid)
-                        props.navigation.navigate("Tournament")
                     }} style={styles.buttonStyle}><Text style={styles.buttonLabelStyle}>Select Tournament</Text></TouchableHighlight>
                 </View>
 

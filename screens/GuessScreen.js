@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
     heading: {
         marginTop: 90,
         marginBottom: 50,
-        marginHorizontal: 30,
         color: "#000",
         fontFamily: "RobotoSlab-Regular",
         fontSize: 30,
@@ -78,6 +77,7 @@ export default GuessScreen = ({ navigation, route }) => {
             <View style={styles.container}>
                 <View style={{ marginHorizontal: 30 }}>
                     <ScrollView showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
+                        {rounds && rounds.length > 0 ? <Text style={styles.heading}>Guess</Text> : null}
                         {rounds && rounds.length > 0 ? rounds.map((round, index) => {
                             return <GuessAccordion key={index} data={round} openState={index === 0 ? true : false}></GuessAccordion >
                         }) : <Text style={styles.subHeading}>No matches to guess</Text>}

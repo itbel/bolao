@@ -16,11 +16,10 @@ export default function DrawerNavigator() {
             drawerIcon: ({ focused, color, size }) => {
                 return <Icon name="angle-right" size={20} color="white" />
             }
-        }
-        )}
+        })}
             drawerContentOptions={{ activeTintColor: "#000c00", style: { marginTop: 50, marginHorizontal: -5 }, labelStyle: { marginLeft: 40, color: "white", fontSize: 16, fontFamily: "RobotoSlab-Regular" } }}
             drawerStyle={{ width: "65%", backgroundColor: "#528C6E", borderTopRightRadius: 30, borderBottomRightRadius: 30, borderRightWidth: 1, borderTopWidth: 1, borderBottomWidth: 1, borderColor: "green" }} headerMode="none" initialRouteName="LandingScreen">
-            <Drawer.Screen options={{ title: "Home" }} name="LandingScreen" component={LandingScreen} />
+            <Drawer.Screen options={{ title: "Home", swipeEnabled: false }} name="LandingScreen" component={LandingScreen} />
             <Drawer.Screen options={{ title: "Select Tournament" }} name="SelectTournament" component={SelectTournament} />
             {selectedTournament.tournament_id !== "" ? <Drawer.Screen name="Tournament" component={TabNavigator} /> : null}
             <Drawer.Screen name="Teams" component={Teams} />

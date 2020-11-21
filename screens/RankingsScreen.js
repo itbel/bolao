@@ -65,7 +65,7 @@ export default RankingsScreen = ({ navigation, route }) => {
     return (
         <View style={styles.backgroundd}>
             <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
-            <Header title={"Brasileirao"} navigation={navigation}></Header>
+            <Header title={"TournamentName Here"} navigation={navigation}></Header>
             <View style={styles.container}>
                 <View style={{ marginHorizontal: 30 }}>
                     <ScrollView showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
