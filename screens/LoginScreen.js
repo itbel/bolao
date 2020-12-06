@@ -8,17 +8,17 @@ import {
   ImageBackground,
   Dimensions,
   KeyboardAvoidingView,
-  StatusBar
+  StatusBar, ToastAndroid
 } from "react-native";
 import registerBackground from "../assets/media/login.png";
 import Axios from "axios";
 import { useUserContext } from "../contexts/UserContext"
 
-export default LoginScreen = ({ navigation }) => {
+export default LoginScreen = ({ navigation, route }) => {
   const { loginUser, userState } = useUserContext();
   const [loginData, setloginData] = useState({
-    username: "",
-    password: "",
+    username: route.params?.params?.username ?? "",
+    password: route.params?.params?.password ?? "",
   });
   const signIn = () => {
     Axios.post("http://192.168.2.96:3005/api/users/login", {
@@ -28,14 +28,16 @@ export default LoginScreen = ({ navigation }) => {
       .then((response) => {
         if (response.data.msg !== "Invalid Credentials!") {
           loginUser(response.data)
-          // if user has not joined a tournament yet, he should be directed to the tournaments screen
-          // in drawer navigator
         }
       })
       .catch((error) => {
-        console.log(error);
+        ToastAndroid.show("An error occurred while logging in.", ToastAndroid.SHORT)
       });
   };
+  useEffect(() => {
+    if (route?.params?.params)
+      setloginData({ username: route.params.params.username, password: route.params.params.password })
+  }, [route.params])
   return (
     <>
       <StatusBar></StatusBar>
@@ -72,7 +74,10 @@ export default LoginScreen = ({ navigation }) => {
                 }
               />
               <TouchableOpacity
-                onPress={() => navigation.navigate("ForgotPasswordScreen")}
+                onPress={() => {
+                  ToastAndroid.show("This feature is currently disabled.", ToastAndroid.SHORT)
+                  //navigation.navigate("ForgotPasswordScreen")
+                }}
                 style={styles.forgotBtn}
               >
                 <Text style={styles.forgotText}>Forgot Password?</Text>

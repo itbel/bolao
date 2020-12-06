@@ -12,11 +12,11 @@ export const UserProvider = (props) => {
         name: ""
     })
     const loginUser = (user) => {
-        setUserState({ user: user, isLoggedIn: true })
+        setUserState({ user: user.token, isLoggedIn: true, name: user.name })
     }
 
     const logoutUser = () => {
-        setUserState({ user: "", isLoggedIn: false })
+        setUserState({ user: "", isLoggedIn: false, name: "" })
     }
 
     return (

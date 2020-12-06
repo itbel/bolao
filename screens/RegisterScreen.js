@@ -8,8 +8,10 @@ import {
   ImageBackground,
   Dimensions,
   KeyboardAvoidingView,
+  ToastAndroid
 } from "react-native";
 import registerBackground from "../assets/media/register_hi.png";
+import Axios from "axios";
 
 const styles = StyleSheet.create({
   backgroundPic: {
@@ -72,14 +74,72 @@ const styles = StyleSheet.create({
 });
 
 export default RegisterScreen = ({ navigation }) => {
-  const [loginData, setloginData] = useState({
+  const [registerData, setRegisterData] = useState({
     username: "",
     password: "",
     email: "",
+    name: "",
   });
+
   useEffect(() => {
-    console.log(loginData);
-  }, [loginData.username]);
+    console.log(registerData);
+  }, [registerData.username]);
+  const isValidUser = (user) => {
+    let isRequiredLength = user?.length >= 4;
+    let hasNoWhitespace = !/\s/.test(user);
+    let hasNoSymbols = !/[!@#~$%^&*()_+=[{\]};:<>\\|.`/?,-]/.test(user);
+    let isAlphanumeric = /^[a-zA-Z0-9]+$/.test(user);
+    return (
+      isRequiredLength && hasNoWhitespace && hasNoSymbols && isAlphanumeric
+    );
+  };
+  const isValidPass = (pass) => {
+    let isRequiredLength = pass?.length >= 4;
+    let hasNoWhitespace = !/\s/.test(pass);
+    return isRequiredLength && hasNoWhitespace;
+  };
+  const isValidName = (name) => {
+    let isRequiredLength = name?.length > 0 && name?.length < 10;
+    let hasNoWhitespace = !/\s/.test(name);
+    let hasNoSymbols = !/[!@#~$%^&*()_+=[{\]};:<>\\|.`/?,-]/.test(name);
+    return isRequiredLength && hasNoWhitespace && hasNoSymbols;
+  };
+
+  const register = () => {
+    if (isValidUser(registerData.username)) {
+      if (isValidPass(registerData.password)) {
+        if (isValidName(registerData.name)) {
+          Axios.post(
+            `http://192.168.2.96:3005/api/users/register`,
+            {
+              username: registerData.username,
+              password: registerData.password,
+              name: registerData.name,
+              email: registerData.email,
+            },
+            { timeout: 2000 }
+          )
+            .then((response) => {
+              if (response.status === 201) {
+                ToastAndroid.show("Registered Successfully.", ToastAndroid.SHORT)
+                navigation.push('LoginScreen', { params: { username: registerData.username, password: registerData.password } })
+              }
+            })
+            .catch((error) => {
+              ToastAndroid.show("There was an error while registering.", ToastAndroid.SHORT)
+            });
+        } else {
+          ToastAndroid.show("Invalid Name.", ToastAndroid.SHORT)
+
+        }
+      } else {
+        ToastAndroid.show("Invalid Password.", ToastAndroid.SHORT)
+      }
+    } else {
+      ToastAndroid.show("Invalid Username.", ToastAndroid.SHORT)
+    }
+  };
+
   return (
     <ImageBackground style={styles.backgroundPic} source={registerBackground}>
       <KeyboardAvoidingView behavior="padding" style={styles.content}>
@@ -91,35 +151,46 @@ export default RegisterScreen = ({ navigation }) => {
           <View style={styles.inputView}>
             <TextInput
               onFocus={() => { }}
-              value={loginData.username}
+              value={registerData.email}
               style={styles.inputText}
               placeholder="Email..."
               placeholderTextColor="white"
-              onChangeText={(email) => setloginData({ email: email })}
+              onChangeText={(email) => setRegisterData({ ...registerData, email: email })}
             />
           </View>
           <View style={styles.inputView}>
             <TextInput
               onFocus={() => { }}
-              value={loginData.username}
+              value={registerData.name}
               style={styles.inputText}
-              placeholder="Username..."
+              placeholder="Name..."
               placeholderTextColor="white"
-              onChangeText={(user) => setloginData({ username: user })}
+              onChangeText={(name) => setRegisterData({ ...registerData, name: name })}
             />
           </View>
           <View style={styles.inputView}>
             <TextInput
-              value={loginData.password}
+              onFocus={() => { }}
+              value={registerData.username}
               style={styles.inputText}
+              placeholder="Username..."
+              placeholderTextColor="white"
+              onChangeText={(user) => setRegisterData({ ...registerData, username: user })}
+            />
+          </View>
+          <View style={styles.inputView}>
+            <TextInput
+              value={registerData.password}
+              style={styles.inputText}
+              secureTextEntry={true}
               placeholder="Password..."
               placeholderTextColor="white"
-              onChangeText={(pass) => setloginData({ password: pass })}
+              onChangeText={(pass) => setRegisterData({ ...registerData, password: pass })}
             />
           </View>
         </View>
 
-        <TouchableOpacity style={styles.loginBtn}>
+        <TouchableOpacity onPress={register} style={styles.loginBtn}>
           <Text style={styles.loginText}>Register</Text>
         </TouchableOpacity>
         <Text style={{ color: "white", textAlign: "center" }}>
