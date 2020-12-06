@@ -57,7 +57,7 @@ export default SelectTournamentCard = (props) => {
                 <Text style={styles.header}>{props.data.name}</Text>
                 <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
                     <TouchableHighlight underlayColor="#85BFA1" onPress={() => {
-                        setTournament(props.data.tournamentid)
+                        setTournament(props.data.tournamentid, props.data.name)
                     }} style={styles.buttonStyle}><Text style={styles.buttonLabelStyle}>Select Tournament</Text></TouchableHighlight>
                 </View>
 

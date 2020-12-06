@@ -67,7 +67,7 @@ export default RoundsScreen = ({ navigation, route }) => {
     return (
         <View style={styles.backgroundd}>
             <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
-            <Header title={"TournamentName Here"} navigation={navigation}></Header>
+            <Header title={selectedTournament.tournament_name} navigation={navigation}></Header>
 
             <View style={styles.container}>
                 <View >

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableHighlight, Modal, TouchableWithoutFeedback, Pressable, TextInput } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useTournamentContext } from "../contexts/TournamentContext";
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
 });
-export default GuessAccordion = ({ openState, data }) => {
+export default GuessAccordion = ({ openState, data, setRounds }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const { userState } = useUserContext();
     const { selectedTournament } = useTournamentContext();
@@ -96,8 +96,13 @@ export default GuessAccordion = ({ openState, data }) => {
                 { headers: { "auth-token": userState.user } }
             )
             if (response?.data?.msg === "Guess Created") {
-                setModalVisible(false)
                 console.log("Guess Added!")
+                const fetchGuessRounds = await fetch(`http://192.168.2.96:3005/api/matches/unguessed/${selectedTournament.tournament_id}`,
+                    { headers: { "auth-token": `${userState.user}` } }
+                )
+                const data = await fetchGuessRounds.json();
+                setRounds(data)
+                setModalVisible(false)
             }
         }
         catch (error) {
@@ -105,53 +110,61 @@ export default GuessAccordion = ({ openState, data }) => {
         }
 
     }
+    useEffect(() => {
+        setMatchInfo({ teamAguess: "", teamBguess: "" })
+    }, [modalVisible])
     return (
         open ?
             (
                 <>
-                    <Modal animationType="fade"
-                        transparent={true}
-                        visible={modalVisible}
-                        onRequestClose={() => {
-                            setModalVisible(false)
-                        }}>
-                        <Pressable style={styles.centeredView}>
-                            <View style={styles.modalView}>
-                                <Text style={styles.heading}>{selectedMatch?.teamAName}{"   "}x{"   "}{selectedMatch?.teamBName}</Text>
-                                <View style={{ flexDirection: "row" }}>
-                                    <TextInput
-                                        maxLength={2}
-                                        textAlign={"center"}
-                                        keyboardType={'number-pad'}
-                                        onChangeText={text => {
-                                            /^[0-9]*$/.test(text) ? setMatchInfo({ ...matchInfo, teamAguess: text }) : null
+                    {modalVisible ?
+                        <Modal animationType="fade"
+                            transparent={true}
+                            visible={modalVisible}
+                            onRequestClose={() => {
+                                setModalVisible(false)
+                            }}>
+                            <Pressable style={styles.centeredView}>
+                                <View style={styles.modalView}>
+                                    <Text style={styles.heading}>{selectedMatch?.teamAName}{"   "}x{"   "}{selectedMatch?.teamBName}</Text>
+                                    <View style={{ flexDirection: "row" }}>
+                                        <TextInput
+                                            autoFocus={true}
+                                            onKeyPress={(e) => e.nativeEvent.key === "enter" && matchInfo.teamAguess !== "" && matchInfo.teamBguess !== "" ? handleSubmitGuess() : null}
+                                            maxLength={2}
+                                            textAlign={"center"}
+                                            keyboardType={'number-pad'}
+                                            onChangeText={text => {
+                                                /^[0-9]*$/.test(text) ? setMatchInfo({ ...matchInfo, teamAguess: text }) : null
+                                            }}
+                                            style={{ borderRadius: 6, marginHorizontal: 50, flex: 1, height: 40, borderColor: 'gray', borderWidth: 1 }}
+                                            value={matchInfo.teamAguess}
+                                        />
+                                        <TextInput
+                                            maxLength={2}
+                                            onKeyPress={(e) => e.nativeEvent.key === "enter" && matchInfo.teamAguess !== "" && matchInfo.teamBguess !== "" ? handleSubmitGuess() : null}
+                                            textAlign={"center"}
+                                            keyboardType={'number-pad'}
+                                            onChangeText={text => {
+                                                /^[0-9]*$/.test(text) ? setMatchInfo({ ...matchInfo, teamBguess: text }) : null
+                                            }}
+                                            style={{ borderRadius: 6, marginHorizontal: 50, flex: 1, height: 40, borderColor: 'gray', borderWidth: 1 }}
+                                            value={matchInfo.teamBguess}
+                                        />
+                                    </View>
+                                    <TouchableHighlight
+                                        underlayColor="#85BFA1"
+                                        style={styles.buttonStyle}
+                                        onPress={() => {
+                                            if (matchInfo.teamAguess !== "" && matchInfo.teamBguess !== "")
+                                                handleSubmitGuess()
                                         }}
-                                        style={{ borderRadius: 6, marginHorizontal: 50, flex: 1, height: 40, borderColor: 'gray', borderWidth: 1 }}
-                                        value={matchInfo.teamAguess}
-                                    />
-                                    <TextInput
-                                        maxLength={2}
-                                        textAlign={"center"}
-                                        keyboardType={'number-pad'}
-                                        onChangeText={text => {
-                                            /^[0-9]*$/.test(text) ? setMatchInfo({ ...matchInfo, teamBguess: text }) : null
-                                        }}
-                                        style={{ borderRadius: 6, marginHorizontal: 50, flex: 1, height: 40, borderColor: 'gray', borderWidth: 1 }}
-                                        value={matchInfo.teamBguess}
-                                    />
+                                    >
+                                        <Text style={styles.buttonLabelStyle}>Submit</Text>
+                                    </TouchableHighlight>
                                 </View>
-                                <TouchableHighlight
-                                    underlayColor="#85BFA1"
-                                    style={styles.buttonStyle}
-                                    onPress={() => {
-                                        handleSubmitGuess()
-                                    }}
-                                >
-                                    <Text style={styles.buttonLabelStyle}>Submit</Text>
-                                </TouchableHighlight>
-                            </View>
-                        </Pressable>
-                    </Modal>
+                            </Pressable>
+                        </Modal> : null}
                     <View style={styles.openCard}>
                         <Pressable onPress={() => setOpen(false)}  >
                             <>

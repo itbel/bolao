@@ -51,33 +51,40 @@ export default GuessScreen = ({ navigation, route }) => {
     const { userState } = useUserContext();
     const { selectedTournament } = useTournamentContext();
     const [rounds, setRounds] = useState([])
-    useEffect(() => {
-        const loadRound = async () => {
-            try {
-                const response = await fetch(`http://192.168.2.96:3005/api/matches/unguessed/${selectedTournament.tournament_id}`,
-                    { headers: { "auth-token": `${userState.user}` } }
-                )
-                const data = await response.json();
-                setRounds(data)
-                console.log(data)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        loadRound()
 
-    }, [selectedTournament])
+    const loadRound = async () => {
+        try {
+            const response = await fetch(`http://192.168.2.96:3005/api/matches/unguessed/${selectedTournament.tournament_id}`,
+                { headers: { "auth-token": `${userState.user}` } }
+            )
+            const data = await response.json();
+            console.log(data)
+            setRounds(data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        loadRound()
+    }, [])
+    useEffect(() => {
+        console.log("Rounds changed")
+    }, [rounds])
+    useEffect(() => {
+        console.log("Logging tournament name: " + selectedTournament.tournament_name)
+    }, [selectedTournament.name])
     return (
         <View style={styles.backgroundd}>
             <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
-            <Header title={"TournamentName Here"} navigation={navigation}></Header>
+            <Header title={selectedTournament.tournament_name} navigation={navigation}></Header>
 
             <View style={styles.container}>
                 <View style={{ marginHorizontal: 30 }}>
                     <ScrollView keyboardShouldPersistTaps='handled' showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
                         {rounds && rounds.length > 0 ? <Text style={styles.heading}>Guess</Text> : null}
                         {rounds && rounds.length > 0 ? rounds.map((round, index) => {
-                            return <GuessAccordion key={index} data={round} openState={index === 0 ? true : false}></GuessAccordion >
+                            return <GuessAccordion setRounds={setRounds} key={index} data={round} openState={index === 0 ? true : false}></GuessAccordion >
                         }) : <Text style={styles.subHeading}>No matches to guess</Text>}
                     </ScrollView>
                 </View>
