@@ -13,8 +13,21 @@ import {
 import registerBackground from "../assets/media/login.png";
 import Axios from "axios";
 import { useUserContext } from "../contexts/UserContext"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default LoginScreen = ({ navigation, route }) => {
+  const storeData = async (data) => {
+    try {
+      const jsonValueToken = JSON.stringify(data.token)
+      const jsonValueName = JSON.stringify(data.name)
+      console.log("Storing data:")
+      console.log(data)
+      const token = await AsyncStorage.setItem('userToken', jsonValueToken)
+      const name = await AsyncStorage.setItem('userName', jsonValueName)
+    } catch (e) {
+      console.log("Error saving to async storage")
+    }
+  }
   const { loginUser, userState } = useUserContext();
   const [loginData, setloginData] = useState({
     username: route.params?.params?.username ?? "",
@@ -27,6 +40,7 @@ export default LoginScreen = ({ navigation, route }) => {
     })
       .then((response) => {
         if (response.data.msg !== "Invalid Credentials!") {
+          storeData(response.data)
           loginUser(response.data)
         }
       })

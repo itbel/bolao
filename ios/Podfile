@@ -12,6 +12,8 @@ target 'Bolao' do
 
 
 
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
+
   target 'BolaoTests' do
     inherit! :complete
     # Pods for testing
