@@ -47,7 +47,6 @@ export default SelectTournamentCard = (props) => {
     const { userState } = useUserContext();
     const { setTournament, selectedTournament } = useTournamentContext();
     useEffect(() => {
-        console.log(props.data)
         return () => {
             props.navigation.navigate("Tournament")
         }

@@ -53,7 +53,6 @@ export default SelectTournament = ({ navigation, route }) => {
     useEffect(() => {
         const fetchJoinedTournaments = async () => {
             try {
-                console.log(userState.user)
                 const response = await fetch(`http://192.168.2.96:3005/api/tournaments/joined`,
                     { headers: { "auth-token": `${userState.user}` } }
                 )

@@ -33,8 +33,8 @@ const styles = StyleSheet.create({
         color: "white"
     },
     heading: {
-        marginTop: 90,
-        marginBottom: 50,
+        marginTop: 60,
+        marginBottom: 20,
         marginHorizontal: 30,
         color: "#000",
         fontFamily: "RobotoSlab-Regular",
@@ -44,26 +44,26 @@ const styles = StyleSheet.create({
 
 
 export default RoundsScreen = ({ navigation, route }) => {
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
     const { userState } = useUserContext();
     const { selectedTournament } = useTournamentContext();
     const [rounds, setRounds] = useState([]);
-    useEffect(() => {
-        const loadRound = async () => {
-            try {
-                setIsLoading(true)
-                const response = await fetch(`http://192.168.2.96:3005/api/matches/allmatches/${selectedTournament.tournament_id}`,
-                    { headers: { "auth-token": `${userState.user}` } }
-                )
-                const data = await response.json();
-                setRounds(data)
-                setIsLoading(false)
-            } catch (error) {
-                console.log(error)
-            }
+    const loadRound = async () => {
+        try {
+            const response = await fetch(`http://192.168.2.96:3005/api/matches/allmatches/${selectedTournament.tournament_id}`,
+                { headers: { "auth-token": `${userState.user}` } }
+            )
+            const data = await response.json();
+            setRounds(data)
+            setIsLoading(false)
+        } catch (error) {
+            console.log(error)
+            setIsLoading(false)
         }
+    }
+    useEffect(() => {
         loadRound()
-    }, [selectedTournament])
+    }, [])
     return (
         <View style={styles.backgroundd}>
             <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
@@ -76,7 +76,7 @@ export default RoundsScreen = ({ navigation, route }) => {
                         <View style={{ marginHorizontal: 30 }}>
                             {isLoading ? <ActivityIndicator animating={isLoading} color={"#000"} size={'large'}></ActivityIndicator> : null}
                             {rounds ? rounds.map((round, index) => {
-                                return <RoundAccordion key={index} data={round} openState={index === 0 ? true : false}></RoundAccordion >
+                                return <RoundAccordion key={index} data={round} openState={false}></RoundAccordion >
                             })
                                 : null}
                         </View>

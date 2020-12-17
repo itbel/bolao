@@ -54,9 +54,9 @@ export default RankingsScreen = ({ navigation, route }) => {
                 )
                 const data = await response.json();
                 setRanking(data)
-                console.log(data)
                 setIsLoading(false)
             } catch (error) {
+                setIsLoading(false)
                 console.log(error)
             }
         }

@@ -48,12 +48,8 @@ export default ManageTournamentCard = ({ data }) => {
                 <Text style={styles.subHeader}>{data.owner}</Text>
                 <View style={{ flexDirection: "row", justifyContent: "center" }}>
                     <TouchableHighlight underlayColor="#85BFA1" onPress={() => {
-                        setTournament(props.data.tournamentid)
-                        props.navigation.navigate("Tournament")
                     }} style={styles.buttonStyle}><Text style={styles.buttonLabelStyle}>Join</Text></TouchableHighlight>
                     <TouchableHighlight underlayColor="#85BFA1" onPress={() => {
-                        setTournament(props.data.tournamentid)
-                        props.navigation.navigate("Tournament")
                     }} style={styles.buttonStyle}><Text style={styles.buttonLabelStyle}>Leave</Text></TouchableHighlight>
                 </View>
             </View>

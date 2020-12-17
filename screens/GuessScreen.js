@@ -32,14 +32,14 @@ const styles = StyleSheet.create({
         color: "white"
     },
     heading: {
-        marginTop: 90,
-        marginBottom: 50,
+        marginTop: 60,
+        marginBottom: 20,
         color: "#000",
         fontFamily: "RobotoSlab-Regular",
         fontSize: 30,
     },
     subHeading: {
-        marginTop: 90,
+        marginTop: 60,
         color: "#000",
         fontFamily: "RobotoSlab-Regular",
         fontSize: 26,
@@ -68,12 +68,6 @@ export default GuessScreen = ({ navigation, route }) => {
     useEffect(() => {
         loadRound()
     }, [])
-    useEffect(() => {
-        console.log("Rounds changed")
-    }, [rounds])
-    useEffect(() => {
-        console.log("Logging tournament name: " + selectedTournament.tournament_name)
-    }, [selectedTournament.name])
     return (
         <View style={styles.backgroundd}>
             <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
