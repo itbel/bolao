@@ -47,6 +47,7 @@ export default SelectTournamentCard = (props) => {
     const { userState } = useUserContext();
     const { setTournament, selectedTournament } = useTournamentContext();
     useEffect(() => {
+        console.log(props.data)
         return () => {
             props.navigation.navigate("Tournament")
         }
@@ -55,12 +56,14 @@ export default SelectTournamentCard = (props) => {
         <View style={styles.tournamentCard}>
             <View style={{ margin: 20 }}>
                 <Text style={styles.header}>{props.data.name}</Text>
+
                 <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
-                    <TouchableHighlight underlayColor="#85BFA1" onPress={() => {
+                    <TouchableHighlight disabled={props.data.tournamentid === selectedTournament.tournament_id} underlayColor="#85BFA1" onPress={() => {
                         setTournament(props.data.tournamentid, props.data.name)
                     }} style={styles.buttonStyle}><Text style={styles.buttonLabelStyle}>Select Tournament</Text></TouchableHighlight>
-                </View>
 
+                </View>
+                {props.data.tournamentid === selectedTournament.tournament_id ? <Text style={{ color: "black", textAlign: "center", fontFamily: "RobotoSlab-Bold", fontSize: 12, marginTop: 12 }}>Currently Selected</Text> : null}
             </View>
         </View>
     )
