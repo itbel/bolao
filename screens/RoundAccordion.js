@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { TouchableOpacity, TouchableWithoutFeedback } from "react-native-gesture-handler";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useEffect } from "react/cjs/react.development";
 const styles = StyleSheet.create({
     openCard: {
         flexDirection: "column",
@@ -12,7 +13,7 @@ const styles = StyleSheet.create({
     },
     closedCard: {
         flexDirection: "column",
-        height: 72,
+        flexGrow: 1,
         borderRadius: 6,
         borderWidth: 1,
         borderColor: "#a3a3a3",
@@ -25,7 +26,27 @@ const styles = StyleSheet.create({
 export default RoundAccordion = ({ openState, data }) => {
 
     const [open, setOpen] = useState(openState);
+    const [roundPoints, setroundPoints] = useState({});
+    useEffect(() => {
+        let userPoints = {};
+        data.matches.forEach((match) => {
+            match.guesses.forEach((guess) => {
+                if (userPoints[guess?.name]) {
+                    if (guess?.points)
+                        userPoints[guess?.name] = userPoints[guess?.name] + guess?.points ?? 0
+                }
+                else {
+                    if (guess?.name) {
+                        userPoints[guess?.name] = 0;
+                        userPoints[guess?.name] = userPoints[guess?.name] + guess?.points
+                    }
+                }
 
+            })
+        })
+        console.log(userPoints)
+        setroundPoints(userPoints)
+    }, [data])
     return (
         open ?
             (
@@ -39,11 +60,14 @@ export default RoundAccordion = ({ openState, data }) => {
                             <View style={{ marginHorizontal: 20 }} key={matchkey}>
                                 <Text style={{ marginVertical: 8, fontFamily: "RobotoSlab-Medium", fontSize: 16 }}>{match.teamAName} {match.teamAResult} X {match.teamBResult} {match.teamBName}</Text>
                                 {match.guesses.map((guess, index) => {
-                                    return <View key={index} style={{ marginVertical: 2, flexDirection: "row" }}><Text style={{ flex: 1, color: "#9E9E9E", fontFamily: "RobotoSlab-Regular", fontSize: 14 }}>{guess.name}</Text><Text style={{ fontFamily: "RobotoSlab-Regular", fontSize: 14, color: "#9E9E9E" }}>{guess.teamAguess} X {guess.teamBguess} {guess.points !== undefined ? `(${guess.points})` : null}</Text></View>
+                                    if (guess)
+                                        return <View key={index} style={{ marginVertical: 2, flexDirection: "row" }}><Text style={{ flex: 1, color: "#9E9E9E", fontFamily: "RobotoSlab-Regular", fontSize: 14 }}>{guess?.name}</Text><Text style={{ fontFamily: "RobotoSlab-Regular", fontSize: 14, color: "#9E9E9E" }}>{guess?.teamAguess} X {guess?.teamBguess} {guess?.points !== undefined ? `(${guess.points})` : null}</Text></View>
+                                    else return null
                                 })}
                             </View>
                         )
                     })}
+
                 </TouchableWithoutFeedback>
             )
             : (
@@ -52,6 +76,12 @@ export default RoundAccordion = ({ openState, data }) => {
                     <View style={{ margin: 20, flexDirection: "row" }}>
                         <Text style={styles.roundTitleText}>Round: {data.round}</Text>
                         <Icon name="angle-down" size={40} color="#000"></Icon>
+                    </View>
+                    <View style={{ marginBottom: 20 }}>
+                        {roundPoints ? Object.keys(roundPoints).map((player, index) => {
+                            if (roundPoints[player] && roundPoints[player] > 0)
+                                return <View key={index} style={{ marginVertical: 2, flexDirection: "row", marginHorizontal: 20 }}><Text style={{ flex: 1, color: "black", fontFamily: "RobotoSlab-Regular", fontSize: 15 }}>{player}</Text><Text style={{ fontFamily: "RobotoSlab-Regular", fontSize: 16, color: "black" }}>{roundPoints[player] > 0 ? `+${roundPoints[player]}` : roundPoints[player]}</Text></View>
+                        }) : null}
                     </View>
                 </TouchableWithoutFeedback>
             )
