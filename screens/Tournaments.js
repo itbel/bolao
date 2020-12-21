@@ -41,13 +41,14 @@ const styles = StyleSheet.create({
 });
 
 export default Tournaments = ({ navigation, route }) => {
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
     const { userState } = useUserContext();
     const { selectedTournament } = useTournamentContext();
     const [tournaments, setTournaments] = useState([]);
     useEffect(() => {
         const loadRanking = async () => {
             try {
-                const response = await fetch(`http://192.168.2.96:3005/api/tournaments/all`)
+                const response = await fetch(`http://18.224.228.195:3005/api/tournaments/all`)
                 const data = await response.json();
                 setTournaments(data)
             } catch (error) {

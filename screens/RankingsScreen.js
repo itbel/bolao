@@ -4,6 +4,8 @@ import Header from "./Header";
 import TournamentCard from "./TournamentCard"
 import { useTournamentContext } from "../contexts/TournamentContext";
 import { useUserContext } from "../contexts/UserContext"
+import { useIsFocused } from '@react-navigation/native';
+
 const styles = StyleSheet.create({
     backgroundd: {
         backgroundColor: "#528C6E",
@@ -42,26 +44,31 @@ const styles = StyleSheet.create({
 
 
 export default RankingsScreen = ({ navigation, route }) => {
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
     const [isLoading, setIsLoading] = useState(true)
+    const isFocused = useIsFocused()
     const { userState } = useUserContext();
     const { selectedTournament } = useTournamentContext();
     const [ranking, setRanking] = useState([]);
-    useEffect(() => {
-        const loadRanking = async () => {
-            try {
-                const response = await fetch(`http://192.168.2.96:3005/api/tournaments/players/${selectedTournament.tournament_id}`,
-                    { headers: { "auth-token": `${userState.user}` } }
-                )
-                const data = await response.json();
-                setRanking(data)
-                setIsLoading(false)
-            } catch (error) {
-                setIsLoading(false)
-                console.log(error)
-            }
+    const loadRanking = async () => {
+        try {
+            if (!isLoading) setIsLoading(true)
+            const response = await fetch(`http://18.224.228.195:3005/api/tournaments/players/${selectedTournament.tournament_id}`,
+                { headers: { "auth-token": `${userState.user}` } }
+            )
+            const data = await response.json();
+            setRanking(data)
+            setIsLoading(false)
+        } catch (error) {
+            setIsLoading(false)
+            console.log(error)
         }
-        loadRanking()
-    }, [])
+    }
+    useEffect(() => {
+        if (isFocused) {
+            loadRanking()
+        }
+    }, [isFocused])
     return (
         <View style={styles.backgroundd}>
             <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
@@ -69,8 +76,10 @@ export default RankingsScreen = ({ navigation, route }) => {
             <View style={styles.container}>
                 <View style={{ marginHorizontal: 30 }}>
                     <ScrollView showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
-                        {isLoading ? <ActivityIndicator animating={isLoading}></ActivityIndicator> :
-                            ranking ? <TournamentCard data={ranking} ></TournamentCard> : null}
+                        {isLoading ?
+                            <ActivityIndicator animating={isLoading}></ActivityIndicator>
+                            :
+                            <TournamentCard data={ranking} ></TournamentCard>}
                     </ScrollView>
                 </View>
             </View>

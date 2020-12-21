@@ -38,7 +38,7 @@ export default function TabNavigator() {
                     activeTintColor: 'black',
                     inactiveTintColor: 'gray',
                 }}
-                initialRouteName="RoundsScreen">
+                initialRouteName="RankingsScreen">
                 <Tab.Screen options={{ title: "Guess" }} name="GuessScreen" component={GuessScreen} />
                 {/*<Tab.Screen options={{ title: "Rules" }} name="RulesScreen" component={RulesScreen} />*/}
                 <Tab.Screen options={{ title: "Rounds" }} name="RoundsScreen" component={RoundsScreen} />

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, StatusBar, ScrollView, Dimensions, ActivityIndicator } from "react-native";
 import RoundAccordion from "./RoundAccordion";
 import Header from "./Header";
+import { useIsFocused } from '@react-navigation/native';
 import { useUserContext } from "../contexts/UserContext"
-import Axios from "axios";
 import { useTournamentContext } from "../contexts/TournamentContext";
 
 const styles = StyleSheet.create({
@@ -44,13 +44,16 @@ const styles = StyleSheet.create({
 
 
 export default RoundsScreen = ({ navigation, route }) => {
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
     const [isLoading, setIsLoading] = useState(true)
+    const isFocused = useIsFocused()
     const { userState } = useUserContext();
     const { selectedTournament } = useTournamentContext();
     const [rounds, setRounds] = useState([]);
     const loadRound = async () => {
         try {
-            const response = await fetch(`http://192.168.2.96:3005/api/matches/allmatches/${selectedTournament.tournament_id}`,
+            if (!isLoading) setIsLoading(true)
+            const response = await fetch(`http://18.224.228.195:3005/api/matches/allmatches/${selectedTournament.tournament_id}`,
                 { headers: { "auth-token": `${userState.user}` } }
             )
             const data = await response.json();
@@ -62,8 +65,9 @@ export default RoundsScreen = ({ navigation, route }) => {
         }
     }
     useEffect(() => {
-        loadRound()
-    }, [])
+        if (isFocused)
+            loadRound()
+    }, [isFocused])
     return (
         <View style={styles.backgroundd}>
             <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
@@ -74,11 +78,12 @@ export default RoundsScreen = ({ navigation, route }) => {
                     <ScrollView showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
                         <Text style={styles.heading}>Rounds</Text>
                         <View style={{ marginHorizontal: 30 }}>
-                            {isLoading ? <ActivityIndicator animating={isLoading} color={"#000"} size={'large'}></ActivityIndicator> : null}
-                            {rounds ? rounds.map((round, index) => {
-                                return <RoundAccordion key={index} data={round} openState={false}></RoundAccordion >
-                            })
-                                : null}
+                            {isLoading ? <ActivityIndicator animating={isLoading} color={"#000"} size={'large'}></ActivityIndicator>
+                                :
+                                rounds ? rounds.map((round, index) => {
+                                    return <RoundAccordion key={index} data={round} openState={false}></RoundAccordion >
+                                })
+                                    : null}
                         </View>
                     </ScrollView>
 

@@ -47,7 +47,7 @@ export default SplashScreen = ({ navigation }) => {
       <View style={styles.container}>
         <Animatable.Text animation="zoomInUp" style={styles.text}>
           Bolao
-      </Animatable.Text>
+        </Animatable.Text>
       </View>
     </>
   );

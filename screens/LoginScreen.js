@@ -16,14 +16,14 @@ import { useUserContext } from "../contexts/UserContext"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default LoginScreen = ({ navigation, route }) => {
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   const storeData = async (data) => {
     try {
       const jsonValueToken = JSON.stringify(data.token)
       const jsonValueName = JSON.stringify(data.name)
-      console.log("Storing data:")
-      console.log(data)
-      const token = await AsyncStorage.setItem('userToken', jsonValueToken)
-      const name = await AsyncStorage.setItem('userName', jsonValueName)
+      await AsyncStorage.setItem('userToken', jsonValueToken)
+      await AsyncStorage.setItem('userName', jsonValueName)
     } catch (e) {
       console.log("Error saving to async storage")
     }
@@ -34,7 +34,7 @@ export default LoginScreen = ({ navigation, route }) => {
     password: route.params?.params?.password ?? "",
   });
   const signIn = () => {
-    Axios.post("http://192.168.2.96:3005/api/users/login", {
+    Axios.post(`http://18.224.228.195:3005/api/users/login`, {
       username: loginData.username,
       password: loginData.password,
     })

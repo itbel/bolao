@@ -77,16 +77,16 @@ const styles = StyleSheet.create({
     },
 });
 export default GuessAccordion = ({ openState, data, setRounds }) => {
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
     const [modalVisible, setModalVisible] = useState(false);
     const { userState } = useUserContext();
     const { selectedTournament } = useTournamentContext();
     const [open, setOpen] = useState(openState);
     const [selectedMatch, setSelectedMatch] = useState();
     const [matchInfo, setMatchInfo] = useState({ teamAguess: "", teamBguess: "" })
-    const [teamA, setTeamA] = useState("");
     const handleSubmitGuess = async () => {
         try {
-            const response = await axios.post('http://192.168.2.96:3005/api/guesses/manage',
+            const response = await axios.post(`http://18.224.228.195:3005/api/guesses/manage`,
                 {
                     matchid: selectedMatch.matchid,
                     tourid: selectedTournament.tournament_id,
@@ -97,7 +97,7 @@ export default GuessAccordion = ({ openState, data, setRounds }) => {
             )
             if (response?.data?.msg === "Guess Created") {
                 console.log("Guess Added!")
-                const fetchGuessRounds = await fetch(`http://192.168.2.96:3005/api/matches/unguessed/${selectedTournament.tournament_id}`,
+                const fetchGuessRounds = await fetch(`http://18.224.228.195:3005/api/matches/unguessed/${selectedTournament.tournament_id}`,
                     { headers: { "auth-token": `${userState.user}` } }
                 )
                 const data = await fetchGuessRounds.json();

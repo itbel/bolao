@@ -5,6 +5,7 @@ import GuessAccordion from "./GuessAccordion";
 import { useTournamentContext } from "../contexts/TournamentContext";
 import { useUserContext } from "../contexts/UserContext"
 import Header from "./Header";
+import { useIsFocused } from '@react-navigation/native';
 const styles = StyleSheet.create({
     backgroundd: {
         backgroundColor: "#528C6E",
@@ -48,26 +49,34 @@ const styles = StyleSheet.create({
 
 
 export default GuessScreen = ({ navigation, route }) => {
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
+    const [isLoading, setIsLoading] = useState(true)
     const { userState } = useUserContext();
+    const isFocused = useIsFocused()
     const { selectedTournament } = useTournamentContext();
     const [rounds, setRounds] = useState([])
 
     const loadRound = async () => {
         try {
-            const response = await fetch(`http://192.168.2.96:3005/api/matches/unguessed/${selectedTournament.tournament_id}`,
+            if (!isLoading) setIsLoading(true)
+            const response = await fetch(`http://18.224.228.195:3005/api/matches/unguessed/${selectedTournament.tournament_id}`,
                 { headers: { "auth-token": `${userState.user}` } }
             )
             const data = await response.json();
+            setIsLoading(false)
             console.log(data)
             setRounds(data)
         } catch (error) {
             console.log(error)
+            setIsLoading(false)
         }
     }
 
     useEffect(() => {
-        loadRound()
-    }, [])
+        if (isFocused) {
+            loadRound()
+        }
+    }, [isFocused])
     return (
         <View style={styles.backgroundd}>
             <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>

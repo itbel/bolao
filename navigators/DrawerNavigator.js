@@ -22,8 +22,8 @@ export default function DrawerNavigator() {
             <Drawer.Screen options={{ title: "Home", swipeEnabled: false }} name="LandingScreen" component={LandingScreen} />
             <Drawer.Screen options={{ title: "Select Tournament" }} name="SelectTournament" component={SelectTournament} />
             {selectedTournament.tournament_id !== "" ? <Drawer.Screen name="Tournament" component={TabNavigator} /> : null}
-            <Drawer.Screen name="Teams" component={Teams} />
-            <Drawer.Screen options={{ title: "Manage Tournaments" }} name="ManageTournaments" component={Tournaments} />
+            {false ? <Drawer.Screen name="Teams" component={Teams} /> : null}
+            {false ? <Drawer.Screen options={{ title: "Manage Tournaments" }} name="ManageTournaments" component={Tournaments} /> : null}
         </Drawer.Navigator>
     );
 }

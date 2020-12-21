@@ -70,11 +70,12 @@ const Ranking = (props) => {
 }
 
 export default LandingScreen = ({ navigation, route }) => {
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   const [players, setPlayers] = useState([]);
   useEffect(() => {
     const loadRanking = async () => {
       try {
-        const response = await fetch(`http://192.168.2.96:3005/api/tournaments/wins`)
+        const response = await fetch(`http://18.224.228.195:3005/api/tournaments/wins`)
         const data = await response.json();
         setPlayers(data)
       } catch (error) {

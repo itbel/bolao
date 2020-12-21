@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
 });
 
 export default RegisterScreen = ({ navigation }) => {
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   const [registerData, setRegisterData] = useState({
     username: "",
     password: "",
@@ -110,7 +111,7 @@ export default RegisterScreen = ({ navigation }) => {
       if (isValidPass(registerData.password)) {
         if (isValidName(registerData.name)) {
           Axios.post(
-            `http://192.168.2.96:3005/api/users/register`,
+            `http://18.224.228.195:3005/api/users/register`,
             {
               username: registerData.username,
               password: registerData.password,

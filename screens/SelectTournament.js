@@ -48,12 +48,13 @@ const styles = StyleSheet.create({
 
 
 export default SelectTournament = ({ navigation, route }) => {
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
     const { userState } = useUserContext();
     const [joinedTournaments, setJoinedTournaments] = useState();
     useEffect(() => {
         const fetchJoinedTournaments = async () => {
             try {
-                const response = await fetch(`http://192.168.2.96:3005/api/tournaments/joined`,
+                const response = await fetch(`http://18.224.228.195:3005/api/tournaments/joined`,
                     { headers: { "auth-token": `${userState.user}` } }
                 )
                 const data = await response.json();
