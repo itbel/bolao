@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, StatusBar, ScrollView, TouchableHighlight, Text } from "react-native";
+import { View, StyleSheet, StatusBar, ScrollView, TouchableHighlight, Text, ActivityIndicator } from "react-native";
 import SelectTournamentCard from "./SelectTournamentCard"
 import Header from "./Header";
 import Axios from "axios";
@@ -31,15 +31,14 @@ const styles = StyleSheet.create({
         color: "white"
     },
     heading: {
-        marginTop: 90,
-        marginBottom: 50,
-        marginHorizontal: 30,
+        marginTop: 60,
+        marginBottom: 30,
         color: "#000",
         fontFamily: "RobotoSlab-Regular",
         fontSize: 30,
     },
     subHeading: {
-        marginTop: 90,
+        marginTop: 60,
         color: "#000",
         fontFamily: "RobotoSlab-Regular",
         fontSize: 26,
@@ -47,21 +46,25 @@ const styles = StyleSheet.create({
 });
 
 
-export default SelectTournament = ({ navigation, route }) => {
+export default function SelectTournament({ navigation, route }: any): JSX.Element {
     const BASE_URL = process.env.REACT_APP_BASE_URL;
     const { userState } = useUserContext();
-    const [joinedTournaments, setJoinedTournaments] = useState();
+    const [isLoading, setIsLoading] = useState(true);
+    const [joinedTournaments, setJoinedTournaments]: any = useState();
     useEffect(() => {
         const fetchJoinedTournaments = async () => {
             try {
+                setIsLoading(true);
                 const response = await fetch(`http://18.224.228.195:3005/api/tournaments/joined`,
                     { headers: { "auth-token": `${userState.user}` } }
                 )
                 const data = await response.json();
                 setJoinedTournaments(data);
+                setIsLoading(false);
             }
             catch (error) {
                 console.log(error)
+                setIsLoading(false);
             }
         }
         fetchJoinedTournaments()
@@ -70,20 +73,29 @@ export default SelectTournament = ({ navigation, route }) => {
     return (
         <View style={styles.backgroundd}>
             <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
-            <Header title={"Select Tournament"} navigation={navigation}></Header>
+            <Header navigation={navigation}></Header>
 
             <View style={styles.container}>
-                <View style={{ marginHorizontal: 30 }}>
-                    <ScrollView showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
-                        {joinedTournaments ? joinedTournaments.map((tournament, index) => {
-                            return <SelectTournamentCard key={index} data={tournament} navigation={navigation}></SelectTournamentCard>
-                        }) :
-                            <>
-                                <Text style={styles.subHeading}>No tournaments joined</Text>
-                                <TouchableHighlight underlayColor="#85BFA1" onPress={() => navigation.navigate("ManageTournaments")} style={styles.buttonStyle}><Text style={styles.buttonLabelStyle}>Join A Tournament</Text></TouchableHighlight>
-                            </>}
-                    </ScrollView>
-                </View>
+                {isLoading ?
+                    <View style={{ position: "absolute", top: "50%", left: "45%" }}>
+                        <ActivityIndicator animating={isLoading} color={"#000"} size={'large'}></ActivityIndicator>
+                    </View>
+                    :
+                    <>
+                        <View style={{ marginHorizontal: 30 }}>
+                            <Text style={styles.heading}>Select tournament</Text>
+                            <ScrollView showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
+                                {joinedTournaments ? joinedTournaments.map((tournament, index) => {
+                                    return <SelectTournamentCard key={index} data={tournament} navigation={navigation}></SelectTournamentCard>
+                                }) :
+                                    <>
+                                        <Text style={styles.subHeading}>No tournaments joined</Text>
+                                        <TouchableHighlight underlayColor="#85BFA1" onPress={() => navigation.navigate("ManageTournaments")} style={styles.buttonStyle}><Text style={styles.buttonLabelStyle}>Join A Tournament</Text></TouchableHighlight>
+                                    </>}
+                            </ScrollView>
+
+                        </View>
+                    </>}
             </View>
         </View>
     )

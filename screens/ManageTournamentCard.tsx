@@ -39,8 +39,7 @@ const styles = StyleSheet.create({
         color: "white"
     },
 });
-export default ManageTournamentCard = ({ data }) => {
-    console.log(data)
+export default function ManagementTournamentCard({ data }: any): JSX.Element {
     return (
         <View style={styles.tournamentCard}>
             <View style={{ margin: 20 }}>

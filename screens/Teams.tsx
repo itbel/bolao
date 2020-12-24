@@ -10,8 +10,7 @@ const styles = StyleSheet.create({
     },
 });
 
-
-export default Teams = ({ navigation, route }) => {
+export default function Teams({ navigation, route }: any): JSX.Element {
     return (
         <>
             <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>

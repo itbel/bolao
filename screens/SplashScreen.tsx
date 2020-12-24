@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Text, StyleSheet, Dimensions, StatusBar } from "react-native";
+import { View, StyleSheet, StatusBar } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { useUserContext } from "../contexts/UserContext"
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -7,10 +7,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#23272a",
+    backgroundColor: "#528C6E",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#528C6E",
   },
   text: {
     color: "white",
@@ -18,8 +17,7 @@ const styles = StyleSheet.create({
     fontFamily: "RobotoSlab-Bold",
   },
 });
-
-export default SplashScreen = ({ navigation }) => {
+export default function SplashScreen({ navigation }: any): JSX.Element {
   const { loginUser, userState } = useUserContext();
   const getData = async () => {
     try {
@@ -27,6 +25,11 @@ export default SplashScreen = ({ navigation }) => {
       const name = await AsyncStorage.getItem('userName')
       if (token !== null && name !== null) {
         loginUser({ token: token.replace(/['"]+/g, ''), name: name.replace(/['"]+/g, '') })
+      } else {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "LoginScreen" }],
+        });
       }
     } catch (e) {
       console.log("Error reading asyncStorage")
@@ -35,10 +38,7 @@ export default SplashScreen = ({ navigation }) => {
   useEffect(() => {
     setTimeout(() => {
       getData()
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "LoginScreen" }],
-      });
+
     }, 1000);
   }, []);
   return (

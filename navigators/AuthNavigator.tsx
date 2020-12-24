@@ -7,11 +7,17 @@ import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 
+export type AuthNavigatorParamList = {
+  SplashScreen: undefined;
+  LoginScreen: undefined;
+  RegisterScreen: undefined;
+  ForgotPasswordScreen: undefined;
+}
 
-const Auth = createStackNavigator();
 
-export default function AuthNavigator() {
+const Auth = createStackNavigator<AuthNavigatorParamList>();
 
+export default function AuthNavigator(): JSX.Element {
   return (
     <Auth.Navigator screenOptions={{ headerShown: false }} initialRouteName="SplashScreen">
       <Auth.Screen name="SplashScreen" component={SplashScreen} />

@@ -10,7 +10,7 @@ import {
   KeyboardAvoidingView,
   ToastAndroid
 } from "react-native";
-import registerBackground from "../assets/media/register_hi.png";
+import { Assets } from "../Assets"
 import Axios from "axios";
 
 const styles = StyleSheet.create({
@@ -72,8 +72,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
-
-export default RegisterScreen = ({ navigation }) => {
+export default function RegisterScreen({ navigation }: any): JSX.Element {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const [registerData, setRegisterData] = useState({
     username: "",
@@ -142,14 +141,14 @@ export default RegisterScreen = ({ navigation }) => {
   };
 
   return (
-    <ImageBackground style={styles.backgroundPic} source={registerBackground}>
+    <ImageBackground style={styles.backgroundPic} source={Assets.media.register}>
       <KeyboardAvoidingView behavior="padding" style={styles.content}>
         <View>
           <Text style={styles.logoHeader}>Register</Text>
           <Text style={styles.logoSubheader}>Create an account to login</Text>
         </View>
         <View>
-          <View style={styles.inputView}>
+          <View>
             <TextInput
               onFocus={() => { }}
               value={registerData.email}
@@ -159,7 +158,7 @@ export default RegisterScreen = ({ navigation }) => {
               onChangeText={(email) => setRegisterData({ ...registerData, email: email })}
             />
           </View>
-          <View style={styles.inputView}>
+          <View>
             <TextInput
               onFocus={() => { }}
               value={registerData.name}
@@ -169,7 +168,7 @@ export default RegisterScreen = ({ navigation }) => {
               onChangeText={(name) => setRegisterData({ ...registerData, name: name })}
             />
           </View>
-          <View style={styles.inputView}>
+          <View>
             <TextInput
               onFocus={() => { }}
               value={registerData.username}
@@ -179,7 +178,7 @@ export default RegisterScreen = ({ navigation }) => {
               onChangeText={(user) => setRegisterData({ ...registerData, username: user })}
             />
           </View>
-          <View style={styles.inputView}>
+          <View>
             <TextInput
               value={registerData.password}
               style={styles.inputText}

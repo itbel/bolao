@@ -10,8 +10,7 @@ const styles = StyleSheet.create({
     },
 });
 
-
-export default AboutScreen = ({ navigation }) => {
+export default function AboutScreen({ navigation }: any): JSX.Element {
     return (
         <>
             <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>

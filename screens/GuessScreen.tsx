@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, StatusBar, ScrollView, Dimensions, ActivityIndicator } from "react-native";
-import RoundAccordion from "./RoundAccordion";
+import { View, Text, StyleSheet, StatusBar, ScrollView, ActivityIndicator } from "react-native";
+import { TouchableHighlight } from "react-native-gesture-handler";
+import GuessAccordion from "./GuessAccordion";
+import { useTournamentContext } from "../contexts/TournamentContext";
+import { useUserContext } from "../contexts/UserContext"
 import Header from "./Header";
 import { useIsFocused } from '@react-navigation/native';
-import { useUserContext } from "../contexts/UserContext"
-import { useTournamentContext } from "../contexts/TournamentContext";
-
 const styles = StyleSheet.create({
     backgroundd: {
         backgroundColor: "#528C6E",
@@ -35,38 +35,45 @@ const styles = StyleSheet.create({
     heading: {
         marginTop: 60,
         marginBottom: 20,
-        marginHorizontal: 30,
         color: "#000",
         fontFamily: "RobotoSlab-Regular",
         fontSize: 30,
+    },
+    subHeading: {
+        marginTop: 60,
+        color: "#000",
+        fontFamily: "RobotoSlab-Regular",
+        fontSize: 26,
     }
 });
 
-
-export default RoundsScreen = ({ navigation, route }) => {
+export default function GuessScreen({ navigation, route }: any): JSX.Element {
     const BASE_URL = process.env.REACT_APP_BASE_URL;
     const [isLoading, setIsLoading] = useState(true)
-    const isFocused = useIsFocused()
     const { userState } = useUserContext();
+    const isFocused = useIsFocused()
     const { selectedTournament } = useTournamentContext();
-    const [rounds, setRounds] = useState([]);
+    const [rounds, setRounds] = useState([])
+
     const loadRound = async () => {
         try {
-            if (!isLoading) setIsLoading(true)
-            const response = await fetch(`http://18.224.228.195:3005/api/matches/allmatches/${selectedTournament.tournament_id}`,
+            setIsLoading(true)
+            const response = await fetch(`http://18.224.228.195:3005/api/matches/unguessed/${selectedTournament.tournament_id}`,
                 { headers: { "auth-token": `${userState.user}` } }
             )
             const data = await response.json();
-            setRounds(data)
             setIsLoading(false)
+            setRounds(data)
         } catch (error) {
             console.log(error)
             setIsLoading(false)
         }
     }
+
     useEffect(() => {
-        if (isFocused)
+        if (isFocused) {
             loadRound()
+        }
     }, [isFocused])
     return (
         <View style={styles.backgroundd}>
@@ -74,22 +81,23 @@ export default RoundsScreen = ({ navigation, route }) => {
             <Header title={selectedTournament.tournament_name} navigation={navigation}></Header>
 
             <View style={styles.container}>
-                <View >
-                    <ScrollView showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
-                        <Text style={styles.heading}>Rounds</Text>
+                {isLoading ?
+                    <View style={{ position: "absolute", top: "50%", left: "45%" }}>
+                        <ActivityIndicator animating={isLoading} color={"#000"} size={'large'}></ActivityIndicator>
+                    </View>
+                    :
+                    <>
                         <View style={{ marginHorizontal: 30 }}>
-                            {isLoading ? <ActivityIndicator animating={isLoading} color={"#000"} size={'large'}></ActivityIndicator>
-                                :
-                                rounds ? rounds.map((round, index) => {
-                                    return <RoundAccordion key={index} data={round} openState={false}></RoundAccordion >
-                                })
-                                    : null}
+                            <ScrollView keyboardShouldPersistTaps='handled' showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
+                                {rounds && rounds.length > 0 ? <Text style={styles.heading}>Guess</Text> : null}
+                                {rounds && rounds.length > 0 ? rounds.map((round, index) => {
+                                    return <GuessAccordion setRounds={setRounds} key={index} data={round} openState={index === 0 ? true : false}></GuessAccordion >
+                                }) : <Text style={styles.subHeading}>No matches to guess</Text>}
+                            </ScrollView>
                         </View>
-                    </ScrollView>
-
-                </View>
+                    </>}
             </View>
-        </View>
 
+        </View>
     )
 }

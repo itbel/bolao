@@ -10,12 +10,13 @@ import {
   KeyboardAvoidingView,
   StatusBar, ToastAndroid
 } from "react-native";
-import registerBackground from "../assets/media/login.png";
+import { Assets } from "../Assets"
 import Axios from "axios";
 import { useUserContext } from "../contexts/UserContext"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default LoginScreen = ({ navigation, route }) => {
+
+export default function LoginScreen({ navigation, route }: any): JSX.Element {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   const storeData = async (data) => {
@@ -55,14 +56,14 @@ export default LoginScreen = ({ navigation, route }) => {
   return (
     <>
       <StatusBar></StatusBar>
-      <ImageBackground style={styles.backgroundPic} source={registerBackground}>
+      <ImageBackground style={styles.backgroundPic} source={Assets.media.login}>
         <KeyboardAvoidingView behavior="padding" style={styles.content}>
           <View>
             <Text style={styles.logoHeader}>Login</Text>
             <Text style={styles.logoSubheader}>Please login to your account</Text>
           </View>
           <View>
-            <View style={styles.inputView}>
+            <View>
               <TextInput
                 autoCompleteType="username"
                 onFocus={() => { }}
@@ -75,7 +76,7 @@ export default LoginScreen = ({ navigation, route }) => {
                 }
               />
             </View>
-            <View style={styles.inputView}>
+            <View>
               <TextInput
                 autoCompleteType="password"
                 value={loginData.password}

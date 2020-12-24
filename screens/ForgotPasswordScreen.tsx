@@ -73,9 +73,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
-
-export default ForgotPasswordScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("");
+export default function ForgotPasswordScreen({ navigation }: any): JSX.Element {
+  const [email, setEmail]: any = useState("");
   return (
     <ImageBackground style={styles.backgroundPic} source={registerBackground}>
       <KeyboardAvoidingView behavior="padding" style={styles.content}>
@@ -86,7 +85,7 @@ export default ForgotPasswordScreen = ({ navigation }) => {
           </Text>
         </View>
         <View>
-          <View style={styles.inputView}>
+          <View>
             <TextInput
               value={email}
               style={styles.inputText}

@@ -42,8 +42,7 @@ const styles = StyleSheet.create({
     }
 });
 
-
-export default RankingsScreen = ({ navigation, route }) => {
+export default function RankingScreen({ navigation, route }: any): JSX.Element {
     const BASE_URL = process.env.REACT_APP_BASE_URL;
     const [isLoading, setIsLoading] = useState(true)
     const isFocused = useIsFocused()
@@ -52,7 +51,7 @@ export default RankingsScreen = ({ navigation, route }) => {
     const [ranking, setRanking] = useState([]);
     const loadRanking = async () => {
         try {
-            if (!isLoading) setIsLoading(true)
+            setIsLoading(true)
             const response = await fetch(`http://18.224.228.195:3005/api/tournaments/players/${selectedTournament.tournament_id}`,
                 { headers: { "auth-token": `${userState.user}` } }
             )
@@ -74,14 +73,18 @@ export default RankingsScreen = ({ navigation, route }) => {
             <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
             <Header title={selectedTournament.tournament_name} navigation={navigation}></Header>
             <View style={styles.container}>
-                <View style={{ marginHorizontal: 30 }}>
-                    <ScrollView showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
-                        {isLoading ?
-                            <ActivityIndicator animating={isLoading}></ActivityIndicator>
-                            :
-                            <TournamentCard data={ranking} ></TournamentCard>}
-                    </ScrollView>
-                </View>
+                {isLoading ?
+                    <View style={{ position: "absolute", top: "50%", left: "45%" }}>
+                        <ActivityIndicator animating={isLoading} color={"#000"} size={'large'}></ActivityIndicator>
+                    </View>
+                    :
+
+                    <View style={{ marginHorizontal: 30 }}>
+                        <ScrollView showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
+
+                            <TournamentCard data={ranking} ></TournamentCard>
+                        </ScrollView>
+                    </View>}
             </View>
         </View>
 

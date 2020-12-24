@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         color: "white"
     },
 });
-export default SelectTournamentCard = (props) => {
+export default function SelectTournamentCard(props: any): JSX.Element {
     const { userState } = useUserContext();
     const { setTournament, selectedTournament } = useTournamentContext();
     useEffect(() => {

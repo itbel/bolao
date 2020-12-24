@@ -39,11 +39,7 @@ const styles = StyleSheet.create({
         fontSize: 30,
     }
 });
-
-export default Tournaments = ({ navigation, route }) => {
-    const BASE_URL = process.env.REACT_APP_BASE_URL;
-    const { userState } = useUserContext();
-    const { selectedTournament } = useTournamentContext();
+export default function Tournaments({ navigation, route }: any): JSX.Element {
     const [tournaments, setTournaments] = useState([]);
     useEffect(() => {
         const loadRanking = async () => {

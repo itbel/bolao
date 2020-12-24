@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         color: "black"
     }
 });
-export default TournamentCard = ({ data }) => {
+export default function TournamentCard({ data }: any): JSX.Element {
     console.log(data)
     return (
         <View style={styles.tournamentCard}>

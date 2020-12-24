@@ -76,13 +76,13 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
 });
-export default GuessAccordion = ({ openState, data, setRounds }) => {
+export default function GuessAccordion({ openState, data, setRounds }: any): JSX.Element {
     const BASE_URL = process.env.REACT_APP_BASE_URL;
     const [modalVisible, setModalVisible] = useState(false);
     const { userState } = useUserContext();
     const { selectedTournament } = useTournamentContext();
     const [open, setOpen] = useState(openState);
-    const [selectedMatch, setSelectedMatch] = useState();
+    const [selectedMatch, setSelectedMatch]: any = useState(null);
     const [matchInfo, setMatchInfo] = useState({ teamAguess: "", teamBguess: "" })
     const handleSubmitGuess = async () => {
         try {
@@ -132,7 +132,6 @@ export default GuessAccordion = ({ openState, data, setRounds }) => {
                                             autoFocus={true}
                                             onKeyPress={(e) => e.nativeEvent.key === "enter" && matchInfo.teamAguess !== "" && matchInfo.teamBguess !== "" ? handleSubmitGuess() : null}
                                             maxLength={2}
-                                            textAlign={"center"}
                                             keyboardType={'number-pad'}
                                             onChangeText={text => {
                                                 /^[0-9]*$/.test(text) ? setMatchInfo({ ...matchInfo, teamAguess: text }) : null
@@ -143,7 +142,6 @@ export default GuessAccordion = ({ openState, data, setRounds }) => {
                                         <TextInput
                                             maxLength={2}
                                             onKeyPress={(e) => e.nativeEvent.key === "enter" && matchInfo.teamAguess !== "" && matchInfo.teamBguess !== "" ? handleSubmitGuess() : null}
-                                            textAlign={"center"}
                                             keyboardType={'number-pad'}
                                             onChangeText={text => {
                                                 /^[0-9]*$/.test(text) ? setMatchInfo({ ...matchInfo, teamBguess: text }) : null

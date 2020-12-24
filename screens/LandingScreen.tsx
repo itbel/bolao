@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, StatusBar, Image } from "react-native";
+import { View, Text, StyleSheet, StatusBar, Image, ActivityIndicator } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import Header from "./Header";
 import Crown from "../assets/media/crown.png"
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     color: "white"
   },
   heading: {
-    marginTop: 90,
+    marginTop: 60,
     marginBottom: 50,
     marginHorizontal: 30,
     color: "#000",
@@ -68,18 +68,21 @@ const Ranking = (props) => {
     })
   )
 }
-
-export default LandingScreen = ({ navigation, route }) => {
+export default function LandingScreen({ navigation, route }: any): JSX.Element {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const [isLoading, setIsLoading] = useState(true);
   const [players, setPlayers] = useState([]);
   useEffect(() => {
     const loadRanking = async () => {
       try {
+        setIsLoading(true);
         const response = await fetch(`http://18.224.228.195:3005/api/tournaments/wins`)
         const data = await response.json();
         setPlayers(data)
+        setIsLoading(false);
       } catch (error) {
         console.log(error)
+        setIsLoading(false);
       }
     }
     loadRanking()
@@ -89,15 +92,24 @@ export default LandingScreen = ({ navigation, route }) => {
       <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
       <Header title={"Welcome"} navigation={navigation}></Header>
       <View style={styles.container}>
-        <Text style={styles.heading}>Overall Ranking</Text>
-        <View
-          style={{
-            marginHorizontal: 30,
-          }}>
-          {players && players.length > 0 ? <Ranking players={players} /> : null}
-        </View>
-        <TouchableHighlight underlayColor="#85BFA1" onPress={() => navigation.navigate("SelectTournament")} style={styles.buttonStyle}><Text style={styles.buttonLabelStyle}>Select Tournament</Text></TouchableHighlight>
+        {isLoading ?
+          <View style={{ position: "absolute", top: "50%", left: "45%" }}>
+            <ActivityIndicator animating={isLoading} color={"#000"} size={'large'}></ActivityIndicator>
+          </View>
+          :
+          <>
+            <Text style={styles.heading}>Overall Ranking</Text>
+            <View
+              style={{
+                marginHorizontal: 30,
+              }}>
+              {players && players.length > 0 ? <Ranking players={players} /> : null}
+            </View>
+            <TouchableHighlight underlayColor="#85BFA1" onPress={() => navigation.navigate("SelectTournament")} style={styles.buttonStyle}><Text style={styles.buttonLabelStyle}>Select Tournament</Text></TouchableHighlight>
+          </>}
       </View>
+
+
     </View>
 
   )

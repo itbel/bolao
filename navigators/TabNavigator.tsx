@@ -1,34 +1,36 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image, View } from "react-native";
-//import RulesScreen from "../screens/RulesScreen";
+import { Assets } from "../Assets";
 import GuessScreen from "../screens/GuessScreen";
 import RoundsScreen from "../screens/RoundsScreen";
-//import WinsScreen from "../screens/WinsScreen";
 import RankingsScreen from "../screens/RankingsScreen";
-import GuessIcon from "../assets/media/guess.png"
-import RulesIcon from "../assets/media/rules.png"
-import RoundsIcon from "../assets/media/rounds.png"
-import WinsIcon from "../assets/media/wins.png"
-import RankingIcon from "../assets/media/rank.png"
 
-const Tab = createBottomTabNavigator();
+export type TabNavigatorParamList = {
+    GuessScreen: undefined;
+    RulesScreen: undefined;
+    RoundsScreen: undefined;
+    WinsScreen: undefined;
+    RankingsScreen: undefined;
+}
 
-export default function TabNavigator() {
+const Tab = createBottomTabNavigator<TabNavigatorParamList>();
+
+export default function TabNavigator(): JSX.Element {
     return (
         <View style={{ backgroundColor: "white", flex: 1 }}>
             <Tab.Navigator screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
                     if (route.name === 'GuessScreen')
-                        return <Image style={focused ? {} : { opacity: 0.3 }} source={GuessIcon}></Image>
+                        return <Image style={focused ? {} : { opacity: 0.3 }} source={Assets.media.guess}></Image>
                     else if (route.name === 'RulesScreen')
-                        return <Image style={focused ? {} : { opacity: 0.3 }} source={RulesIcon}></Image>
+                        return <Image style={focused ? {} : { opacity: 0.3 }} source={Assets.media.rules}></Image>
                     else if (route.name === "RoundsScreen")
-                        return <Image style={focused ? {} : { opacity: 0.3 }} source={RoundsIcon}></Image>
+                        return <Image style={focused ? {} : { opacity: 0.3 }} source={Assets.media.rounds}></Image>
                     else if (route.name === "WinsScreen")
-                        return <Image style={focused ? {} : { opacity: 0.3 }} source={WinsIcon}></Image>
+                        return <Image style={focused ? {} : { opacity: 0.3 }} source={Assets.media.wins}></Image>
                     else if (route.name === "RankingsScreen")
-                        return <Image style={focused ? {} : { opacity: 0.3 }} source={RankingIcon}></Image>
+                        return <Image style={focused ? {} : { opacity: 0.3 }} source={Assets.media.rank}></Image>
                 }
             })}
                 tabBarOptions={{
@@ -38,7 +40,7 @@ export default function TabNavigator() {
                     activeTintColor: 'black',
                     inactiveTintColor: 'gray',
                 }}
-                initialRouteName="RankingsScreen">
+                initialRouteName="RoundsScreen">
                 <Tab.Screen options={{ title: "Guess" }} name="GuessScreen" component={GuessScreen} />
                 {/*<Tab.Screen options={{ title: "Rules" }} name="RulesScreen" component={RulesScreen} />*/}
                 <Tab.Screen options={{ title: "Rounds" }} name="RoundsScreen" component={RoundsScreen} />
