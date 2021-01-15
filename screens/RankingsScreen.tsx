@@ -60,7 +60,6 @@ export default function RankingScreen({ navigation, route }: any): JSX.Element {
             setIsLoading(false)
         } catch (error) {
             setIsLoading(false)
-            console.log(error)
         }
     }
     useEffect(() => {

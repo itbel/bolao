@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
     color: "white"
   },
   heading: {
-    marginTop: 60,
-    marginBottom: 50,
+    marginTop: 50,
+    marginBottom: 20,
     marginHorizontal: 30,
     color: "#000",
     fontFamily: "RobotoSlab-Regular",
@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
   }
 });
 const Ranking = (props) => {
-  console.log(props.players)
   return (
     props.players.map((player, key) => {
       if (key < 4)
@@ -81,7 +80,6 @@ export default function LandingScreen({ navigation, route }: any): JSX.Element {
         setPlayers(data)
         setIsLoading(false);
       } catch (error) {
-        console.log(error)
         setIsLoading(false);
       }
     }

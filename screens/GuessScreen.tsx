@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         color: "white"
     },
     heading: {
-        marginTop: 60,
+        marginTop: 30,
         marginBottom: 20,
         color: "#000",
         fontFamily: "RobotoSlab-Regular",
@@ -65,7 +65,6 @@ export default function GuessScreen({ navigation, route }: any): JSX.Element {
             setIsLoading(false)
             setRounds(data)
         } catch (error) {
-            console.log(error)
             setIsLoading(false)
         }
     }

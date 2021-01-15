@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         fontSize: 30,
         textAlign: "center",
         paddingBottom: 32,
-        marginTop: 28
+        marginTop: 0
     },
     subHeader: {
         flexDirection: "row",
@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
     }
 });
 export default function TournamentCard({ data }: any): JSX.Element {
-    console.log(data)
     return (
         <View style={styles.tournamentCard}>
             <View style={{ margin: 20 }}>

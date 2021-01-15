@@ -6,7 +6,6 @@ import { useUserContext } from "../contexts/UserContext"
 export function Header({ navigation, route }: any): JSX.Element {
     const { userState } = useUserContext();
     const { selectedTournament } = useTournamentContext();
-    console.log(navigation)
     return (
         <Appbar.Header style={{ backgroundColor: "#528C6E", height: 140, elevation: 0, shadowColor: "#528C6E", shadowRadius: 0, shadowOpacity: 1, shadowOffset: { width: 0, height: 0 } }}>
             <Appbar.BackAction onPress={() => { navigation.goBack() }} />

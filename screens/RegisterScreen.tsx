@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -81,9 +81,6 @@ export default function RegisterScreen({ navigation }: any): JSX.Element {
     name: "",
   });
 
-  useEffect(() => {
-    console.log(registerData);
-  }, [registerData.username]);
   const isValidUser = (user) => {
     let isRequiredLength = user?.length >= 4;
     let hasNoWhitespace = !/\s/.test(user);

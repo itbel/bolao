@@ -54,10 +54,12 @@ const styles = StyleSheet.create({
     },
     modalView: {
         flex: 1,
-        margin: 32,
+        margin: 20,
         backgroundColor: "white",
         borderRadius: 5,
-        padding: 35,
+
+        paddingTop:35,
+        paddingBottom:35,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
@@ -96,7 +98,6 @@ export default function GuessAccordion({ openState, data, setRounds }: any): JSX
                 { headers: { "auth-token": userState.user } }
             )
             if (response?.data?.msg === "Guess Created") {
-                console.log("Guess Added!")
                 const fetchGuessRounds = await fetch(`http://18.224.228.195:3005/api/matches/unguessed/${selectedTournament.tournament_id}`,
                     { headers: { "auth-token": `${userState.user}` } }
                 )

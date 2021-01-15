@@ -63,7 +63,6 @@ export default function SelectTournament({ navigation, route }: any): JSX.Elemen
                 setIsLoading(false);
             }
             catch (error) {
-                console.log(error)
                 setIsLoading(false);
             }
         }

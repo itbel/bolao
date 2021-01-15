@@ -42,7 +42,6 @@ export default function RoundAccordion({ openState, data }: any): JSX.Element {
 
             })
         })
-        console.log(userPoints)
         setroundPoints(userPoints)
     }, [data])
     return (

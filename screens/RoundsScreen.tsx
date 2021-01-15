@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         color: "white"
     },
     heading: {
-        marginTop: 60,
+        marginTop: 30,
         marginBottom: 20,
         marginHorizontal: 30,
         color: "#000",
@@ -59,7 +59,6 @@ export default function RoundsScreen({ navigation, route }: any): JSX.Element {
             setRounds(data)
             setIsLoading(false)
         } catch (error) {
-            console.log(error)
             setIsLoading(false)
         }
     }

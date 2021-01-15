@@ -48,7 +48,6 @@ export default function Tournaments({ navigation, route }: any): JSX.Element {
                 const data = await response.json();
                 setTournaments(data)
             } catch (error) {
-                console.log(error)
             }
         }
         loadRanking()
