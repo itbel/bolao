@@ -175,6 +175,7 @@ export default function GuessAccordion({ openState, data, setRounds }: any): JSX
                                     <Text style={{ fontFamily: "RobotoSlab-SemiBold", fontSize: 16, flex: 1 }}>Match</Text>
                                 </View>
                                 {data.matches.map((match) => {
+                                    console.log(match)
                                     return (
                                         <Pressable onPress={() => {
                                             setSelectedMatch(match)

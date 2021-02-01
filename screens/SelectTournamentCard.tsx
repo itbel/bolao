@@ -46,11 +46,6 @@ const styles = StyleSheet.create({
 export default function SelectTournamentCard(props: any): JSX.Element {
     const { userState } = useUserContext();
     const { setTournament, selectedTournament } = useTournamentContext();
-    useEffect(() => {
-        return () => {
-            props.navigation.navigate("Tournament")
-        }
-    }, [selectedTournament.tournament_id])
     return (
         <View style={styles.tournamentCard}>
             <View style={{ margin: 20 }}>

@@ -59,7 +59,12 @@ export default function RoundAccordion({ openState, data }: any): JSX.Element {
                                     <Text style={{ marginVertical: 8, fontFamily: "RobotoSlab-Medium", fontSize: 16 }}>{match.teamAName} {match.teamAResult} X {match.teamBResult} {match.teamBName}</Text>
                                     {match.guesses.map((guess, index) => {
                                         if (guess)
-                                            return <View key={index} style={{ marginVertical: 2, flexDirection: "row" }}><Text style={{ flex: 1, color: "#9E9E9E", fontFamily: "RobotoSlab-Regular", fontSize: 14 }}>{guess?.name}</Text><Text style={{ fontFamily: "RobotoSlab-Regular", fontSize: 14, color: "#9E9E9E" }}>{guess?.teamAguess} X {guess?.teamBguess} {guess?.points !== undefined ? `(${guess.points})` : null}</Text></View>
+                                            return (
+                                                <View key={index} style={{ marginVertical: 2, flexDirection: "row" }}>
+                                                    <Text style={{ flex: 1, color: "#9E9E9E", fontFamily: "RobotoSlab-Regular", fontSize: 14 }}>{guess?.name}</Text>
+                                                    <Text style={{ fontFamily: "RobotoSlab-Regular", fontSize: 14, color: "#9E9E9E" }}>{guess?.teamAguess} X {guess?.teamBguess} {guess?.points !== undefined ? `(${guess.points})` : null}</Text>
+                                                </View>
+                                            )
                                         else return null
                                     })}
                                 </View>
@@ -75,8 +80,14 @@ export default function RoundAccordion({ openState, data }: any): JSX.Element {
                         </View>
                         <View style={{ marginBottom: 20 }}>
                             {roundPoints ? Object.keys(roundPoints).map((player, index) => {
-                                if (roundPoints[player] && roundPoints[player] > 0)
-                                    return <View key={index} style={{ marginVertical: 2, flexDirection: "row", marginHorizontal: 20 }}><Text style={{ flex: 1, color: "black", fontFamily: "RobotoSlab-Regular", fontSize: 15 }}>{player}</Text><Text style={{ fontFamily: "RobotoSlab-Regular", fontSize: 16, color: "black" }}>{roundPoints[player] > 0 ? `+${roundPoints[player]}` : roundPoints[player]}</Text></View>
+                                if (roundPoints[player] && roundPoints[player] > 0){
+                                    return (
+                                        <View key={index} style={{ marginVertical: 2, flexDirection: "row", marginHorizontal: 20 }}>
+                                            <Text style={{ flex: 1, color: "black", fontFamily: "RobotoSlab-Regular", fontSize: 15 }}>{player}</Text>
+                                            <Text style={{ fontFamily: "RobotoSlab-Regular", fontSize: 16, color: "black" }}>{roundPoints[player] > 0 ? `+${roundPoints[player]}` : roundPoints[player]}</Text>
+                                        </View>
+                                    )
+                                }       
                             }) : null}
                         </View>
                     </>

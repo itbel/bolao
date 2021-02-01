@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, StatusBar, ScrollView, Dimensions, ActivityIndicator } from "react-native";
 import Header from "./Header";
 import ManageTournamentCard from "./ManageTournamentCard"
-import { useTournamentContext } from "../contexts/TournamentContext";
 import { useUserContext } from "../contexts/UserContext"
+import { useIsFocused } from '@react-navigation/native';
 const styles = StyleSheet.create({
     backgroundd: {
         backgroundColor: "#528C6E",
@@ -41,17 +41,43 @@ const styles = StyleSheet.create({
 });
 export default function Tournaments({ navigation, route }: any): JSX.Element {
     const [tournaments, setTournaments] = useState([]);
-    useEffect(() => {
-        const loadRanking = async () => {
-            try {
-                const response = await fetch(`http://18.224.228.195:3005/api/tournaments/all`)
-                const data = await response.json();
-                setTournaments(data)
-            } catch (error) {
-            }
+    const [joinedTournaments, setJoinedTournaments] = useState([]);
+    const isFocused = useIsFocused()
+    const [isLoading, setIsLoading] = useState(true);
+    const { userState } = useUserContext();
+    const fetchJoinedTournaments = async () => {
+        try {
+            setIsLoading(true);
+            const response = await fetch(`http://18.224.228.195:3005/api/tournaments/joined`,
+                { headers: { "auth-token": `${userState.user}` } }
+            )
+            const data = await response.json();
+            setJoinedTournaments(data);
+            setIsLoading(false);
         }
-        loadRanking()
-    }, [])
+        catch (error) {
+            setIsLoading(false);
+        }
+    }
+    const loadTournaments = async () => {
+        setIsLoading(true)
+        try {
+            const response = await fetch(`http://18.224.228.195:3005/api/tournaments/all`)
+            const data = await response.json();
+            setTournaments(data)
+            setIsLoading(false)
+        } catch (error) {
+            setIsLoading(false)
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        if(isFocused){
+            loadTournaments()
+            fetchJoinedTournaments()
+        }
+
+    }, [isFocused])
     return (
         <View style={styles.backgroundd}>
             <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
@@ -59,8 +85,8 @@ export default function Tournaments({ navigation, route }: any): JSX.Element {
             <View style={styles.container}>
                 <View style={{ marginHorizontal: 30 }}>
                     <ScrollView showsVerticalScrollIndicator={false} style={{ flexDirection: "column" }}>
-                        {tournaments && tournaments.length > 0 ? tournaments.map((tour) => {
-                            return <ManageTournamentCard data={tour}></ManageTournamentCard>
+                        {tournaments && tournaments.length > 0 ? tournaments.map((tour:any, index) => {
+                            return <ManageTournamentCard fetchJoined={() => fetchJoinedTournaments()} joinedTours={joinedTournaments} key={tour?.tournamentid ?? index} data={tour}></ManageTournamentCard>
                         }) : null}
                     </ScrollView>
                 </View>

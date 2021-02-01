@@ -4,6 +4,7 @@ import SelectTournamentCard from "./SelectTournamentCard"
 import Header from "./Header";
 import Axios from "axios";
 import { useUserContext } from "../contexts/UserContext"
+import { useIsFocused } from '@react-navigation/native';
 const styles = StyleSheet.create({
     backgroundd: {
         backgroundColor: "#528C6E",
@@ -47,6 +48,7 @@ const styles = StyleSheet.create({
 
 
 export default function SelectTournament({ navigation, route }: any): JSX.Element {
+    const isFocused = useIsFocused()
     const BASE_URL = process.env.REACT_APP_BASE_URL;
     const { userState } = useUserContext();
     const [isLoading, setIsLoading] = useState(true);
@@ -66,9 +68,10 @@ export default function SelectTournament({ navigation, route }: any): JSX.Elemen
                 setIsLoading(false);
             }
         }
-        fetchJoinedTournaments()
-
-    }, [])
+        if(isFocused){
+            fetchJoinedTournaments()
+        }
+    }, [isFocused])
     return (
         <View style={styles.backgroundd}>
             <StatusBar barStyle="dark-content" backgroundColor="#528C6E" ></StatusBar>
