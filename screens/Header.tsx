@@ -3,7 +3,7 @@ import { Appbar } from "react-native-paper";
 import { useTournamentContext } from "../contexts/TournamentContext";
 import { useUserContext } from "../contexts/UserContext";
 
-export function Header({ navigation, route }: any): JSX.Element {
+export function Header({ navigation }: any): JSX.Element {
   const { userState } = useUserContext();
   const { selectedTournament } = useTournamentContext();
   return (
@@ -20,7 +20,7 @@ export function Header({ navigation, route }: any): JSX.Element {
     >
       <Appbar.BackAction
         onPress={() => {
-          navigation.goBack();
+          if (navigation.canGoBack()) navigation.goBack();
         }}
       />
       <Appbar.Content
