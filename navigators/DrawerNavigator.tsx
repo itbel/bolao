@@ -13,6 +13,7 @@ import SelectTournament from "../screens/SelectTournament";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useTournamentContext } from "../contexts/TournamentContext";
 import { useUserContext } from "../contexts/UserContext";
+import { Alert } from "react-native";
 
 export type DrawerNavigatorParamList = {
   LandingScreen: undefined;
@@ -33,10 +34,33 @@ export default function DrawerNavigator(): JSX.Element {
         <DrawerContentScrollView {...props}>
           <DrawerItemList {...props} />
           <DrawerItem
+            labelStyle={{
+              marginLeft: 47,
+              color: "white",
+              fontSize: 16,
+              fontFamily: "RobotoSlab-Regular",
+            }}
             label="Logout"
             onPress={() => {
-              setTournament("", "");
-              logoutUser();
+              Alert.alert(
+                "Log out",
+                "Are you sure you want to log out?",
+                [
+                  {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel",
+                  },
+                  {
+                    text: "OK",
+                    onPress: () => {
+                      setTournament("", "");
+                      logoutUser();
+                    },
+                  },
+                ],
+                { cancelable: false }
+              );
             }}
           />
         </DrawerContentScrollView>
