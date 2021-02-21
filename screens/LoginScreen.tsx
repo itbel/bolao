@@ -8,27 +8,27 @@ import {
   ImageBackground,
   Dimensions,
   KeyboardAvoidingView,
-  StatusBar, ToastAndroid
+  StatusBar,
+  ToastAndroid,
 } from "react-native";
-import { Assets } from "../Assets"
+import { Assets } from "../Assets";
 import Axios from "axios";
-import { useUserContext } from "../contexts/UserContext"
+import { useUserContext } from "../contexts/UserContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 
 export default function LoginScreen({ navigation, route }: any): JSX.Element {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   const storeData = async (data) => {
     try {
-      const jsonValueToken = JSON.stringify(data.token)
-      const jsonValueName = JSON.stringify(data.name)
-      await AsyncStorage.setItem('userToken', jsonValueToken)
-      await AsyncStorage.setItem('userName', jsonValueName)
+      const jsonValueToken = JSON.stringify(data.token);
+      const jsonValueName = JSON.stringify(data.name);
+      await AsyncStorage.setItem("userToken", jsonValueToken);
+      await AsyncStorage.setItem("userName", jsonValueName);
     } catch (e) {
-      console.log("Error saving to async storage")
+      console.log("Error saving to async storage");
     }
-  }
+  };
   const { loginUser, userState } = useUserContext();
   const [loginData, setloginData] = useState({
     username: route.params?.params?.username ?? "",
@@ -41,18 +41,24 @@ export default function LoginScreen({ navigation, route }: any): JSX.Element {
     })
       .then((response) => {
         if (response.data.msg !== "Invalid Credentials!") {
-          storeData(response.data)
-          loginUser(response.data)
+          storeData(response.data);
+          loginUser(response.data);
         }
       })
       .catch((error) => {
-        ToastAndroid.show("An error occurred while logging in.", ToastAndroid.SHORT)
+        ToastAndroid.show(
+          "An error occurred while logging in.",
+          ToastAndroid.SHORT
+        );
       });
   };
   useEffect(() => {
     if (route?.params?.params)
-      setloginData({ username: route.params.params.username, password: route.params.params.password })
-  }, [route.params])
+      setloginData({
+        username: route.params.params.username,
+        password: route.params.params.password,
+      });
+  }, [route.params]);
   return (
     <>
       <StatusBar></StatusBar>
@@ -60,13 +66,15 @@ export default function LoginScreen({ navigation, route }: any): JSX.Element {
         <KeyboardAvoidingView behavior="padding" style={styles.content}>
           <View>
             <Text style={styles.logoHeader}>Login</Text>
-            <Text style={styles.logoSubheader}>Please login to your account</Text>
+            <Text style={styles.logoSubheader}>
+              Please login to your account
+            </Text>
           </View>
           <View>
             <View>
               <TextInput
                 autoCompleteType="username"
-                onFocus={() => { }}
+                onFocus={() => {}}
                 value={loginData.username}
                 style={styles.inputText}
                 placeholder="Username..."
@@ -90,7 +98,10 @@ export default function LoginScreen({ navigation, route }: any): JSX.Element {
               />
               <TouchableOpacity
                 onPress={() => {
-                  ToastAndroid.show("This feature is currently disabled.", ToastAndroid.SHORT)
+                  ToastAndroid.show(
+                    "This feature is currently disabled.",
+                    ToastAndroid.SHORT
+                  );
                   //navigation.navigate("ForgotPasswordScreen")
                 }}
                 style={styles.forgotBtn}
@@ -110,14 +121,13 @@ export default function LoginScreen({ navigation, route }: any): JSX.Element {
               style={{ fontWeight: "bold" }}
             >
               Signup
-          </Text>
+            </Text>
           </Text>
         </KeyboardAvoidingView>
       </ImageBackground>
     </>
-
   );
-};
+}
 
 const styles = StyleSheet.create({
   backgroundPic: {

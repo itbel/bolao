@@ -8,9 +8,9 @@ import {
   ImageBackground,
   Dimensions,
   KeyboardAvoidingView,
-  ToastAndroid
+  ToastAndroid,
 } from "react-native";
-import { Assets } from "../Assets"
+import { Assets } from "../Assets";
 import Axios from "axios";
 
 const styles = StyleSheet.create({
@@ -118,27 +118,40 @@ export default function RegisterScreen({ navigation }: any): JSX.Element {
           )
             .then((response) => {
               if (response.status === 201) {
-                ToastAndroid.show("Registered Successfully.", ToastAndroid.SHORT)
-                navigation.push('LoginScreen', { params: { username: registerData.username, password: registerData.password } })
+                ToastAndroid.show(
+                  "Registered Successfully.",
+                  ToastAndroid.SHORT
+                );
+                navigation.push("LoginScreen", {
+                  params: {
+                    username: registerData.username,
+                    password: registerData.password,
+                  },
+                });
               }
             })
             .catch((error) => {
-              ToastAndroid.show("There was an error while registering.", ToastAndroid.SHORT)
+              ToastAndroid.show(
+                "There was an error while registering.",
+                ToastAndroid.SHORT
+              );
             });
         } else {
-          ToastAndroid.show("Invalid Name.", ToastAndroid.SHORT)
-
+          ToastAndroid.show("Invalid Name.", ToastAndroid.SHORT);
         }
       } else {
-        ToastAndroid.show("Invalid Password.", ToastAndroid.SHORT)
+        ToastAndroid.show("Invalid Password.", ToastAndroid.SHORT);
       }
     } else {
-      ToastAndroid.show("Invalid Username.", ToastAndroid.SHORT)
+      ToastAndroid.show("Invalid Username.", ToastAndroid.SHORT);
     }
   };
 
   return (
-    <ImageBackground style={styles.backgroundPic} source={Assets.media.register}>
+    <ImageBackground
+      style={styles.backgroundPic}
+      source={Assets.media.register}
+    >
       <KeyboardAvoidingView behavior="padding" style={styles.content}>
         <View>
           <Text style={styles.logoHeader}>Register</Text>
@@ -147,32 +160,38 @@ export default function RegisterScreen({ navigation }: any): JSX.Element {
         <View>
           <View>
             <TextInput
-              onFocus={() => { }}
+              onFocus={() => {}}
               value={registerData.email}
               style={styles.inputText}
               placeholder="Email..."
               placeholderTextColor="white"
-              onChangeText={(email) => setRegisterData({ ...registerData, email: email })}
+              onChangeText={(email) =>
+                setRegisterData({ ...registerData, email: email })
+              }
             />
           </View>
           <View>
             <TextInput
-              onFocus={() => { }}
+              onFocus={() => {}}
               value={registerData.name}
               style={styles.inputText}
               placeholder="Name..."
               placeholderTextColor="white"
-              onChangeText={(name) => setRegisterData({ ...registerData, name: name })}
+              onChangeText={(name) =>
+                setRegisterData({ ...registerData, name: name })
+              }
             />
           </View>
           <View>
             <TextInput
-              onFocus={() => { }}
+              onFocus={() => {}}
               value={registerData.username}
               style={styles.inputText}
               placeholder="Username..."
               placeholderTextColor="white"
-              onChangeText={(user) => setRegisterData({ ...registerData, username: user })}
+              onChangeText={(user) =>
+                setRegisterData({ ...registerData, username: user })
+              }
             />
           </View>
           <View>
@@ -182,7 +201,9 @@ export default function RegisterScreen({ navigation }: any): JSX.Element {
               secureTextEntry={true}
               placeholder="Password..."
               placeholderTextColor="white"
-              onChangeText={(pass) => setRegisterData({ ...registerData, password: pass })}
+              onChangeText={(pass) =>
+                setRegisterData({ ...registerData, password: pass })
+              }
             />
           </View>
         </View>
@@ -202,4 +223,4 @@ export default function RegisterScreen({ navigation }: any): JSX.Element {
       </KeyboardAvoidingView>
     </ImageBackground>
   );
-};
+}

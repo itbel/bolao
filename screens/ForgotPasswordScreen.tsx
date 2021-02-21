@@ -116,4 +116,4 @@ export default function ForgotPasswordScreen({ navigation }: any): JSX.Element {
       </KeyboardAvoidingView>
     </ImageBackground>
   );
-};
+}

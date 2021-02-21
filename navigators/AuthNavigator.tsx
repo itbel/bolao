@@ -12,14 +12,16 @@ export type AuthNavigatorParamList = {
   LoginScreen: undefined;
   RegisterScreen: undefined;
   ForgotPasswordScreen: undefined;
-}
-
+};
 
 const Auth = createStackNavigator<AuthNavigatorParamList>();
 
 export default function AuthNavigator(): JSX.Element {
   return (
-    <Auth.Navigator screenOptions={{ headerShown: false }} initialRouteName="SplashScreen">
+    <Auth.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName="SplashScreen"
+    >
       <Auth.Screen name="SplashScreen" component={SplashScreen} />
       <Auth.Screen name="LoginScreen" component={LoginScreen} />
       <Auth.Screen name="RegisterScreen" component={RegisterScreen} />
@@ -28,6 +30,5 @@ export default function AuthNavigator(): JSX.Element {
         component={ForgotPasswordScreen}
       />
     </Auth.Navigator>
-  )
+  );
 }
-

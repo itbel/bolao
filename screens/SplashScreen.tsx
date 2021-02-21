@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { View, StyleSheet, StatusBar } from "react-native";
 import * as Animatable from "react-native-animatable";
-import { useUserContext } from "../contexts/UserContext"
+import { useUserContext } from "../contexts/UserContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const styles = StyleSheet.create({
@@ -21,10 +21,13 @@ export default function SplashScreen({ navigation }: any): JSX.Element {
   const { loginUser, userState } = useUserContext();
   const getData = async () => {
     try {
-      const token = await AsyncStorage.getItem('userToken')
-      const name = await AsyncStorage.getItem('userName')
+      const token = await AsyncStorage.getItem("userToken");
+      const name = await AsyncStorage.getItem("userName");
       if (token !== null && name !== null) {
-        loginUser({ token: token.replace(/['"]+/g, ''), name: name.replace(/['"]+/g, '') })
+        loginUser({
+          token: token.replace(/['"]+/g, ""),
+          name: name.replace(/['"]+/g, ""),
+        });
       } else {
         navigation.reset({
           index: 0,
@@ -32,18 +35,17 @@ export default function SplashScreen({ navigation }: any): JSX.Element {
         });
       }
     } catch (e) {
-      console.log("Error reading asyncStorage")
+      console.log("Error reading asyncStorage");
     }
-  }
+  };
   useEffect(() => {
     setTimeout(() => {
-      getData()
-
+      getData();
     }, 1000);
   }, []);
   return (
     <>
-      <StatusBar hidden ></StatusBar>
+      <StatusBar hidden></StatusBar>
       <View style={styles.container}>
         <Animatable.Text animation="zoomInUp" style={styles.text}>
           Bolao
@@ -51,4 +53,4 @@ export default function SplashScreen({ navigation }: any): JSX.Element {
       </View>
     </>
   );
-};
+}
