@@ -78,11 +78,12 @@ export default function LoginScreen({ navigation, route }: any): JSX.Element {
                 value={loginData.username}
                 style={styles.inputText}
                 placeholder="Username..."
+                autoCapitalize="none"
                 placeholderTextColor="white"
                 onChangeText={(user) =>
                   setloginData({
                     ...loginData,
-                    username: user.toLocaleLowerCase(),
+                    username: user,
                   })
                 }
               />
@@ -90,6 +91,7 @@ export default function LoginScreen({ navigation, route }: any): JSX.Element {
             <View>
               <TextInput
                 autoCompleteType="password"
+                autoCapitalize="none"
                 value={loginData.password}
                 placeholder="Password..."
                 placeholderTextColor="white"
