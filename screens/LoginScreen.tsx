@@ -80,7 +80,10 @@ export default function LoginScreen({ navigation, route }: any): JSX.Element {
                 placeholder="Username..."
                 placeholderTextColor="white"
                 onChangeText={(user) =>
-                  setloginData({ ...loginData, username: user })
+                  setloginData({
+                    ...loginData,
+                    username: user.toLocaleLowerCase(),
+                  })
                 }
               />
             </View>

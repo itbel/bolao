@@ -4,6 +4,9 @@ import { TouchableHighlight } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useUserContext } from "../contexts/UserContext";
 import { useTournamentContext } from "../contexts/TournamentContext";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { DrawerNavigatorParamList } from "../navigators/DrawerNavigator";
+import { RouteProp } from "@react-navigation/native";
 const styles = StyleSheet.create({
   tournamentCard: {
     flexDirection: "column",
@@ -38,46 +41,57 @@ const styles = StyleSheet.create({
   buttonLabelStyle: {
     paddingHorizontal: 50,
     textAlign: "center",
-    fontSize: 12,
+    fontSize: 13,
     fontFamily: "RobotoSlab-Bold",
     color: "white",
   },
 });
-export default function SelectTournamentCard(props: any): JSX.Element {
+interface Props {
+  navigation: StackNavigationProp<DrawerNavigatorParamList, "SelectTournament">;
+  route: RouteProp<DrawerNavigatorParamList, "SelectTournament">;
+  data: any;
+}
+export default function SelectTournamentCard({
+  navigation,
+  route,
+  data,
+}: Props): JSX.Element {
   const { userState } = useUserContext();
   const { setTournament, selectedTournament } = useTournamentContext();
+  console.log(route);
+  const handlePress = () => {
+    setTournament(data.tournamentid, data.name);
+    // Navigation needs to await setTournament completion. This solution will not always work.
+    setTimeout(() => {
+      navigation.navigate("SelectedTournament");
+    }, 500);
+  };
   return (
     <View style={styles.tournamentCard}>
       <View style={{ margin: 20 }}>
-        <Text style={styles.header}>{props.data.name}</Text>
+        <Text style={styles.header}>{data.name}</Text>
 
         <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
           <TouchableHighlight
-            disabled={
-              props.data.tournamentid === selectedTournament.tournament_id
-            }
+            disabled={data.tournamentid === selectedTournament.tournament_id}
             underlayColor="#85BFA1"
             onPress={() => {
-              setTournament(props.data.tournamentid, props.data.name);
+              handlePress();
             }}
-            style={styles.buttonStyle}
+            style={[
+              styles.buttonStyle,
+              data.tournamentid === selectedTournament.tournament_id
+                ? { backgroundColor: "grey" }
+                : {},
+            ]}
           >
-            <Text style={styles.buttonLabelStyle}>Select Tournament</Text>
+            <Text style={styles.buttonLabelStyle}>
+              {data.tournamentid === selectedTournament.tournament_id
+                ? "Selected"
+                : "Select"}
+            </Text>
           </TouchableHighlight>
         </View>
-        {props.data.tournamentid === selectedTournament.tournament_id ? (
-          <Text
-            style={{
-              color: "black",
-              textAlign: "center",
-              fontFamily: "RobotoSlab-Bold",
-              fontSize: 12,
-              marginTop: 12,
-            }}
-          >
-            Currently Selected
-          </Text>
-        ) : null}
       </View>
     </View>
   );

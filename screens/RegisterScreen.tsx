@@ -166,7 +166,7 @@ export default function RegisterScreen({ navigation }: any): JSX.Element {
               placeholder="Email..."
               placeholderTextColor="white"
               onChangeText={(email) =>
-                setRegisterData({ ...registerData, email: email })
+                setRegisterData({ ...registerData, email: email.toLowerCase() })
               }
             />
           </View>
@@ -190,7 +190,10 @@ export default function RegisterScreen({ navigation }: any): JSX.Element {
               placeholder="Username..."
               placeholderTextColor="white"
               onChangeText={(user) =>
-                setRegisterData({ ...registerData, username: user })
+                setRegisterData({
+                  ...registerData,
+                  username: user.toLowerCase(),
+                })
               }
             />
           </View>

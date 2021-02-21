@@ -8,7 +8,7 @@ import SelectTournament from "../screens/SelectTournament";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useTournamentContext } from "../contexts/TournamentContext";
 
-type DrawerNavigatorParamList = {
+export type DrawerNavigatorParamList = {
   LandingScreen: undefined;
   SelectTournament: undefined;
   SelectedTournament: undefined;

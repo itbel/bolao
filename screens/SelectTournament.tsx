@@ -12,7 +12,9 @@ import SelectTournamentCard from "./SelectTournamentCard";
 import Header from "./Header";
 import Axios from "axios";
 import { useUserContext } from "../contexts/UserContext";
-import { useIsFocused } from "@react-navigation/native";
+import { RouteProp, useIsFocused } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { DrawerNavigatorParamList } from "../navigators/DrawerNavigator";
 const styles = StyleSheet.create({
   backgroundd: {
     backgroundColor: "#528C6E",
@@ -54,10 +56,16 @@ const styles = StyleSheet.create({
   },
 });
 
+interface Props {
+  navigation: StackNavigationProp<DrawerNavigatorParamList, "SelectTournament">;
+  route: RouteProp<DrawerNavigatorParamList, "SelectTournament">;
+  data: any;
+}
+
 export default function SelectTournament({
   navigation,
   route,
-}: any): JSX.Element {
+}: Props): JSX.Element {
   const isFocused = useIsFocused();
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const { userState } = useUserContext();
@@ -108,6 +116,7 @@ export default function SelectTournament({
                   joinedTournaments.map((tournament, index) => {
                     return (
                       <SelectTournamentCard
+                        route={route}
                         key={index}
                         data={tournament}
                         navigation={navigation}
