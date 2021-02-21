@@ -57,15 +57,19 @@ export default function SelectTournamentCard({
   data,
 }: Props): JSX.Element {
   const { userState } = useUserContext();
+  const [firstLoad, setFirstLoad] = useState(true);
   const { setTournament, selectedTournament } = useTournamentContext();
   console.log(route);
-  const handlePress = () => {
+  const handlePress = (id) => {
     setTournament(data.tournamentid, data.name);
-    // Navigation needs to await setTournament completion. This solution will not always work.
-    setTimeout(() => {
-      navigation.navigate("SelectedTournament");
-    }, 500);
   };
+  useEffect(() => {
+    if (firstLoad) {
+      setFirstLoad(false);
+    } else {
+      navigation.navigate("SelectedTournament");
+    }
+  }, [selectedTournament.tournament_id]);
   return (
     <View style={styles.tournamentCard}>
       <View style={{ margin: 20 }}>
@@ -76,7 +80,7 @@ export default function SelectTournamentCard({
             disabled={data.tournamentid === selectedTournament.tournament_id}
             underlayColor="#85BFA1"
             onPress={() => {
-              handlePress();
+              handlePress(data.tournament_id);
             }}
             style={[
               styles.buttonStyle,
