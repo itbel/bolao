@@ -1,5 +1,10 @@
 import React from "react";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItem,
+  DrawerItemList,
+} from "@react-navigation/drawer";
 import TabNavigator from "./TabNavigator";
 import LandingScreen from "../screens/LandingScreen";
 import Teams from "../screens/Teams";
@@ -7,6 +12,7 @@ import Tournaments from "../screens/Tournaments";
 import SelectTournament from "../screens/SelectTournament";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useTournamentContext } from "../contexts/TournamentContext";
+import { useUserContext } from "../contexts/UserContext";
 
 export type DrawerNavigatorParamList = {
   LandingScreen: undefined;
@@ -18,9 +24,23 @@ export type DrawerNavigatorParamList = {
 
 const Drawer = createDrawerNavigator<DrawerNavigatorParamList>();
 export default function DrawerNavigator(): JSX.Element {
-  const { selectedTournament } = useTournamentContext();
+  const { selectedTournament, setTournament } = useTournamentContext();
+
+  const { userState, logoutUser } = useUserContext();
   return (
     <Drawer.Navigator
+      drawerContent={(props) => (
+        <DrawerContentScrollView {...props}>
+          <DrawerItemList {...props} />
+          <DrawerItem
+            label="Logout"
+            onPress={() => {
+              setTournament("", "");
+              logoutUser();
+            }}
+          />
+        </DrawerContentScrollView>
+      )}
       screenOptions={({ route }) => ({
         drawerIcon: ({ focused, color, size }) => {
           return (
