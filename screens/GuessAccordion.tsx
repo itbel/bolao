@@ -14,6 +14,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { useTournamentContext } from "../contexts/TournamentContext";
 import { useUserContext } from "../contexts/UserContext";
 import axios from "axios";
+import { ActivityIndicator } from "react-native";
 const styles = StyleSheet.create({
   openCard: {
     flexDirection: "column",
@@ -101,12 +102,14 @@ export default function GuessAccordion({
   const { selectedTournament } = useTournamentContext();
   const [open, setOpen] = useState(openState);
   const [selectedMatch, setSelectedMatch]: any = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [matchInfo, setMatchInfo] = useState({
     teamAguess: "",
     teamBguess: "",
   });
   const handleSubmitGuess = async () => {
     try {
+      setIsLoading(true);
       const response = await axios.post(
         `http://18.224.228.195:3005/api/guesses/manage`,
         {
@@ -122,11 +125,13 @@ export default function GuessAccordion({
           `http://18.224.228.195:3005/api/matches/unguessed/${selectedTournament.tournament_id}`,
           { headers: { "auth-token": `${userState.user}` } }
         );
+        setIsLoading(false);
         const data = await fetchGuessRounds.json();
         setRounds(data);
         setModalVisible(false);
       }
     } catch (error) {
+      setIsLoading(false);
       console.error(error);
     }
   };
@@ -170,9 +175,11 @@ export default function GuessAccordion({
                   }}
                   style={{
                     borderRadius: 6,
-                    marginHorizontal: 50,
+                    marginHorizontal: 30,
+                    fontSize: 20,
                     flex: 1,
                     height: 40,
+                    textAlign: "center",
                     borderColor: "gray",
                     borderWidth: 1,
                   }}
@@ -195,8 +202,10 @@ export default function GuessAccordion({
                   }}
                   style={{
                     borderRadius: 6,
-                    marginHorizontal: 50,
+                    marginHorizontal: 30,
                     flex: 1,
+                    fontSize: 20,
+                    textAlign: "center",
                     height: 40,
                     borderColor: "gray",
                     borderWidth: 1,
@@ -207,6 +216,7 @@ export default function GuessAccordion({
               <TouchableHighlight
                 underlayColor="#85BFA1"
                 style={styles.buttonStyle}
+                disabled={isLoading}
                 onPress={() => {
                   if (
                     matchInfo.teamAguess !== "" &&
@@ -215,7 +225,13 @@ export default function GuessAccordion({
                     handleSubmitGuess();
                 }}
               >
-                <Text style={styles.buttonLabelStyle}>Submit</Text>
+                {isLoading ? (
+                  <View style={styles.buttonLabelStyle}>
+                    <ActivityIndicator color="white" />
+                  </View>
+                ) : (
+                  <Text style={styles.buttonLabelStyle}>Submit</Text>
+                )}
               </TouchableHighlight>
             </View>
           </Pressable>
