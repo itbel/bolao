@@ -106,11 +106,11 @@ export default function SelectTournament({
           </View>
         ) : (
           <>
-            <View style={{ marginHorizontal: 30 }}>
+            <View style={{ marginHorizontal: 30, flex: 1 }}>
               <Text style={styles.heading}>Select tournament</Text>
               <ScrollView
                 showsVerticalScrollIndicator={false}
-                style={{ flexDirection: "column" }}
+                style={{ flex: 1 }}
               >
                 {joinedTournaments ? (
                   joinedTournaments.map((tournament, index) => {
