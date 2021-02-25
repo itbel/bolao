@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
     borderColor: "#a3a3a3",
     borderRadius: 6,
     borderWidth: 1,
+    paddingBottom: 10,
   },
   closedCard: {
     flexDirection: "column",
