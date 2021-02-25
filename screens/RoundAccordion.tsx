@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     borderWidth: 1,
     paddingBottom: 10,
+    backgroundColor: "#FFF",
   },
   closedCard: {
     flexDirection: "column",
@@ -16,6 +17,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     borderWidth: 1,
     borderColor: "#a3a3a3",
+    backgroundColor: "#eff6f2",
     marginVertical: 11,
   },
   roundTitleText: {
@@ -49,7 +51,7 @@ export default function RoundAccordion({ openState, data }: any): JSX.Element {
     <>
       {open ? (
         <TouchableHighlight
-          underlayColor="lightgrey"
+          underlayColor="#bfd9cc"
           activeOpacity={0.6}
           style={styles.openCard}
           onPress={() => setOpen(false)}
@@ -119,7 +121,7 @@ export default function RoundAccordion({ openState, data }: any): JSX.Element {
         </TouchableHighlight>
       ) : (
         <TouchableHighlight
-          underlayColor="lightgrey"
+          underlayColor="#bfd9cc"
           activeOpacity={0.6}
           style={styles.closedCard}
           onPress={() => setOpen(true)}
