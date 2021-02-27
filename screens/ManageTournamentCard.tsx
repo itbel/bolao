@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator, Alert } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { useUserContext } from "../contexts/UserContext";
 import axios from "axios";
@@ -31,7 +31,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 20,
     backgroundColor: "#528C6E",
-    paddingVertical: 20,
+    flex: 1,
+    height: 50,
+    justifyContent: "center",
   },
   buttonLabelStyle: {
     paddingHorizontal: 50,
@@ -47,31 +49,39 @@ export default function ManagementTournamentCard({
   fetchJoined,
 }: any): JSX.Element {
   const { userState } = useUserContext();
-
+  const [isLoadingJoin, setIsLoadingJoin] = useState(false);
+  const [isLoadingLeave, setIsLoadingLeave] = useState(false);
   const joinTournament = async (tourid) => {
     try {
+      setIsLoadingJoin(true);
       const response = await axios.patch(
         `http://18.224.228.195:3005/api/tournaments/join`,
         { tournamentid: tourid },
         { headers: { "auth-token": userState.user } }
       );
       fetchJoined();
+      setIsLoadingJoin(false);
     } catch (error) {
       console.error(error);
+      setIsLoadingJoin(false);
     }
   };
   const leaveTournament = async (tourid) => {
     try {
+      setIsLoadingLeave(true);
       const response = await axios.patch(
         `http://18.224.228.195:3005/api/tournaments/leave`,
         { tournamentid: tourid },
         { headers: { "auth-token": userState.user } }
       );
       fetchJoined();
+      setIsLoadingLeave(false);
     } catch (error) {
+      setIsLoadingLeave(false);
       console.error(error);
     }
   };
+  console.log();
   return (
     <View style={styles.tournamentCard}>
       <View style={{ margin: 20 }}>
@@ -84,33 +94,70 @@ export default function ManagementTournamentCard({
               joinTournament(data.tournamentid);
             }}
             disabled={
-              joinedTours.find((a) => a.tournamentid === data.tournamentid)
-                ?.tournamentid === data.tournamentid
+              joinedTours.find(
+                (tournament) => tournament.tournamentid === data.tournamentid
+              )?.tournamentid === data.tournamentid
             }
             style={[
               styles.buttonStyle,
-              joinedTours.find((a) => a.tournamentid === data.tournamentid)
-                ?.tournamentid === data.tournamentid
-                ? { backgroundColor: "grey" }
+              joinedTours.find(
+                (tournament) => tournament.tournamentid === data.tournamentid
+              )?.tournamentid === data.tournamentid
+                ? { backgroundColor: "lightgrey" }
                 : {},
             ]}
           >
-            <Text style={styles.buttonLabelStyle}>Join</Text>
+            {isLoadingJoin ? (
+              <View style={styles.buttonLabelStyle}>
+                <ActivityIndicator color="white" />
+              </View>
+            ) : (
+              <Text style={styles.buttonLabelStyle}>Join</Text>
+            )}
           </TouchableHighlight>
           <TouchableHighlight
             underlayColor="#85BFA1"
             onPress={() => {
-              //leaveTournament(data.tournamentid);
-              // leaving is buggy. it is possible to leave all tournaments when leaving one particular tournament. do not use until backend code is reviewed
+              Alert.alert(
+                "Log out",
+                "Are you sure you want to leave? All your progress will be erased.",
+                [
+                  {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel",
+                  },
+                  {
+                    text: "OK",
+                    onPress: () => {
+                      leaveTournament(data.tournamentid);
+                    },
+                  },
+                ],
+                { cancelable: false }
+              );
             }}
             disabled={
-              true ??
-              joinedTours.find((a) => a.tournamentid === data.tournamentid)
-                ?.tournamentid !== data.tournamentid
+              joinedTours.find(
+                (tournament) => tournament.tournamentid === data.tournamentid
+              )?.tournamentid !== data.tournamentid
             }
-            style={[styles.buttonStyle, { backgroundColor: "grey" }]}
+            style={[
+              styles.buttonStyle,
+              joinedTours.find(
+                (tournament) => tournament.tournamentid === data.tournamentid
+              )?.tournamentid !== data.tournamentid
+                ? { backgroundColor: "lightgrey" }
+                : {},
+            ]}
           >
-            <Text style={styles.buttonLabelStyle}>Leave</Text>
+            {isLoadingLeave ? (
+              <View style={styles.buttonLabelStyle}>
+                <ActivityIndicator size="small" color="white" />
+              </View>
+            ) : (
+              <Text style={styles.buttonLabelStyle}>Leave</Text>
+            )}
           </TouchableHighlight>
         </View>
       </View>

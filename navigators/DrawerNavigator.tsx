@@ -116,13 +116,13 @@ export default function DrawerNavigator(): JSX.Element {
         />
       ) : null}
       {false ? <Drawer.Screen name="Teams" component={Teams} /> : null}
-      {false ? (
+      {
         <Drawer.Screen
           options={{ title: "Tournaments List" }}
           name="ManageTournaments"
           component={Tournaments}
         />
-      ) : null}
+      }
     </Drawer.Navigator>
   );
 }
