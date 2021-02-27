@@ -81,7 +81,7 @@ export default function ManagementTournamentCard({
       console.error(error);
     }
   };
-  console.log();
+  // TODO: Leaving a tournament must change user's current tournament selection to nothing
   return (
     <View style={styles.tournamentCard}>
       <View style={{ margin: 20 }}>

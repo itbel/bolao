@@ -71,6 +71,7 @@ export default function SelectTournament({
   const { userState } = useUserContext();
   const [isLoading, setIsLoading] = useState(true);
   const [joinedTournaments, setJoinedTournaments]: any = useState();
+  /// TODO: Users with no joined tournaments need to be redirected to the tournaments list to join
   useEffect(() => {
     const fetchJoinedTournaments = async () => {
       try {
