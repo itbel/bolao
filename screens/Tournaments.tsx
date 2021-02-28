@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
     color: "white",
   },
   heading: {
-    marginTop: 90,
-    marginBottom: 50,
+    marginTop: 50,
+    marginBottom: 20,
     marginHorizontal: 30,
     color: "#000",
     fontFamily: "RobotoSlab-Regular",
@@ -92,10 +92,11 @@ export default function Tournaments({ navigation, route }: any): JSX.Element {
       <StatusBar barStyle="dark-content" backgroundColor="#528C6E"></StatusBar>
       <Header title={"Manage Tournaments"} navigation={navigation}></Header>
       <View style={styles.container}>
-        <View style={{ marginHorizontal: 30 }}>
+        <Text style={styles.heading}>All tournaments</Text>
+        <View style={{ marginHorizontal: 30, flex: 1 }}>
           <ScrollView
             showsVerticalScrollIndicator={false}
-            style={{ flexDirection: "column" }}
+            style={{ flexDirection: "column", flex: 1 }}
           >
             {tournaments && tournaments.length > 0
               ? tournaments.map((tour: any, index) => {

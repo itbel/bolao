@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ActivityIndicator, Alert } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { useUserContext } from "../contexts/UserContext";
 import axios from "axios";
+import { useTournamentContext } from "../contexts/TournamentContext";
 const styles = StyleSheet.create({
   tournamentCard: {
     borderWidth: 1,
@@ -51,6 +52,7 @@ export default function ManagementTournamentCard({
   const { userState } = useUserContext();
   const [isLoadingJoin, setIsLoadingJoin] = useState(false);
   const [isLoadingLeave, setIsLoadingLeave] = useState(false);
+  const { setTournament, selectedTournament } = useTournamentContext();
   const joinTournament = async (tourid) => {
     try {
       setIsLoadingJoin(true);
@@ -74,6 +76,9 @@ export default function ManagementTournamentCard({
         { tournamentid: tourid },
         { headers: { "auth-token": userState.user } }
       );
+      if (tourid === selectedTournament.tournament_id) {
+        setTournament("", "");
+      }
       fetchJoined();
       setIsLoadingLeave(false);
     } catch (error) {
@@ -91,9 +96,13 @@ export default function ManagementTournamentCard({
           <TouchableHighlight
             underlayColor="#85BFA1"
             onPress={() => {
-              joinTournament(data.tournamentid);
+              if (!isLoadingJoin) {
+                joinTournament(data.tournamentid);
+              }
             }}
             disabled={
+              isLoadingLeave ||
+              isLoadingJoin ||
               joinedTours.find(
                 (tournament) => tournament.tournamentid === data.tournamentid
               )?.tournamentid === data.tournamentid
@@ -118,26 +127,30 @@ export default function ManagementTournamentCard({
           <TouchableHighlight
             underlayColor="#85BFA1"
             onPress={() => {
-              Alert.alert(
-                "Log out",
-                "Are you sure you want to leave? All your progress will be erased.",
-                [
-                  {
-                    text: "Cancel",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel",
-                  },
-                  {
-                    text: "OK",
-                    onPress: () => {
-                      leaveTournament(data.tournamentid);
+              if (!isLoadingLeave) {
+                Alert.alert(
+                  "Log out",
+                  "Are you sure you want to leave? All your progress will be erased.",
+                  [
+                    {
+                      text: "Cancel",
+                      onPress: () => console.log("Cancel Pressed"),
+                      style: "cancel",
                     },
-                  },
-                ],
-                { cancelable: false }
-              );
+                    {
+                      text: "OK",
+                      onPress: () => {
+                        leaveTournament(data.tournamentid);
+                      },
+                    },
+                  ],
+                  { cancelable: false }
+                );
+              }
             }}
             disabled={
+              isLoadingLeave ||
+              isLoadingJoin ||
               joinedTours.find(
                 (tournament) => tournament.tournamentid === data.tournamentid
               )?.tournamentid !== data.tournamentid

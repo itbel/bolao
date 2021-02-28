@@ -108,37 +108,60 @@ export default function SelectTournament({
         ) : (
           <>
             <View style={{ marginHorizontal: 30, flex: 1 }}>
-              <Text style={styles.heading}>Select tournament</Text>
-              <ScrollView
-                showsVerticalScrollIndicator={false}
-                style={{ flex: 1 }}
-              >
-                {joinedTournaments ? (
-                  joinedTournaments.map((tournament, index) => {
-                    return (
-                      <SelectTournamentCard
-                        route={route}
-                        key={index}
-                        data={tournament}
-                        navigation={navigation}
-                      ></SelectTournamentCard>
-                    );
-                  })
-                ) : (
-                  <>
-                    <Text style={styles.subHeading}>No tournaments joined</Text>
-                    <TouchableHighlight
-                      underlayColor="#85BFA1"
-                      onPress={() => navigation.navigate("ManageTournaments")}
-                      style={styles.buttonStyle}
-                    >
-                      <Text style={styles.buttonLabelStyle}>
-                        Join A Tournament
-                      </Text>
-                    </TouchableHighlight>
-                  </>
-                )}
-              </ScrollView>
+              {joinedTournaments?.length !== 0 ? (
+                <>
+                  <Text style={styles.heading}>Select tournament</Text>
+                  <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    style={{ flex: 1 }}
+                  >
+                    {joinedTournaments ? (
+                      joinedTournaments.map((tournament, index) => {
+                        return (
+                          <SelectTournamentCard
+                            route={route}
+                            key={index}
+                            data={tournament}
+                            navigation={navigation}
+                          ></SelectTournamentCard>
+                        );
+                      })
+                    ) : (
+                      <>
+                        <Text style={styles.subHeading}>
+                          No tournaments joined
+                        </Text>
+                        <TouchableHighlight
+                          underlayColor="#85BFA1"
+                          onPress={() =>
+                            navigation.navigate("ManageTournaments")
+                          }
+                          style={styles.buttonStyle}
+                        >
+                          <Text style={styles.buttonLabelStyle}>
+                            Join A Tournament
+                          </Text>
+                        </TouchableHighlight>
+                      </>
+                    )}
+                  </ScrollView>
+                </>
+              ) : (
+                <>
+                  <Text style={styles.heading}>No joined tournaments</Text>
+                  <TouchableHighlight
+                    underlayColor="#85BFA1"
+                    onPress={() => {
+                      navigation.navigate("ManageTournaments");
+                    }}
+                    style={styles.buttonStyle}
+                  >
+                    <Text style={styles.buttonLabelStyle}>
+                      View all available tournaments
+                    </Text>
+                  </TouchableHighlight>
+                </>
+              )}
             </View>
           </>
         )}

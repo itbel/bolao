@@ -108,13 +108,13 @@ export default function DrawerNavigator(): JSX.Element {
         name="SelectTournament"
         component={SelectTournament}
       />
-      {selectedTournament.tournament_id !== "" ? (
-        <Drawer.Screen
-          options={{ title: selectedTournament.tournament_name }}
-          name="SelectedTournament"
-          component={TabNavigator}
-        />
-      ) : null}
+
+      <Drawer.Screen
+        options={{ title: selectedTournament.tournament_name }}
+        name="SelectedTournament"
+        component={TabNavigator}
+      />
+
       {false ? <Drawer.Screen name="Teams" component={Teams} /> : null}
       {
         <Drawer.Screen
