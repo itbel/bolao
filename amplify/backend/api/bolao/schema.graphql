@@ -1,0 +1,62 @@
+# Allow create for all, modify only for owner, read for any
+type Tournament @model {
+  id: ID!
+  name: String!
+  image: String
+  year: Int
+  owner: ID!
+  password: String
+  rounds: [Round] @connection(fields: ["id"])
+  players: [TournamentPlayer] @connection(fields: ["id"])
+}
+
+type TournamentPlayer @model {
+  id: ID!
+  player_id: ID!
+  player: User! @connection(fields: ["player_id"])
+  points: Int!
+}
+
+type Round @model {
+  id: ID!
+  tournament_id: ID!
+  tournament: Tournament @connection(fields: ["tournament_id"])
+  round: Int!
+  matches: [Match] @connection(fields: ["id"])
+}
+
+# Allow create for tournament owner only, read for all
+type Match @model {
+  id: ID!
+  tournament_id: ID!
+  tournament: Tournament! @connection(fields: ["tournament_id"])
+  round: Round! @connection(fields: ["round_id"])
+  round_id: ID!
+  team_a_name: String!
+  team_b_name: String!
+  team_a_result: Int
+  team_b_result: Int
+  guesses: [Guess] @connection(fields: ["id"])
+}
+
+# Allow create, read for everyone
+type Guess @model {
+  id: ID!
+  match_id: ID!
+  match: Match! @connection(fields: ["match_id"])
+  tournament_id: ID!
+  tournament: Tournament! @connection(fields: ["tournament_id"])
+  team_a_guess: Int!
+  team_b_guess: Int!
+  owner_id: ID!
+  owner_name: String!
+}
+
+type User @model {
+  id: ID!
+  name: String!
+  image: String
+  joinedTournaments: [ID!]
+  ownedTournaments: [ID!]
+  wins: Int!
+}

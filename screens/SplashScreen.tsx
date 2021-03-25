@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import { View, StyleSheet, StatusBar } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { useUserContext } from "../contexts/UserContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { Auth } from "@aws-amplify/auth";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -21,21 +20,16 @@ export default function SplashScreen({ navigation }: any): JSX.Element {
   const { loginUser, userState } = useUserContext();
   const getData = async () => {
     try {
-      const token = await AsyncStorage.getItem("userToken");
-      const name = await AsyncStorage.getItem("userName");
-      if (token !== null && name !== null) {
-        loginUser({
-          token: token.replace(/['"]+/g, ""),
-          name: name.replace(/['"]+/g, ""),
-        });
-      } else {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: "LoginScreen" }],
-        });
+      const user = await Auth.currentAuthenticatedUser();
+      if (user?.attributes) {
+        loginUser(user);
       }
     } catch (e) {
-      console.log("Error reading asyncStorage");
+      console.log(e);
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "LoginScreen" }],
+      });
     }
   };
   useEffect(() => {

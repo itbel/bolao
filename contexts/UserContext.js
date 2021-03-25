@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Alert } from "react-native";
+import { Auth } from "@aws-amplify/auth"
 
 const UserContext = React.createContext();
 
@@ -15,19 +14,19 @@ export const UserProvider = (props) => {
         name: ""
     })
     const loginUser = (user) => {
-        setUserState({ user: user.token, isLoggedIn: true, name: user.name })
+        setUserState({ 
+            user: user, 
+            isLoggedIn: true, 
+            name: "Hardcoded Name" })
     }
 
     const logoutUser = async () => {
-        setUserState({ user: "", isLoggedIn: false, name: "" })
-        try{
-            await AsyncStorage.removeItem("userToken");
-            await AsyncStorage.removeItem("userName");
-        }
-        catch(err){
-            console.log(err)
-            Alert("An error occurred when logging out. Please restart the app")
-        }
+        setUserState({
+            user:"",
+            name:"",
+            isLoggedIn:false
+        })
+       console.log("logout")
     }
 
     return (

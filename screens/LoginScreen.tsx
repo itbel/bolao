@@ -12,45 +12,25 @@ import {
   ToastAndroid,
 } from "react-native";
 import { Assets } from "../Assets";
-import Axios from "axios";
 import { useUserContext } from "../contexts/UserContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { Auth } from "@aws-amplify/auth";
 export default function LoginScreen({ navigation, route }: any): JSX.Element {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
-
-  const storeData = async (data) => {
-    try {
-      const jsonValueToken = JSON.stringify(data.token);
-      const jsonValueName = JSON.stringify(data.name);
-      await AsyncStorage.setItem("userToken", jsonValueToken);
-      await AsyncStorage.setItem("userName", jsonValueName);
-    } catch (e) {
-      console.log("Error saving to async storage");
-    }
-  };
   const { loginUser, userState } = useUserContext();
   const [loginData, setloginData] = useState({
     username: route.params?.params?.username ?? "",
     password: route.params?.params?.password ?? "",
   });
-  const signIn = () => {
-    Axios.post(`http://18.224.228.195:3005/api/users/login`, {
-      username: loginData.username,
-      password: loginData.password,
-    })
-      .then((response) => {
-        if (response.data.msg !== "Invalid Credentials!") {
-          storeData(response.data);
-          loginUser(response.data);
-        }
-      })
-      .catch((error) => {
-        ToastAndroid.show(
-          "An error occurred while logging in.",
-          ToastAndroid.SHORT
-        );
-      });
+  const signIn = async () => {
+    try {
+      const response = await Auth.signIn(
+        loginData.username,
+        loginData.password
+      );
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
   };
   useEffect(() => {
     if (route?.params?.params)

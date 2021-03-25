@@ -10,6 +10,11 @@
       "StackName": "amplify-bolao-dev-221257",
       "StackId": "arn:aws:cloudformation:us-east-1:314030824279:stack/amplify-bolao-dev-221257/a0819ac0-8858-11eb-8ff0-0ea6aa6eaed9",
       "AmplifyAppId": "d2ctdp9wrjejsy"
+    },
+    "categories": {
+      "auth": {
+        "bolao3878bc1a": {}
+      }
     }
   }
 }
