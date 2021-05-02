@@ -1,5 +1,10 @@
 # Allow create for all, modify only for owner, read for any
-type Tournament @model {
+type Tournament
+  @model
+  @auth (rules: [
+    { allow: owner, operations: [create, update, delete, read] }
+  ])
+{
   id: ID!
   name: String!
   image: String
@@ -52,7 +57,9 @@ type Guess @model {
   owner_name: String!
 }
 
-type User @model {
+type User 
+@model
+{
   id: ID!
   name: String!
   image: String
