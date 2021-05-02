@@ -3,8 +3,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateTournament = /* GraphQL */ `
-  subscription OnCreateTournament {
-    onCreateTournament {
+  subscription OnCreateTournament($owner: String!) {
+    onCreateTournament(owner: $owner) {
       id
       name
       image
@@ -37,8 +37,8 @@ export const onCreateTournament = /* GraphQL */ `
   }
 `;
 export const onUpdateTournament = /* GraphQL */ `
-  subscription OnUpdateTournament {
-    onUpdateTournament {
+  subscription OnUpdateTournament($owner: String!) {
+    onUpdateTournament(owner: $owner) {
       id
       name
       image
@@ -71,8 +71,8 @@ export const onUpdateTournament = /* GraphQL */ `
   }
 `;
 export const onDeleteTournament = /* GraphQL */ `
-  subscription OnDeleteTournament {
-    onDeleteTournament {
+  subscription OnDeleteTournament($owner: String!) {
+    onDeleteTournament(owner: $owner) {
       id
       name
       image

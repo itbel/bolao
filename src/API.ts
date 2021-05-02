@@ -15,7 +15,6 @@ export type ModelTournamentConditionInput = {
   name?: ModelStringInput | null,
   image?: ModelStringInput | null,
   year?: ModelIntInput | null,
-  owner?: ModelIDInput | null,
   password?: ModelStringInput | null,
   and?: Array< ModelTournamentConditionInput | null > | null,
   or?: Array< ModelTournamentConditionInput | null > | null,
@@ -72,22 +71,6 @@ export type ModelIntInput = {
   between?: Array< number | null > | null,
   attributeExists?: boolean | null,
   attributeType?: ModelAttributeTypes | null,
-};
-
-export type ModelIDInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
 };
 
 export type Tournament = {
@@ -217,6 +200,22 @@ export type ModelTournamentPlayerConditionInput = {
   and?: Array< ModelTournamentPlayerConditionInput | null > | null,
   or?: Array< ModelTournamentPlayerConditionInput | null > | null,
   not?: ModelTournamentPlayerConditionInput | null,
+};
+
+export type ModelIDInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
 };
 
 export type UpdateTournamentPlayerInput = {
@@ -1820,6 +1819,10 @@ export type ListUsersQuery = {
   } | null,
 };
 
+export type OnCreateTournamentSubscriptionVariables = {
+  owner?: string,
+};
+
 export type OnCreateTournamentSubscription = {
   onCreateTournament?:  {
     __typename: "Tournament",
@@ -1858,6 +1861,10 @@ export type OnCreateTournamentSubscription = {
   } | null,
 };
 
+export type OnUpdateTournamentSubscriptionVariables = {
+  owner?: string,
+};
+
 export type OnUpdateTournamentSubscription = {
   onUpdateTournament?:  {
     __typename: "Tournament",
@@ -1894,6 +1901,10 @@ export type OnUpdateTournamentSubscription = {
     createdAt: string,
     updatedAt: string,
   } | null,
+};
+
+export type OnDeleteTournamentSubscriptionVariables = {
+  owner?: string,
 };
 
 export type OnDeleteTournamentSubscription = {
